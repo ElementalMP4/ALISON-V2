@@ -3,7 +3,7 @@ package main.java.de.voidtech.alison.utils;
 import java.util.HashMap;
 import java.util.Map;
 
-import main.java.de.voidtech.alison.ephemeral.DatabaseConnection;
+import main.java.de.voidtech.alison.entities.DatabaseConnection;
 
 public class DatabaseManager {
 

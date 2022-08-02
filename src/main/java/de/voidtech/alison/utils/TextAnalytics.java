@@ -7,9 +7,9 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 
-import main.java.de.voidtech.alison.ephemeral.AlisonModel;
-import main.java.de.voidtech.alison.ephemeral.ResourceLoader;
-import main.java.de.voidtech.alison.ephemeral.Sentiment;
+import main.java.de.voidtech.alison.entities.AlisonModel;
+import main.java.de.voidtech.alison.entities.ResourceLoader;
+import main.java.de.voidtech.alison.entities.Sentiment;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 

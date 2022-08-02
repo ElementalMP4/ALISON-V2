@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import main.java.de.voidtech.alison.ephemeral.AlisonModel;
+import main.java.de.voidtech.alison.entities.AlisonModel;
 
 public class PackManager {
 

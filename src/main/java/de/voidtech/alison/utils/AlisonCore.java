@@ -1,7 +1,7 @@
 package main.java.de.voidtech.alison.utils;
 
-import main.java.de.voidtech.alison.ephemeral.AlisonModel;
-import main.java.de.voidtech.alison.ephemeral.Sentiment;
+import main.java.de.voidtech.alison.entities.AlisonModel;
+import main.java.de.voidtech.alison.entities.Sentiment;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 

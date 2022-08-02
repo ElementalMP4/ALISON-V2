@@ -1,4 +1,4 @@
-package main.java.de.voidtech.alison.ephemeral;
+package main.java.de.voidtech.alison.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

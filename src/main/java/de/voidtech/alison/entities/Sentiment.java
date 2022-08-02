@@ -1,4 +1,4 @@
-package main.java.de.voidtech.alison.ephemeral;
+package main.java.de.voidtech.alison.entities;
 
 import java.util.List;
 import java.util.stream.Collectors;

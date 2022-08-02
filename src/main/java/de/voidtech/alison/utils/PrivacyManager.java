@@ -2,8 +2,8 @@ package main.java.de.voidtech.alison.utils;
 
 import org.hibernate.Session;
 
-import main.java.de.voidtech.alison.ephemeral.DatabaseConnection;
-import main.java.de.voidtech.alison.ephemeral.IgnoredUser;
+import main.java.de.voidtech.alison.entities.DatabaseConnection;
+import main.java.de.voidtech.alison.entities.IgnoredUser;
 
 public class PrivacyManager {
 	private static final String DATABASE = "jdbc:sqlite:Alison.db";

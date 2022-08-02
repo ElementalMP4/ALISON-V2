@@ -3,7 +3,7 @@ package main.java.de.voidtech.alison.commands;
 import java.awt.Color;
 import java.util.List;
 
-import main.java.de.voidtech.alison.ephemeral.Sentiment;
+import main.java.de.voidtech.alison.entities.Sentiment;
 import main.java.de.voidtech.alison.utils.AlisonCore;
 import main.java.de.voidtech.alison.utils.Responder;
 import net.dv8tion.jda.api.EmbedBuilder;

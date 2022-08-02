@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
-import main.java.de.voidtech.alison.ephemeral.ButtonConsumer;
+import main.java.de.voidtech.alison.entities.ButtonConsumer;
 import main.java.de.voidtech.alison.utils.DiscordBot;
 import main.java.de.voidtech.alison.utils.PackManager;
 import net.dv8tion.jda.api.entities.Message;

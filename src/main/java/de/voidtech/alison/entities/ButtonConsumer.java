@@ -1,4 +1,4 @@
-package main.java.de.voidtech.alison.ephemeral;
+package main.java.de.voidtech.alison.entities;
 
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
