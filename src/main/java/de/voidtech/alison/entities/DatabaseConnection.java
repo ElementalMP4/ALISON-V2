@@ -10,7 +10,6 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
-import org.hibernate.tool.schema.Action;
 import org.reflections.Reflections;
 
 public class DatabaseConnection {	
@@ -32,7 +31,7 @@ public class DatabaseConnection {
         settings.put(Environment.URL, database);
         settings.put(Environment.DIALECT, "org.sqlite.hibernate.dialect.SQLiteDialect");
         settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
-        settings.put(Environment.HBM2DDL_AUTO, Action.CREATE);
+        settings.put(Environment.HBM2DDL_AUTO, "update");
         settings.put(Environment.LOG_JDBC_WARNINGS, "false");
         
         configuration.setProperties(settings);
