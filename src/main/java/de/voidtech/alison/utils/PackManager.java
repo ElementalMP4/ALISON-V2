@@ -31,6 +31,6 @@ public class PackManager {
 	
 	public static long GetWordCount() {
 		List<AlisonModel> models = GetAllPacks();
-		return models.stream().map(AlisonModel::getWordCount).reduce(0, (a, b) -> a + b);
+		return models.stream().map(AlisonModel::getWordCount).reduce((long) 0, (a, b) -> a + b);
 	}
 }

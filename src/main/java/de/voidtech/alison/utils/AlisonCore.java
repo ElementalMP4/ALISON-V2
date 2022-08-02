@@ -16,13 +16,11 @@ public class AlisonCore {
 	private static void LearnSentence(String wordPack, String content) {
 		AlisonModel model = PackManager.GetPack(wordPack);
 		model.learn(content);
-		model.sleep();
 	}
 	
 	public static String Imitate(String wordPack) {
 		AlisonModel model = PackManager.GetPack(wordPack);
 		String message = model.createSentence();
-		model.sleep();
 		return message;
 	}
 	

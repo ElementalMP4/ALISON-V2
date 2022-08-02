@@ -15,8 +15,8 @@ public class ReadyListener implements EventListener {
 	@Override
 	public void onEvent(GenericEvent event) {
 		if (event instanceof ReadyEvent) {
-			ReadyEvent readyEvent = (ReadyEvent)event;
 			PrivacyManager.Connect();
+			ReadyEvent readyEvent = (ReadyEvent)event;
 			LOGGER.log(Level.INFO, "Logged in as " + readyEvent.getJDA().getSelfUser().getAsTag());
 		}
 	}

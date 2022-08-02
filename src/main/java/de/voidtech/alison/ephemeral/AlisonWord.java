@@ -1,8 +1,24 @@
 package main.java.de.voidtech.alison.ephemeral;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "alisonword")
 public class AlisonWord {
+	
+	@Id
+	@Column
 	private String word;
+	
+	@Column
 	private String next;
+	
+	@Deprecated
+	AlisonWord() {
+	}
 	
 	public AlisonWord(String word, String next) {
 		this.word = word;
@@ -19,9 +35,5 @@ public class AlisonWord {
 	
 	public String getNext() {
 		return this.next;
-	}
-
-	public String toCreateStatement() {
-		return String.format("INSERT INTO AlisonWord VALUES ('%s', '%s')", this.word, this.next);
 	}
 }

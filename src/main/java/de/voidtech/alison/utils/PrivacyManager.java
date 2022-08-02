@@ -1,44 +1,47 @@
 package main.java.de.voidtech.alison.utils;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import org.hibernate.Session;
+
+import main.java.de.voidtech.alison.ephemeral.DatabaseConnection;
+import main.java.de.voidtech.alison.ephemeral.IgnoredUser;
 
 public class PrivacyManager {
-	
-	private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS IgnoredUsers (userID TEXT)";
-	private static final String OPT_IN = "DELETE FROM IgnoredUsers WHERE userID = '%s'";
-	private static final String OPT_OUT = "INSERT INTO IgnoredUsers VALUES ('%s')";
-	private static final String USER_IS_OPTED_OUT = "SELECT * FROM IgnoredUsers WHERE userID = '%s'";
-	
-	private static Connection DatabaseConnection = null;
-	
-	public static void Connect() {
-		try {
-			DatabaseConnection = DriverManager.getConnection("jdbc:sqlite:Alison.db");
-			DatabaseInterface.executeUpdate(DatabaseConnection, CREATE_TABLE);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+	private static final String DATABASE = "jdbc:sqlite:Alison.db";
+	private static DatabaseConnection Connection = null;
 
 	public static boolean UserHasOptedOut(String userID) {
-		try {
-			ResultSet result = DatabaseInterface.queryDatabase(DatabaseConnection, String.format(USER_IS_OPTED_OUT, userID));
-			return !result.isClosed();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return true;
+		return GetUser(userID) != null;
+	}
+	
+	private static IgnoredUser GetUser(String userID) {
+		try (Session session = Connection.getSessionFactory().openSession()) {
+            final IgnoredUser user = (IgnoredUser) session.createQuery("FROM IgnoredUser WHERE userID = :userID")
+            		.setParameter("userID", userID)
+            		.uniqueResult();
+            return user;
+        }
 	}
 	
 	public static void OptOut(String userID) {
-		DatabaseInterface.executeUpdate(DatabaseConnection, String.format(OPT_OUT, userID));
+		try(Session session = Connection.getSessionFactory().openSession())
+		{
+			session.getTransaction().begin();
+			session.saveOrUpdate(new IgnoredUser(userID));
+			session.getTransaction().commit();
+		}
 	}
 	
 	public static void OptIn(String userID) {
-		DatabaseInterface.executeUpdate(DatabaseConnection, String.format(OPT_IN, userID));
+		try(Session session = Connection.getSessionFactory().openSession())
+		{
+			session.getTransaction().begin();
+			session.delete(GetUser(userID));
+			session.getTransaction().commit();
+		}
+	}
+
+	public static void Connect() {
+		Connection = DatabaseManager.getSessionFactory(DATABASE);
 	}
 	
 }

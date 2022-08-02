@@ -31,7 +31,6 @@ public class TextAnalytics {
 		AlisonModel model = PackManager.GetPack(pack);
 		String words = String.join(" ", model.getAllWords());
 		Sentiment sentiment = AnalyseSentence(words);
-		model.sleep();
 		return sentiment;
 	}
 
