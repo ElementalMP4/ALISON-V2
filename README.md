@@ -88,7 +88,7 @@ This piece of NLP goodness serves only one purpose. Help people if they misspell
 
 ### Conclusion
 
-Thus concludes this epic tale, A Research Paper Called ALISON. I am not a data scientist, nor am I in any way an AI/ML or NLP expert. I am fully aware that ALISON is not very smart, but I personally think this makes her more entertaining. ALISON is not meant to be accurate, she's meant to be entertaining.
+Thus concludes this epic tale, A Research Paper Called ALISON. I am not a data scientist, nor am I in any way an AI/ML or NLP expert. I am fully aware that ALISON is not very smart, but I personally think this makes her more entertaining. ALISON is not meant to be accurate, she's meant to be amusing.
 
 If you want to see her working, you will need to run your own instance as mine is not publicly available for privacy reasons.
 
