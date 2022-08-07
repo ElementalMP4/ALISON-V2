@@ -13,6 +13,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
 public class DiscordBot {
 	
@@ -23,8 +24,10 @@ public class DiscordBot {
 	public JDA buildDiscordClient(String token) {
 		try {
 			return JDABuilder.createLight(token, GatewayIntent.GUILD_MESSAGES)
+					.setMemberCachePolicy(MemberCachePolicy.ALL)
 					.addEventListeners(new ReadyListener(), new MessageListener(), Waiter)
 					.setActivity(Activity.watching("you"))
+					.setEnabledIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_MESSAGES, GatewayIntent.DIRECT_MESSAGES)
 					.build();
 			
 		} catch (LoginException e) {

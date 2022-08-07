@@ -1,24 +1,14 @@
 package main.java.de.voidtech.alison.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.io.Serializable;
 
-@Entity
-@Table(name = "alisonword")
-public class AlisonWord {
+public class AlisonWord implements Serializable {
 	
-	@Id
-	@Column
+	private static final long serialVersionUID = -86154588887368562L;
+
 	private String word;
 	
-	@Column
 	private String next;
-	
-	@Deprecated
-	AlisonWord() {
-	}
 	
 	public AlisonWord(String word, String next) {
 		this.word = word;

@@ -5,7 +5,6 @@ import java.util.List;
 
 import main.java.de.voidtech.alison.GlobalConstants;
 import main.java.de.voidtech.alison.utils.AlisonCore;
-import main.java.de.voidtech.alison.utils.DatabaseManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
@@ -18,7 +17,6 @@ public class InfoCommand extends AbstractCommand {
 		long guildCount = message.getJDA().getGuildCache().size();
 		long memberCount = message.getJDA().getGuildCache().stream().mapToInt(Guild::getMemberCount).sum();
 		long wordCount = AlisonCore.GetTotalWordCount();
-		int sources = DatabaseManager.getConnections().size(); 
 		
 		MessageEmbed informationEmbed = new EmbedBuilder()
 				.setColor(Color.ORANGE)
@@ -26,7 +24,6 @@ public class InfoCommand extends AbstractCommand {
 				.addField("Guild Count", "```" + guildCount + "```", true)
 				.addField("Member Count", "```" + memberCount + "```", true)
 				.addField("Active Threads", "```" + Thread.activeCount() + "```", true)
-				.addField("Connected Sources", "```" + sources + "```", true)
 				.addField("Total Word Count", "```" + wordCount + "```", true)
 				.setDescription("**Important Privacy Notice**\n"
 						+ "Data collected by ALISON is only available whilst you are opted in to the data collection program."

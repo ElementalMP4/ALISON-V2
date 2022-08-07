@@ -18,7 +18,7 @@ public class PackManager {
 	}
 
 	public static void DeletePack(String pack) {
-		new File("models/" + pack + "/model.db").delete();
+		new File("models/" + pack + "/words.alison").delete();
 		new File("models/" + pack).delete();
 	}
 	

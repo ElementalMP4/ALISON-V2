@@ -108,36 +108,9 @@
 			<version>3.11</version><!--$NO-MVN-MAN-VER$ -->
 		</dependency>
 		<dependency>
-			<groupId>org.reflections</groupId>
-			<artifactId>reflections</artifactId>
-			<version>0.9.12</version>
-		</dependency>
-<dependency>
-    <groupId>com.github.gwenn</groupId>
-    <artifactId>sqlite-dialect</artifactId>
-    <version>0.1.2</version>
-</dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>5.3.7.Final</version>
-        </dependency>
-        <dependency>
-      		<groupId>org.xerial</groupId>
-      		<artifactId>sqlite-jdbc</artifactId>
-      		<version>3.7.2</version>
-    	</dependency>
-        <!-- API, java.xml.bind module -->
-		<dependency>
-    		<groupId>jakarta.xml.bind</groupId>
-    		<artifactId>jakarta.xml.bind-api</artifactId>
-    		<version>2.3.2</version>
-		</dependency>
-		<!-- Runtime, com.sun.xml.bind module -->
-		<dependency>
-    		<groupId>org.glassfish.jaxb</groupId>
-    		<artifactId>jaxb-runtime</artifactId>
-    		<version>2.3.2</version>
+    		<groupId>org.xerial</groupId>
+    		<artifactId>sqlite-jdbc</artifactId>
+    		<version>3.34.0</version>
 		</dependency>
 	</dependencies>
 </project>
