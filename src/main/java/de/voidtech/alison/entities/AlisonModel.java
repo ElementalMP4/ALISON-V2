@@ -75,7 +75,7 @@ public class AlisonModel {
 	
 	private AlisonWord getRandomStartWord() {
 		List<AlisonWord> wordsWithFollows = words.stream().filter(word -> !word.getNext().equals("StopWord")).collect(Collectors.toList());
-		return wordsWithFollows.get(new Random().nextInt(0, wordsWithFollows.size() - 1));
+		return wordsWithFollows.get(new Random().nextInt(wordsWithFollows.size() - 1));
 	}
 	
 	public List<AlisonWord> getWordList(String wordToFind) {

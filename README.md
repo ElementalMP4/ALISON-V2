@@ -5,7 +5,7 @@ ALISON is a data-centric sentence generator that uses Discord guild messages to 
 
 ALISON uses:
 - Java because it's easy
-- A custom model format using SQLite
+- A custom model format using serialized Java collections (for shpeed)
 - JDA to talk to Discord
 - WRTT Sentence Generation
 - OAT Sentiment determination
