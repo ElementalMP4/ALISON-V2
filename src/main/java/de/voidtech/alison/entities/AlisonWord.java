@@ -3,7 +3,7 @@ package main.java.de.voidtech.alison.entities;
 import java.io.Serializable;
 
 public class AlisonWord implements Serializable {
-	
+
 	private static final long serialVersionUID = -86154588887368562L;
 
 	private String word;

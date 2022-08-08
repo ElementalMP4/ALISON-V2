@@ -28,4 +28,8 @@ public class Configuration {
 	public String getPrefix() {
 		return config.getProperty("Prefix");
 	}
+	
+	public String getMasterId() {
+		return config.getProperty("Master");
+	}
 }

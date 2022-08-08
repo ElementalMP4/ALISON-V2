@@ -17,6 +17,7 @@ public class CommandRegistry {
 		Commands.add(new HowToxicIsThisServerCommand());
 		Commands.add(new HelpCommand());
 		Commands.add(new ClearCommand());
+		Commands.add(new MyStatsCommand());
 	}
 	
 	public static List<AbstractCommand> GetAllCommands() {

@@ -26,8 +26,9 @@ public class ImitateCommand extends AbstractCommand {
             		return;
             	}
                 String msg = AlisonCore.Imitate(userResult.get().getId());
-                Responder.SendAsWebhook(message, msg, userResult.get().getAvatarUrl(), userResult.get().getName());
-            } else Responder.SendAsReply(message,"User " + ID + " could not be found");	
+                if (msg == null) Responder.SendAsReply(message, "There's no data for this user!");
+                else Responder.SendAsWebhook(message, msg, userResult.get().getAvatarUrl(), userResult.get().getName());
+            } else Responder.SendAsReply(message, "User " + ID + " could not be found");	
         }
     }
     

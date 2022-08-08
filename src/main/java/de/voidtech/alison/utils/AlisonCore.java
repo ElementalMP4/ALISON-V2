@@ -1,6 +1,7 @@
 package main.java.de.voidtech.alison.utils;
 
-import main.java.de.voidtech.alison.entities.AlisonModel;
+import java.util.Map;
+
 import main.java.de.voidtech.alison.entities.Sentiment;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
@@ -8,20 +9,19 @@ import net.dv8tion.jda.api.entities.Message;
 public class AlisonCore {
 
 	public static void LearnOnDemand(Message message) {
-		String wordPack = message.getAuthor().getId();
-		String content = message.getContentRaw();
-		LearnSentence(wordPack, content);
+		LearnSentence(message.getAuthor().getId(), message.getContentRaw());
 	}
 
 	private static void LearnSentence(String wordPack, String content) {
-		AlisonModel model = PackManager.GetPack(wordPack);
-		model.learn(content);
+		PackManager.GetPack(wordPack).learn(content);
 	}
 	
 	public static String Imitate(String wordPack) {
-		AlisonModel model = PackManager.GetPack(wordPack);
-		String message = model.createSentence();
-		return message;
+		return PackManager.GetPack(wordPack).createSentence();
+	}
+	
+	public static Map<String, Long> GetTopFiveForPack(String pack) {
+		return PackManager.GetPack(pack).getTopFiveWords();
 	}
 	
 	public static Sentiment RankSentence(String sentence) {
@@ -42,5 +42,9 @@ public class AlisonCore {
 
 	public static Sentiment RankServer(Guild guild) {
 		return TextAnalytics.AnalyseServer(guild);
+	}
+
+	public static long GetPackWordCount(String ID) {
+		return PackManager.GetPack(ID).getWordCount();
 	}
 }

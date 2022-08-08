@@ -5,6 +5,7 @@ import java.util.List;
 
 import main.java.de.voidtech.alison.entities.Sentiment;
 import main.java.de.voidtech.alison.utils.AlisonCore;
+import main.java.de.voidtech.alison.utils.PrivacyManager;
 import main.java.de.voidtech.alison.utils.Responder;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
@@ -20,9 +21,10 @@ public class HowToxicIsThisCommand extends AbstractCommand {
 				.mentionRepliedUser(false).queue();
 				return;
 			} else {
-				///if (privacyService.userIsIgnored(message.getReferencedMessage().getAuthor().getId())) {
-					///message.reply("This user has chosen not to be analysed!").mentionRepliedUser(false).queue();
-					///return;
+				if (PrivacyManager.UserHasOptedOut(message.getReferencedMessage().getAuthor().getId())) {
+					Responder.SendAsReply(message, "This user has chosen not to be analysed!");
+					return;
+				}
 				analyse(message.getReferencedMessage().getContentRaw(), message);
 			}
 		} else analyse(String.join(" ", args), message);

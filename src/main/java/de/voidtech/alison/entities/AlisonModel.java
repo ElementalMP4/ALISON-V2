@@ -9,7 +9,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -24,10 +28,10 @@ public class AlisonModel {
 		File modelFile = new File(dataDir);
 		if (modelFile.exists()) {
 			try {
-				FileInputStream fis = new FileInputStream(dataDir);
-				ObjectInputStream ois = new ObjectInputStream(fis);
-				words = (List<AlisonWord>) ois.readObject();
-				ois.close();
+				FileInputStream fileInStream = new FileInputStream(dataDir);
+				ObjectInputStream objectInStream = new ObjectInputStream(fileInStream);
+				words = (List<AlisonWord>) objectInStream.readObject();
+				objectInStream.close();
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -60,7 +64,18 @@ public class AlisonModel {
         return words.get(new Random().nextInt(words.size()));
     }
 	
+	public Map<String, Long> getTopFiveWords() {
+		Map<String, Long> countedWords = (Map<String, Long>) words.stream()
+				.collect(Collectors.groupingBy(word -> word.getWord(), Collectors.counting()));	
+		Map<String, Long> topFiveWords = countedWords.entrySet().stream()
+				.sorted(Entry.comparingByValue(Comparator.reverseOrder()))
+				.limit(5)
+				.collect(Collectors.toMap(Entry::getKey, Entry::getValue, (e1, e2) -> e1, HashMap::new));
+		return topFiveWords;
+	}
+	
 	public String createSentence() {
+		if (words.isEmpty()) return null;
 		List<String> result = new ArrayList<String>();
 		AlisonWord next = getRandomStartWord();
 		if (next == null) return null;
@@ -75,7 +90,8 @@ public class AlisonModel {
 	
 	private AlisonWord getRandomStartWord() {
 		List<AlisonWord> wordsWithFollows = words.stream().filter(word -> !word.getNext().equals("StopWord")).collect(Collectors.toList());
-		return wordsWithFollows.get(new Random().nextInt(wordsWithFollows.size() - 1));
+		if (wordsWithFollows.size() < 2) return wordsWithFollows.get(0);
+		else return wordsWithFollows.get(new Random().nextInt(wordsWithFollows.size() - 1));
 	}
 	
 	public List<AlisonWord> getWordList(String wordToFind) {
@@ -92,10 +108,10 @@ public class AlisonModel {
 	
 	public void save() {
 		try {
-			FileOutputStream fos = new FileOutputStream(dataDir);
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			oos.writeObject(words);
-			oos.close();
+			FileOutputStream fileOutStream = new FileOutputStream(dataDir);
+			ObjectOutputStream objectOutStream = new ObjectOutputStream(fileOutStream);
+			objectOutStream.writeObject(words);
+			objectOutStream.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
