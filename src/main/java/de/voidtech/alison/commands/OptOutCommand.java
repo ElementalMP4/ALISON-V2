@@ -6,8 +6,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 import main.java.de.voidtech.alison.entities.ButtonConsumer;
-import main.java.de.voidtech.alison.utils.AlisonCore;
 import main.java.de.voidtech.alison.utils.DiscordBot;
+import main.java.de.voidtech.alison.utils.PackManager;
 import main.java.de.voidtech.alison.utils.PrivacyManager;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
@@ -35,7 +35,7 @@ public class OptOutCommand extends AbstractCommand {
 				result.getButton().deferEdit().queue();
 				switch (result.getButton().getComponentId()) {
 				case "YES":
-					AlisonCore.ClearUser(message.getAuthor().getId());
+					PackManager.DeletePack(message.getAuthor().getId());
 					result.getMessage().editMessage("Data cleared!").queue();
 					break;
 				case "NO":

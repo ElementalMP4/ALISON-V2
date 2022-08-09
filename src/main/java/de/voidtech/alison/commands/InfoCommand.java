@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.util.List;
 
 import main.java.de.voidtech.alison.GlobalConstants;
-import main.java.de.voidtech.alison.utils.AlisonCore;
+import main.java.de.voidtech.alison.utils.PackManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
@@ -16,7 +16,7 @@ public class InfoCommand extends AbstractCommand {
 	public void execute(Message message, List<String> args) {
 		long guildCount = message.getJDA().getGuildCache().size();
 		long memberCount = message.getJDA().getGuildCache().stream().mapToInt(Guild::getMemberCount).sum();
-		long wordCount = AlisonCore.GetTotalWordCount();
+		long wordCount = PackManager.GetWordCount();
 		
 		MessageEmbed informationEmbed = new EmbedBuilder()
 				.setColor(Color.ORANGE)

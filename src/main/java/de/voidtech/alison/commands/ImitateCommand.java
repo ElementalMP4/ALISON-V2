@@ -2,7 +2,6 @@ package main.java.de.voidtech.alison.commands;
 
 import java.util.List;
 
-import main.java.de.voidtech.alison.utils.AlisonCore;
 import main.java.de.voidtech.alison.utils.PackManager;
 import main.java.de.voidtech.alison.utils.PrivacyManager;
 import main.java.de.voidtech.alison.utils.Responder;
@@ -28,7 +27,7 @@ public class ImitateCommand extends AbstractCommand {
     		return;
     	}
         
-        String msg = AlisonCore.Imitate(ID);
+        String msg = PackManager.GetPack(ID).createSentence();
 		if (msg == null) {
 			Responder.SendAsReply(message, "There's no data for this user!");
 			return;

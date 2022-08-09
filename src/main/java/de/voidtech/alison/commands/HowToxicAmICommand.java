@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.util.List;
 
 import main.java.de.voidtech.alison.entities.Sentiment;
-import main.java.de.voidtech.alison.utils.AlisonCore;
 import main.java.de.voidtech.alison.utils.PrivacyManager;
 import main.java.de.voidtech.alison.utils.Responder;
+import main.java.de.voidtech.alison.utils.TextAnalytics;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -36,7 +36,7 @@ public class HowToxicAmICommand extends AbstractCommand {
 			Responder.SendAsReply(message, "This user has chosen not to be analysed!");
 			return;
 		}
-		Sentiment howToxic = AlisonCore.RankPack(user.getId());
+		Sentiment howToxic = TextAnalytics.AnalysePack(user.getId());
 		if (howToxic == null) {
 			message.reply("I couldn't find any data to analyse!").mentionRepliedUser(false).queue();
 			return;

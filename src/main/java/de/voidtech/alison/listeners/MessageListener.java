@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
 import main.java.de.voidtech.alison.Alison;
 import main.java.de.voidtech.alison.commands.AbstractCommand;
 import main.java.de.voidtech.alison.commands.CommandRegistry;
-import main.java.de.voidtech.alison.utils.AlisonCore;
 import main.java.de.voidtech.alison.utils.LevenshteinCalculator;
+import main.java.de.voidtech.alison.utils.PackManager;
 import main.java.de.voidtech.alison.utils.PrivacyManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
@@ -44,7 +44,7 @@ public class MessageListener implements EventListener {
         if (!shouldHandleAsChatCommand(prefix, message)) {
         	if (message.getContentRaw().equals("")) return;
         	if (PrivacyManager.UserHasOptedOut(message.getAuthor().getId())) return;
-        	AlisonCore.LearnOnDemand(message);
+        	PackManager.GetPack(message.getAuthor().getId()).learn(message.getContentRaw());
         	return;
         };
         String messageContent = message.getContentRaw().substring(prefix.length());
