@@ -16,7 +16,7 @@ public class InfoCommand extends AbstractCommand {
 	public void execute(Message message, List<String> args) {
 		long guildCount = message.getJDA().getGuildCache().size();
 		long memberCount = message.getJDA().getGuildCache().stream().mapToInt(Guild::getMemberCount).sum();
-		long wordCount = PackManager.GetWordCount();
+		long wordCount = PackManager.getWordCount();
 		
 		MessageEmbed informationEmbed = new EmbedBuilder()
 				.setColor(Color.ORANGE)

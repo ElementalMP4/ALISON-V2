@@ -23,7 +23,7 @@ public class PrivacyManager {
 		}
 	}
 
-	public static boolean UserHasOptedOut(String userID) {
+	public static boolean userHasOptedOut(String userID) {
 		try {
 			ResultSet result = DatabaseInterface.queryDatabase(DatabaseConnection, String.format(USER_IS_OPTED_OUT, userID));
 			return !result.isClosed();
@@ -33,11 +33,11 @@ public class PrivacyManager {
 		return true;
 	}
 	
-	public static void OptOut(String userID) {
+	public static void optOut(String userID) {
 		DatabaseInterface.executeUpdate(DatabaseConnection, String.format(OPT_OUT, userID));
 	}
 	
-	public static void OptIn(String userID) {
+	public static void optIn(String userID) {
 		DatabaseInterface.executeUpdate(DatabaseConnection, String.format(OPT_IN, userID));
 	}
 	

@@ -20,11 +20,11 @@ public class CommandRegistry {
 		Commands.add(new MyStatsCommand());
 	}
 	
-	public static List<AbstractCommand> GetAllCommands() {
+	public static List<AbstractCommand> getAllCommands() {
 		return Commands;
 	}
 	
-	public static AbstractCommand GetCommand(String name) {
+	public static AbstractCommand getCommand(String name) {
 		if (Commands.isEmpty()) populateCommands();
 		return Commands.stream()
 				.filter(command -> command.getName().equals(name) | command.getShorthand().equals(name))

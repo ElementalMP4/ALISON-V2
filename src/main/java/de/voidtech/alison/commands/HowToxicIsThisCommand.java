@@ -21,8 +21,8 @@ public class HowToxicIsThisCommand extends AbstractCommand {
 				.mentionRepliedUser(false).queue();
 				return;
 			} else {
-				if (PrivacyManager.UserHasOptedOut(message.getReferencedMessage().getAuthor().getId())) {
-					Responder.SendAsReply(message, "This user has chosen not to be analysed!");
+				if (PrivacyManager.userHasOptedOut(message.getReferencedMessage().getAuthor().getId())) {
+					Responder.sendAsReply(message, "This user has chosen not to be analysed!");
 					return;
 				}
 				analyse(message.getReferencedMessage().getContentRaw(), message);
@@ -31,7 +31,7 @@ public class HowToxicIsThisCommand extends AbstractCommand {
 	}
 	
 	private void analyse(String text, Message message) {
-		Sentiment howToxic = TextAnalytics.AnalyseSentence(text);
+		Sentiment howToxic = TextAnalytics.analyseSentence(text);
 		MessageEmbed toxicityEmbed = new EmbedBuilder()
 				.setColor(getColour(howToxic))
 				.setTitle("Message Analysis")
@@ -42,7 +42,7 @@ public class HowToxicIsThisCommand extends AbstractCommand {
 				.addField("Average Score (higher is better!)",  "```\n" + howToxic.getAverageScore() + "\n```", true)
 				.addField("Adjusted Score (higher is better!)",  "```\n" + howToxic.getAdjustedScore() + "\n```", true)
 				.build();
-		Responder.SendAsReply(message, toxicityEmbed);
+		Responder.sendAsReply(message, toxicityEmbed);
 	}
 	
 	private Color getColour(Sentiment howToxic) {

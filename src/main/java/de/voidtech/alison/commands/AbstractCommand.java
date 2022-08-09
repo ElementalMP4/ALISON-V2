@@ -12,11 +12,11 @@ public abstract class AbstractCommand {
 	
 	public void run(Message message, List<String> args) {
 		if (!this.isDmCapable() && message.getChannel().getType().equals(ChannelType.PRIVATE)) {
-			Responder.SendAsReply(message, "This command only works in guilds!");
+			Responder.sendAsReply(message, "This command only works in guilds!");
 			return;
 		}
 		if (this.requiresArguments() && args.isEmpty()) { 
-			Responder.SendAsReply(message, "This command needs arguments but you didn't supply any!\n" + this.getUsage());
+			Responder.sendAsReply(message, "This command needs arguments but you didn't supply any!\n" + this.getUsage());
 			return;
 		}
 		ExecutorService commandExecutor = ThreadManager.getThreadByName("T-Command");

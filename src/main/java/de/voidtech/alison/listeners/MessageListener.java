@@ -43,14 +43,14 @@ public class MessageListener implements EventListener {
 		String prefix = Alison.GetConfig().getPrefix();
         if (!shouldHandleAsChatCommand(prefix, message)) {
         	if (message.getContentRaw().equals("")) return;
-        	if (PrivacyManager.UserHasOptedOut(message.getAuthor().getId())) return;
-        	PackManager.GetPack(message.getAuthor().getId()).learn(message.getContentRaw());
+        	if (PrivacyManager.userHasOptedOut(message.getAuthor().getId())) return;
+        	PackManager.getPack(message.getAuthor().getId()).learn(message.getContentRaw());
         	return;
         };
         String messageContent = message.getContentRaw().substring(prefix.length());
         List<String> messageArray = Arrays.asList(messageContent.trim().split("\\s+"));
         
-        AbstractCommand commandOpt = CommandRegistry.GetCommand(messageArray.get(0).toLowerCase());
+        AbstractCommand commandOpt = CommandRegistry.getCommand(messageArray.get(0).toLowerCase());
         if (commandOpt == null) {
             LOGGER.log(Level.INFO, "Command not found: " + messageArray.get(0));
             tryLevenshteinOptions(message, messageArray.get(0));
@@ -70,7 +70,7 @@ public class MessageListener implements EventListener {
 	
     private void tryLevenshteinOptions(Message message, String commandName) {
         List<String> possibleOptions = new ArrayList<>();
-        possibleOptions = CommandRegistry.GetAllCommands().stream()
+        possibleOptions = CommandRegistry.getAllCommands().stream()
                 .map(AbstractCommand::getName)
                 .filter(name -> LevenshteinCalculator.calculate(commandName, name) <= 2)
                 .collect(Collectors.toList());

@@ -9,28 +9,28 @@ import main.java.de.voidtech.alison.entities.AlisonModel;
 
 public class PackManager {
 
-	public static AlisonModel GetPack(String pack) {
+	public static AlisonModel getPack(String pack) {
 		return new AlisonModel(pack);
 	}
 	
-	public static boolean PackExists(String pack) {
+	public static boolean packExists(String pack) {
 		return new File("models/" + pack).exists();
 	}
 
-	public static void DeletePack(String pack) {
+	public static void deletePack(String pack) {
 		new File("models/" + pack + "/words.alison").delete();
 		new File("models/" + pack).delete();
 	}
 	
-	public static List<AlisonModel> GetAllPacks() {
+	public static List<AlisonModel> getAllPacks() {
 		File[] modelFiles = new File("models/").listFiles();
 		List<AlisonModel> models = new ArrayList<AlisonModel>();
-		Arrays.asList(modelFiles).stream().forEach(model -> models.add(GetPack(model.getName())));
+		Arrays.asList(modelFiles).stream().forEach(model -> models.add(getPack(model.getName())));
 		return models;
 	}
 	
-	public static long GetWordCount() {
-		List<AlisonModel> models = GetAllPacks();
+	public static long getWordCount() {
+		List<AlisonModel> models = getAllPacks();
 		return models.stream().map(AlisonModel::getWordCount).reduce((long) 0, (a, b) -> a + b);
 	}
 }

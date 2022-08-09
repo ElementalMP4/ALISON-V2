@@ -17,25 +17,25 @@ public class ImitateCommand extends AbstractCommand {
     	if (args.isEmpty()) ID = message.getAuthor().getId();
     	else ID = args.get(0).replaceAll("([^0-9])", "");
     	
-        if (!PackManager.PackExists(ID)) {
-        	Responder.SendAsReply(message, "I couldn't find that user :(");
+        if (!PackManager.packExists(ID)) {
+        	Responder.sendAsReply(message, "I couldn't find that user :(");
         	return;
         }
         
-        if (PrivacyManager.UserHasOptedOut(ID)) {
-    		Responder.SendAsReply(message,"This user has chosen not to be imitated.");
+        if (PrivacyManager.userHasOptedOut(ID)) {
+    		Responder.sendAsReply(message,"This user has chosen not to be imitated.");
     		return;
     	}
         
-        String msg = PackManager.GetPack(ID).createSentence();
+        String msg = PackManager.getPack(ID).createSentence();
 		if (msg == null) {
-			Responder.SendAsReply(message, "There's no data for this user!");
+			Responder.sendAsReply(message, "There's no data for this user!");
 			return;
 		}
         
         Result<User> userResult = message.getJDA().retrieveUserById(ID).mapToResult().complete();
-        if (userResult.isSuccess()) Responder.SendAsWebhook(message, msg, userResult.get().getAvatarUrl(), userResult.get().getName());
-        else Responder.SendAsReply(message, msg);	
+        if (userResult.isSuccess()) Responder.sendAsWebhook(message, msg, userResult.get().getAvatarUrl(), userResult.get().getName());
+        else Responder.sendAsReply(message, msg);	
     }
     
     @Override

@@ -32,11 +32,11 @@ public class HowToxicAmICommand extends AbstractCommand {
 	}
 	
 	private void analyse(User user, Message message) {
-		if (PrivacyManager.UserHasOptedOut(user.getId())) {
-			Responder.SendAsReply(message, "This user has chosen not to be analysed!");
+		if (PrivacyManager.userHasOptedOut(user.getId())) {
+			Responder.sendAsReply(message, "This user has chosen not to be analysed!");
 			return;
 		}
-		Sentiment howToxic = TextAnalytics.AnalysePack(user.getId());
+		Sentiment howToxic = TextAnalytics.analysePack(user.getId());
 		if (howToxic == null) {
 			message.reply("I couldn't find any data to analyse!").mentionRepliedUser(false).queue();
 			return;

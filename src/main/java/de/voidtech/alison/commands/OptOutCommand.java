@@ -29,13 +29,13 @@ public class OptOutCommand extends AbstractCommand {
 	
 	@Override
 	public void execute(Message message, List<String> args) {
-		if (!PrivacyManager.UserHasOptedOut(message.getAuthor().getId())) {
-			PrivacyManager.OptOut(message.getAuthor().getId());	
+		if (!PrivacyManager.userHasOptedOut(message.getAuthor().getId())) {
+			PrivacyManager.optOut(message.getAuthor().getId());	
 			getAwaitedButton(message, "Would you also like to delete any collected data?", createTrueFalseButtons(), result -> {
 				result.getButton().deferEdit().queue();
 				switch (result.getButton().getComponentId()) {
 				case "YES":
-					PackManager.DeletePack(message.getAuthor().getId());
+					PackManager.deletePack(message.getAuthor().getId());
 					result.getMessage().editMessage("Data cleared!").queue();
 					break;
 				case "NO":

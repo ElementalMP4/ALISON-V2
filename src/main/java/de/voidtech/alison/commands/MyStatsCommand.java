@@ -23,22 +23,22 @@ public class MyStatsCommand extends AbstractCommand {
     	if (args.isEmpty()) ID = message.getAuthor().getId();
     	else ID = args.get(0).replaceAll("([^0-9])", "");
     	
-        if (ID.equals("")) Responder.SendAsReply(message, "I couldn't find that user :(");
+        if (ID.equals("")) Responder.sendAsReply(message, "I couldn't find that user :(");
         else {
         	Result<User> userResult = message.getJDA().retrieveUserById(ID).mapToResult().complete();
             if (userResult.isSuccess()) {
-            	if (PrivacyManager.UserHasOptedOut(ID)) {
-            		Responder.SendAsReply(message,"This user has chosen not to have their data analysed.");
+            	if (PrivacyManager.userHasOptedOut(ID)) {
+            		Responder.sendAsReply(message,"This user has chosen not to have their data analysed.");
             		return;
             	}
                 MessageEmbed statsEmbed = createStatsEmbed(userResult.get()); 
-                Responder.SendAsReply(message, statsEmbed);
-            } else Responder.SendAsReply(message, "User " + ID + " could not be found");	
+                Responder.sendAsReply(message, statsEmbed);
+            } else Responder.sendAsReply(message, "User " + ID + " could not be found");	
         }
 	}
 
 	private MessageEmbed createStatsEmbed(User user) {
-		AlisonModel pack = PackManager.GetPack(user.getId());
+		AlisonModel pack = PackManager.getPack(user.getId());
 		Map<String, Long> topFive = pack.getTopFiveWords();
         long wordCount = pack.getWordCount();
         String topFiveFormatted = String.join("\n", topFive.entrySet().stream()

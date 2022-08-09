@@ -11,10 +11,10 @@ public class OptInCommand extends AbstractCommand {
 	@Override
 	public void execute(Message message, List<String> args) {
 		String ID = message.getAuthor().getId();
-		if (PrivacyManager.UserHasOptedOut(ID)) {
-			Responder.SendAsReply(message, "You have been re-opted in to the learning program! I will learn from your messages again!");
-			PrivacyManager.OptIn(ID);
-		} else Responder.SendAsReply(message, "You have already opted in to the learning program! (Users are opted in by default!)");
+		if (PrivacyManager.userHasOptedOut(ID)) {
+			Responder.sendAsReply(message, "You have been re-opted in to the learning program! I will learn from your messages again!");
+			PrivacyManager.optIn(ID);
+		} else Responder.sendAsReply(message, "You have already opted in to the learning program! (Users are opted in by default!)");
 	}
 
 	@Override

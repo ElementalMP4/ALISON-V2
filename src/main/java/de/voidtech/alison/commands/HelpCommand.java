@@ -11,7 +11,7 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 
 public class HelpCommand extends AbstractCommand {
 
-	private static final List<AbstractCommand> COMMANDS = CommandRegistry.GetAllCommands();
+	private static final List<AbstractCommand> COMMANDS = CommandRegistry.getAllCommands();
 	
 	@Override
 	public void execute(Message message, List<String> args) {

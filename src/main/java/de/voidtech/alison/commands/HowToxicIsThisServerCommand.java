@@ -13,7 +13,7 @@ public class HowToxicIsThisServerCommand extends AbstractCommand {
 
 	@Override
 	public void execute(Message message, List<String> args) {
-		Sentiment howToxic = TextAnalytics.AnalyseServer(message.getGuild());
+		Sentiment howToxic = TextAnalytics.analyseServer(message.getGuild());
 		if (howToxic == null) {
 			message.reply("I couldn't find any data to analyse!").mentionRepliedUser(false).queue();
 			return;

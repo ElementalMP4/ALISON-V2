@@ -18,7 +18,7 @@ public class TextAnalytics {
 	private static List<String> NegativeWords = new ArrayList<String>();
 	private static List<String> PositiveWords = new ArrayList<String>();
 
-	private static void PopulateLexicon() {
+	private static void populateLexicon() {
 		NegativeWords.clear();
 		PositiveWords.clear();
 		ResourceLoader loader = new ResourceLoader();
@@ -26,25 +26,25 @@ public class TextAnalytics {
 		PositiveWords = loader.getResource("positive-words.txt");
 	}
 	
-	public static Sentiment AnalysePack(String pack) {
-		if (!PackManager.PackExists(pack)) return null;
-		AlisonModel model = PackManager.GetPack(pack);
+	public static Sentiment analysePack(String pack) {
+		if (!PackManager.packExists(pack)) return null;
+		AlisonModel model = PackManager.getPack(pack);
 		String words = String.join(" ", model.getAllWords());
-		Sentiment sentiment = AnalyseSentence(words);
+		Sentiment sentiment = analyseSentence(words);
 		return sentiment;
 	}
 
-	public static Sentiment AnalyseSentence(String sentence) {
-		if (NegativeWords.isEmpty() | PositiveWords.isEmpty()) PopulateLexicon();
+	public static Sentiment analyseSentence(String sentence) {
+		if (NegativeWords.isEmpty() | PositiveWords.isEmpty()) populateLexicon();
 		
 		String tokenisedSentence = sentence.replaceAll("([^a-zA-Z\\d\\s:])", "").toLowerCase();
-		List<String> negativeTokens = FindTokens(NegativeWords, tokenisedSentence);
-		List<String> positiveTokens = FindTokens(PositiveWords, tokenisedSentence);
+		List<String> negativeTokens = findTokens(NegativeWords, tokenisedSentence);
+		List<String> positiveTokens = findTokens(PositiveWords, tokenisedSentence);
 		
 		return new Sentiment(positiveTokens, negativeTokens, sentence);
 	}
 
-	private static List<String> FindTokens(List<String> wordList, String sentence) {
+	private static List<String> findTokens(List<String> wordList, String sentence) {
 		List<String> results = new ArrayList<String>();
 		 wordList.stream().forEach(token -> {
 			 for (int i = 0; i < StringUtils.countMatches(sentence, token); i++) {
@@ -54,14 +54,14 @@ public class TextAnalytics {
 		return results;
 	}
 	
-	public static Sentiment AnalyseServer(Guild guild) {
+	public static Sentiment analyseServer(Guild guild) {
 		List<String> words = guild.getMembers().stream()
 				.map(Member::getId)
-				.filter(memberID -> !PrivacyManager.UserHasOptedOut(memberID))
-				.filter(PackManager::PackExists)
-				.map(PackManager::GetPack)
+				.filter(memberID -> !PrivacyManager.userHasOptedOut(memberID))
+				.filter(PackManager::packExists)
+				.map(PackManager::getPack)
 				.map(AlisonModel::getAllWords)
 				.reduce(new ArrayList<String>(), (a, b) -> Stream.concat(a.stream(), b.stream()).collect(Collectors.toList()));
-		return AnalyseSentence(String.join(" ", words));		
+		return analyseSentence(String.join(" ", words));		
 	}
 }

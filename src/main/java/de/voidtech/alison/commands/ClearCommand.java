@@ -39,7 +39,7 @@ public class ClearCommand extends AbstractCommand {
 			result.getButton().deferEdit().queue();
 			switch (result.getButton().getComponentId()) {
 			case "YES":
-				PackManager.DeletePack(message.getAuthor().getId());
+				PackManager.deletePack(message.getAuthor().getId());
 				result.getMessage().editMessage("Your data has been cleared! If you want to stop data collection, use the `optout` command!").queue();
 				break;
 			case "NO":
