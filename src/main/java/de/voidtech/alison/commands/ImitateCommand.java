@@ -3,6 +3,7 @@ package main.java.de.voidtech.alison.commands;
 import java.util.List;
 
 import main.java.de.voidtech.alison.utils.AlisonCore;
+import main.java.de.voidtech.alison.utils.PackManager;
 import main.java.de.voidtech.alison.utils.PrivacyManager;
 import main.java.de.voidtech.alison.utils.Responder;
 import net.dv8tion.jda.api.entities.Message;
@@ -17,19 +18,25 @@ public class ImitateCommand extends AbstractCommand {
     	if (args.isEmpty()) ID = message.getAuthor().getId();
     	else ID = args.get(0).replaceAll("([^0-9])", "");
     	
-        if (ID.equals("")) Responder.SendAsReply(message, "I couldn't find that user :(");
-        else {
-        	Result<User> userResult = message.getJDA().retrieveUserById(ID).mapToResult().complete();
-            if (userResult.isSuccess()) {
-            	if (PrivacyManager.UserHasOptedOut(ID)) {
-            		Responder.SendAsReply(message,"This user has chosen not to be imitated.");
-            		return;
-            	}
-                String msg = AlisonCore.Imitate(userResult.get().getId());
-                if (msg == null) Responder.SendAsReply(message, "There's no data for this user!");
-                else Responder.SendAsWebhook(message, msg, userResult.get().getAvatarUrl(), userResult.get().getName());
-            } else Responder.SendAsReply(message, "User " + ID + " could not be found");	
+        if (!PackManager.PackExists(ID)) {
+        	Responder.SendAsReply(message, "I couldn't find that user :(");
+        	return;
         }
+        
+        if (PrivacyManager.UserHasOptedOut(ID)) {
+    		Responder.SendAsReply(message,"This user has chosen not to be imitated.");
+    		return;
+    	}
+        
+        String msg = AlisonCore.Imitate(ID);
+		if (msg == null) {
+			Responder.SendAsReply(message, "There's no data for this user!");
+			return;
+		}
+        
+        Result<User> userResult = message.getJDA().retrieveUserById(ID).mapToResult().complete();
+        if (userResult.isSuccess()) Responder.SendAsWebhook(message, msg, userResult.get().getAvatarUrl(), userResult.get().getName());
+        else Responder.SendAsReply(message, msg);	
     }
     
     @Override
