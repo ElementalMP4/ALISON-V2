@@ -18,6 +18,7 @@ public class CommandRegistry {
 		Commands.add(new HelpCommand());
 		Commands.add(new ClearCommand());
 		Commands.add(new MyStatsCommand());
+		Commands.add(new PingCommand());
 	}
 	
 	public static List<AbstractCommand> getAllCommands() {
