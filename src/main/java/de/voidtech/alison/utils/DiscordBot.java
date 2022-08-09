@@ -1,8 +1,5 @@
 package main.java.de.voidtech.alison.utils;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import javax.security.auth.login.LoginException;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
@@ -17,23 +14,29 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
 public class DiscordBot {
 	
-	private static final Logger LOGGER = Logger.getLogger(DiscordBot.class.getName());
+	private EventWaiter waiter = new EventWaiter();
+	private JDA jda;
 	
-	public static EventWaiter Waiter = new EventWaiter();
-	
-	public JDA buildDiscordClient(String token) {
+	public DiscordBot(String token) {
 		try {
-			return JDABuilder.createLight(token, GatewayIntent.GUILD_MESSAGES)
+			jda = JDABuilder.createLight(token, GatewayIntent.GUILD_MESSAGES)
 					.setMemberCachePolicy(MemberCachePolicy.ALL)
-					.addEventListeners(new ReadyListener(), new MessageListener(), Waiter)
+					.addEventListeners(new ReadyListener(), new MessageListener(), waiter)
 					.setActivity(Activity.watching("you"))
 					.setEnabledIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_MESSAGES, GatewayIntent.DIRECT_MESSAGES)
 					.build();
 			
 		} catch (LoginException e) {
-			LOGGER.log(Level.SEVERE, "Failed to build JDA: " + e.getMessage());
+			e.printStackTrace();
 		}
-		return null;
+	}
+	
+	public JDA getJDA() {
+		return this.jda;
+	}
+	
+	public EventWaiter getEventWaiter() {
+		return this.waiter;
 	}
 
 }

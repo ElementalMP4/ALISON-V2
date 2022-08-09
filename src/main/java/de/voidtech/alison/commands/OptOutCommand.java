@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
+import main.java.de.voidtech.alison.Alison;
 import main.java.de.voidtech.alison.entities.ButtonConsumer;
-import main.java.de.voidtech.alison.utils.DiscordBot;
 import main.java.de.voidtech.alison.utils.PackManager;
 import main.java.de.voidtech.alison.utils.PrivacyManager;
 import net.dv8tion.jda.api.entities.Message;
@@ -21,7 +21,7 @@ public class OptOutCommand extends AbstractCommand {
 
 	private void getAwaitedButton(Message message, String question, List<Component> actions, Consumer<ButtonConsumer> result) {
         Message msg = message.reply(question).setActionRow(actions).mentionRepliedUser(false).complete();
-        DiscordBot.Waiter.waitForEvent(ButtonClickEvent.class,
+        Alison.GetBot().getEventWaiter().waitForEvent(ButtonClickEvent.class,
                 e -> e.getUser().getId().equals(message.getAuthor().getId()),
 				e -> result.accept(new ButtonConsumer(e, msg)), 30, TimeUnit.SECONDS,
                 () -> message.getChannel().sendMessage("Timed out waiting for reply").queue());

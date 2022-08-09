@@ -40,7 +40,7 @@ public class MessageListener implements EventListener {
     }
 	
 	private void handleMessage(Message message) {
-		String prefix = Alison.Config.getPrefix();
+		String prefix = Alison.GetConfig().getPrefix();
         if (!shouldHandleAsChatCommand(prefix, message)) {
         	if (message.getContentRaw().equals("")) return;
         	if (PrivacyManager.UserHasOptedOut(message.getAuthor().getId())) return;

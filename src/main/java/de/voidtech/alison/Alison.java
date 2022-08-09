@@ -5,11 +5,19 @@ import main.java.de.voidtech.alison.utils.DiscordBot;
 
 public class Alison{
 	
-	public static Configuration Config;
-
+	private static Configuration Config;
+	private static DiscordBot Bot;
+	
 	public static void main(String[] args) {
-        Config = new Configuration();
-        DiscordBot bot = new DiscordBot();
-        bot.buildDiscordClient(Config.getToken());
+		Config = new Configuration();
+        Bot = new DiscordBot(Config.getToken());
     }
+	
+	public static Configuration GetConfig() {
+		return Config;
+	}
+	
+	public static DiscordBot GetBot() {
+		return Bot;
+	}
 }
