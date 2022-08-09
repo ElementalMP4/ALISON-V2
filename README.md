@@ -51,7 +51,7 @@ ALISON's markov chain implementation is by no means the first of its kind, howev
 
 ### A Sentiment Analyser
 
-ALISON's Sentiment Analyser is based around the AFINN-111 dataset. It contains ~3000 words with scores between -5 and 5. To score a piece of text, we can simply search the text for any occurrences of a known, scored word or phrase and do some mathematical goodness. **Because who doesn't love making up random equations they don't understand and calling it AI?**
+ALISON's Sentiment Analyser is based around a dataset of approximately 5000 negative words and 2000 positive words. To score a piece of text, we can simply search the text for any occurrences of a known word or phrase and do some mathematical goodness.
 
 As before, here is a breakdown of the sentiment algorithm:
 
