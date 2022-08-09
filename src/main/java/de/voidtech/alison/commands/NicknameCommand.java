@@ -20,7 +20,7 @@ public class NicknameCommand extends AbstractCommand {
 				Responder.sendAsReply(message, "I don't have permission to change your nickname!");
 				return;
 			}
-			message.getMember().modifyNickname(nickname);
+			message.getMember().modifyNickname(nickname).complete();
 			Responder.sendAsReply(message, "Nickname changed to **" + nickname + "**");
 		}
 	}
