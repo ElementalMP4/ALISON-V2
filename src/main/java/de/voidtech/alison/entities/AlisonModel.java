@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
+import java.util.Stack;
 import java.util.stream.Collectors;
 
 public class AlisonModel {
@@ -47,6 +48,20 @@ public class AlisonModel {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public String createNickname() {
+		String name = createSentence();
+		if (name == null) return null;
+		if (name.length() > 32) {
+			Stack<String> words = new Stack<String>();
+			Arrays.asList(name.split(" ")).stream().forEach(word -> words.push(word));
+			name = "";
+			while (name.trim().length() + words.peek().length() < 32) {
+				name += words.pop() + " ";
+			}
+		}
+		return name.trim();
 	}
 
 	public void learn(String content) {

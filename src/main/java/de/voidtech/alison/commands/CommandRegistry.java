@@ -16,6 +16,7 @@ public class CommandRegistry {
 		Commands.add(new ImitateCommand());
 		Commands.add(new InfoCommand());
 		Commands.add(new MyStatsCommand());
+		Commands.add(new NicknameCommand());
 		Commands.add(new OptInCommand());
 		Commands.add(new OptOutCommand());
 		Commands.add(new PingCommand());
