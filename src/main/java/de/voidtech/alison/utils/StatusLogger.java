@@ -1,13 +1,10 @@
 package main.java.de.voidtech.alison.utils;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.Instant;
 
 import main.java.de.voidtech.alison.Alison;
 
 public class StatusLogger {
-	
-	private static final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 	
 	public static void init() {
 		sendStartupMessage();
@@ -19,11 +16,11 @@ public class StatusLogger {
 	}
 	
 	private static void sendStartupMessage() {
-		sendMessage("ALISON has logged in at " + formatter.format(new Date()));
+		sendMessage("ALISON has logged in at <t:" +  Instant.now().getEpochSecond() + ">" );
 	}
 	
 	private static void sendShutdownMessage() {
-		sendMessage("ALISON has gone to sleep at " + formatter.format(new Date()));
+		sendMessage("ALISON has gone to sleep at <t:" +  Instant.now().getEpochSecond() + ">");
 	}
 	
 	private static void sendMessage(String message) {
