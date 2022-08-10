@@ -17,7 +17,11 @@ public class NicknameCommand extends AbstractCommand {
 		if (nickname == null) Responder.sendAsReply(message, "I don't have enough information to make a nickname for you!");
 		else {
 			if (!message.getGuild().getSelfMember().hasPermission(Permission.NICKNAME_MANAGE)) {
-				Responder.sendAsReply(message, "I don't have permission to change your nickname!");
+				Responder.sendAsReply(message, "I don't have permission to change your nickname! Please make sure I have the `Manage Nicknames` permission!");
+				return;
+			}
+			if (!message.getGuild().getSelfMember().canInteract(message.getMember())) {
+				Responder.sendAsReply(message, "I don't have permission to change your nickname! I need my role to be above your highest role!");
 				return;
 			}
 			message.getMember().modifyNickname(nickname).complete();
