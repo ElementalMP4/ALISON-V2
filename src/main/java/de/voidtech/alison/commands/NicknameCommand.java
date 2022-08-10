@@ -8,6 +8,7 @@ import main.java.de.voidtech.alison.utils.Responder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.utils.Result;
 
 public class NicknameCommand extends AbstractCommand {
 
@@ -20,27 +21,28 @@ public class NicknameCommand extends AbstractCommand {
     			Responder.sendAsReply(message, "You don't have permission to change other people's nicknames!");
 				return;
     		}
-    		member = message.getGuild().getMemberById(args.get(0).replaceAll("([^0-9])", ""));
-    		if (member == null) {
+    		Result<Member> memberResult = message.getGuild().retrieveMemberById(args.get(0).replaceAll("([^0-9])", "")).mapToResult().complete();
+    		if (!memberResult.isSuccess()) {
     			Responder.sendAsReply(message, "I couldn't find that user!");
 				return;
-    		}
+    		} else member = memberResult.get();
     	}
 		
 		AlisonModel model = PackManager.getPack(member.getId());
 		String nickname = model.createNickname();
-		if (nickname == null) Responder.sendAsReply(message, "I don't have enough information to make a nickname!	");
+		if (nickname == null) Responder.sendAsReply(message, "I don't have enough information to make a nickname!");
 		else {
 			if (!message.getGuild().getSelfMember().hasPermission(Permission.NICKNAME_MANAGE)) {
-				Responder.sendAsReply(message, "I don't have permission to change your nickname! Please make sure I have the `Manage Nicknames` permission!");
+				Responder.sendAsReply(message, "I don't have permission to change nicknames! Please make sure I have the `Manage Nicknames` permission!");
 				return;
 			}
 			if (!message.getGuild().getSelfMember().canInteract(member)) {
-				Responder.sendAsReply(message, "I don't have permission to change your nickname! I need my role to be above your highest role!");
+				Responder.sendAsReply(message, "I don't have permission to change **" + member.getUser().getAsTag() +
+						"'s**  nickname! I need my role to be above **" + member.getUser().getAsTag() + "'s** highest role!");
 				return;
 			}
 			member.modifyNickname(nickname).complete();
-			Responder.sendAsReply(message, "Nickname changed to **" + nickname + "**");
+			Responder.sendAsReply(message, "**" + member.getUser().getAsTag() + "'s** Nickname changed to **" + nickname + "**");
 		}
 	}
 
