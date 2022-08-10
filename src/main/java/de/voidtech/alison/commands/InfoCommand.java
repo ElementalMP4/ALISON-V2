@@ -4,18 +4,18 @@ import java.awt.Color;
 import java.util.List;
 
 import main.java.de.voidtech.alison.GlobalConstants;
+import main.java.de.voidtech.alison.entities.CommandContext;
 import main.java.de.voidtech.alison.utils.PackManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 
 public class InfoCommand extends AbstractCommand {
 
 	@Override
-	public void execute(Message message, List<String> args) {
-		long guildCount = message.getJDA().getGuildCache().size();
-		long memberCount = message.getJDA().getGuildCache().stream().mapToInt(Guild::getMemberCount).sum();
+	public void execute(CommandContext context, List<String> args) {
+		long guildCount = context.getJDA().getGuildCache().size();
+		long memberCount = context.getJDA().getGuildCache().stream().mapToInt(Guild::getMemberCount).sum();
 		long wordCount = PackManager.getWordCount();
 		
 		MessageEmbed informationEmbed = new EmbedBuilder()
@@ -29,11 +29,11 @@ public class InfoCommand extends AbstractCommand {
 						+ "Data collected by ALISON is only available whilst you are opted in to the data collection program."
 						+ " To stop data collection, use the optout command."
 						+ " Once you are opted out, you can still use ALISON, but messages you send will not be processed or persisted.")
-				.setThumbnail(message.getJDA().getSelfUser().getAvatarUrl())
+				.setThumbnail(context.getJDA().getSelfUser().getAvatarUrl())
 				.setFooter("Use the help command to see what else I can do!\nVersion: " + GlobalConstants.VERSION,
-						message.getJDA().getSelfUser().getAvatarUrl())
+						context.getJDA().getSelfUser().getAvatarUrl())
 				.build();
-		message.replyEmbeds(informationEmbed).mentionRepliedUser(false).queue();
+		context.reply(informationEmbed);
 	}
 
 	@Override

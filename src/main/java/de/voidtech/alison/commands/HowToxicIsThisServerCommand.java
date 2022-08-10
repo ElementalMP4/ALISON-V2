@@ -3,25 +3,25 @@ package main.java.de.voidtech.alison.commands;
 import java.awt.Color;
 import java.util.List;
 
+import main.java.de.voidtech.alison.entities.CommandContext;
 import main.java.de.voidtech.alison.entities.Sentiment;
 import main.java.de.voidtech.alison.utils.TextAnalytics;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 
 public class HowToxicIsThisServerCommand extends AbstractCommand {
 
 	@Override
-	public void execute(Message message, List<String> args) {
-		Sentiment howToxic = TextAnalytics.analyseServer(message.getGuild());
+	public void execute(CommandContext context, List<String> args) {
+		Sentiment howToxic = TextAnalytics.analyseServer(context.getGuild());
 		if (howToxic == null) {
-			message.reply("I couldn't find any data to analyse!").mentionRepliedUser(false).queue();
+			context.reply("I couldn't find any data to analyse!");
 			return;
 		}
 		MessageEmbed toxicityEmbed = new EmbedBuilder()
 			.setColor(getColour(howToxic))
-			.setTitle("How toxic is " + message.getGuild().getName() + "?")
-			.setDescription("I judged `" + message.getGuild().getMemberCount() + "` members and scanned `" + howToxic.getTotalWordCount() +
+			.setTitle("How toxic is " + context.getGuild().getName() + "?")
+			.setDescription("I judged `" + context.getGuild().getMemberCount() + "` members and scanned `" + howToxic.getTotalWordCount() +
 					"` words. From this, I found `" + howToxic.getTokenCount() + "` words with meaning.")
 			.addField("Positive words found", "```\n" + howToxic.getPositiveCount() + "\n```", true)
 			.addField("Negative words found",  "```\n" + howToxic.getNegativeCount() + "\n```", true)
@@ -30,7 +30,7 @@ public class HowToxicIsThisServerCommand extends AbstractCommand {
 			.addField("Adjusted Score (higher is better!)",  "```\n" + howToxic.getAdjustedScore() + "\n```", true)
 			.setFooter(getMessage(howToxic))
 			.build();
-		message.replyEmbeds(toxicityEmbed).mentionRepliedUser(false).queue();
+		context.reply(toxicityEmbed);
 	}
 	
 	private String getMessage(Sentiment howToxic) {

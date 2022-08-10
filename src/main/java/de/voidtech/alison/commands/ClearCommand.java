@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 
 import main.java.de.voidtech.alison.Alison;
 import main.java.de.voidtech.alison.entities.ButtonConsumer;
+import main.java.de.voidtech.alison.entities.CommandContext;
 import main.java.de.voidtech.alison.utils.PackManager;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
@@ -25,21 +26,21 @@ public class ClearCommand extends AbstractCommand {
 		return components;
 	}
 	
-	private void getAwaitedButton(Message message, String question, List<Component> actions, Consumer<ButtonConsumer> result) {
-        Message msg = message.reply(question).setActionRow(actions).mentionRepliedUser(false).complete();
+	private void getAwaitedButton(CommandContext context, String question, List<Component> actions, Consumer<ButtonConsumer> result) {
+        Message msg = context.getMessage().reply(question).setActionRow(actions).mentionRepliedUser(false).complete();
         Alison.GetBot().getEventWaiter().waitForEvent(ButtonClickEvent.class,
-                e -> e.getUser().getId().equals(message.getAuthor().getId()),
+                e -> e.getUser().getId().equals(context.getAuthor().getId()),
 				e -> result.accept(new ButtonConsumer(e, msg)), 30, TimeUnit.SECONDS,
-                () -> message.getChannel().sendMessage("Timed out waiting for reply. Your data has not been erased.").queue());
+                () -> context.getMessage().getChannel().sendMessage("Timed out waiting for reply. Your data has not been erased.").queue());
     }
 	
     @Override
-    public void execute(Message message, List<String> args) {
-    	getAwaitedButton(message, "Are you sure you want to delete all your data? **This cannot be undone!**", createTrueFalseButtons(), result -> {
+    public void execute(CommandContext context, List<String> args) {
+    	getAwaitedButton(context, "Are you sure you want to delete all your data? **This cannot be undone!**", createTrueFalseButtons(), result -> {
 			result.getButton().deferEdit().queue();
 			switch (result.getButton().getComponentId()) {
 			case "YES":
-				PackManager.deletePack(message.getAuthor().getId());
+				PackManager.deletePack(context.getAuthor().getId());
 				result.getMessage().editMessage("Your data has been cleared! If you want to stop data collection, use the `optout` command!").queue();
 				break;
 			case "NO":

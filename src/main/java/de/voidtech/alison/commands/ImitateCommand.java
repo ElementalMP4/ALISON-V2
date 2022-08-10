@@ -2,40 +2,44 @@ package main.java.de.voidtech.alison.commands;
 
 import java.util.List;
 
+import main.java.de.voidtech.alison.entities.CommandContext;
 import main.java.de.voidtech.alison.utils.PackManager;
 import main.java.de.voidtech.alison.utils.PrivacyManager;
-import main.java.de.voidtech.alison.utils.Responder;
-import net.dv8tion.jda.api.entities.Message;
+import main.java.de.voidtech.alison.utils.WebhookManager;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.Webhook;
 import net.dv8tion.jda.api.utils.Result;
 
 public class ImitateCommand extends AbstractCommand {
 
     @Override
-    public void execute(final Message message, final List<String> args) {
+    public void execute(CommandContext context, List<String> args) {
     	String ID;
-    	if (args.isEmpty()) ID = message.getAuthor().getId();
+    	if (args.isEmpty()) ID = context.getAuthor().getId();
     	else ID = args.get(0).replaceAll("([^0-9])", "");
     	
         if (!PackManager.packExists(ID)) {
-        	Responder.sendAsReply(message, "I couldn't find that user :(");
+        	context.reply("I couldn't find that user :(");
         	return;
         }
         
         if (PrivacyManager.userHasOptedOut(ID)) {
-    		Responder.sendAsReply(message,"This user has chosen not to be imitated.");
+    		context.reply("This user has chosen not to be imitated.");
     		return;
     	}
         
         String msg = PackManager.getPack(ID).createSentence();
 		if (msg == null) {
-			Responder.sendAsReply(message, "There's no data for this user!");
+			context.reply("There's no data for this user!");
 			return;
 		}
         
-        Result<User> userResult = message.getJDA().retrieveUserById(ID).mapToResult().complete();
-        if (userResult.isSuccess()) Responder.sendAsWebhook(message, msg, userResult.get().getAvatarUrl(), userResult.get().getName());
-        else Responder.sendAsReply(message, msg);	
+        Result<User> userResult = context.getJDA().retrieveUserById(ID).mapToResult().complete();
+        if (userResult.isSuccess()) {
+        	Webhook hook = WebhookManager.getOrCreateWebhook(context.getMessage().getTextChannel(), "ALISON", context.getJDA().getSelfUser().getId());
+        	WebhookManager.sendWebhookMessage(hook, msg, userResult.get().getName(), userResult.get().getAvatarUrl());
+        }
+        else context.reply(msg);	
     }
     
     @Override

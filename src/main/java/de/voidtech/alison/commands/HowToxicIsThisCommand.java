@@ -3,34 +3,32 @@ package main.java.de.voidtech.alison.commands;
 import java.awt.Color;
 import java.util.List;
 
+import main.java.de.voidtech.alison.entities.CommandContext;
 import main.java.de.voidtech.alison.entities.Sentiment;
 import main.java.de.voidtech.alison.utils.PrivacyManager;
-import main.java.de.voidtech.alison.utils.Responder;
 import main.java.de.voidtech.alison.utils.TextAnalytics;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 
 public class HowToxicIsThisCommand extends AbstractCommand {
 
 	@Override
-	public void execute(Message message, List<String> args) {
+	public void execute(CommandContext context, List<String> args) {
 		if (args.isEmpty()) {
-			if (message.getReferencedMessage() == null) {
-				message.reply("You need to give me a message to analyse! Either reply to someone else's message or provide me with some text!")
-				.mentionRepliedUser(false).queue();
+			if (context.getMessage().getReferencedMessage() == null) {
+				context.reply("You need to give me a message to analyse! Either reply to someone else's message or provide me with some text!");
 				return;
 			} else {
-				if (PrivacyManager.userHasOptedOut(message.getReferencedMessage().getAuthor().getId())) {
-					Responder.sendAsReply(message, "This user has chosen not to be analysed!");
+				if (PrivacyManager.userHasOptedOut(context.getMessage().getReferencedMessage().getAuthor().getId())) {
+					context.reply("This user has chosen not to be analysed!");
 					return;
 				}
-				analyse(message.getReferencedMessage().getContentRaw(), message);
+				analyse(context.getMessage().getReferencedMessage().getContentRaw(), context);
 			}
-		} else analyse(String.join(" ", args), message);
+		} else analyse(String.join(" ", args), context);
 	}
 	
-	private void analyse(String text, Message message) {
+	private void analyse(String text, CommandContext context) {
 		Sentiment howToxic = TextAnalytics.analyseSentence(text);
 		MessageEmbed toxicityEmbed = new EmbedBuilder()
 				.setColor(getColour(howToxic))
@@ -42,7 +40,7 @@ public class HowToxicIsThisCommand extends AbstractCommand {
 				.addField("Average Score (higher is better!)",  "```\n" + howToxic.getAverageScore() + "\n```", true)
 				.addField("Adjusted Score (higher is better!)",  "```\n" + howToxic.getAdjustedScore() + "\n```", true)
 				.build();
-		Responder.sendAsReply(message, toxicityEmbed);
+		context.reply(toxicityEmbed);
 	}
 	
 	private Color getColour(Sentiment howToxic) {

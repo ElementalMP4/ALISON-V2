@@ -2,19 +2,18 @@ package main.java.de.voidtech.alison.commands;
 
 import java.util.List;
 
+import main.java.de.voidtech.alison.entities.CommandContext;
 import main.java.de.voidtech.alison.utils.PrivacyManager;
-import main.java.de.voidtech.alison.utils.Responder;
-import net.dv8tion.jda.api.entities.Message;
 
 public class OptInCommand extends AbstractCommand {
 
 	@Override
-	public void execute(Message message, List<String> args) {
-		String ID = message.getAuthor().getId();
+	public void execute(CommandContext context, List<String> args) {
+		String ID = context.getAuthor().getId();
 		if (PrivacyManager.userHasOptedOut(ID)) {
-			Responder.sendAsReply(message, "You have been re-opted in to the learning program! I will learn from your messages again!");
+			context.reply("You have been re-opted in to the learning program! I will learn from your messages again!");
 			PrivacyManager.optIn(ID);
-		} else Responder.sendAsReply(message, "You have already opted in to the learning program! (Users are opted in by default!)");
+		} else context.reply("You have already opted in to the learning program! (Users are opted in by default!)");
 	}
 
 	@Override

@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import main.java.de.voidtech.alison.Alison;
 import main.java.de.voidtech.alison.commands.AbstractCommand;
 import main.java.de.voidtech.alison.commands.CommandRegistry;
+import main.java.de.voidtech.alison.entities.CommandContext;
 import main.java.de.voidtech.alison.utils.LevenshteinCalculator;
 import main.java.de.voidtech.alison.utils.PackManager;
 import main.java.de.voidtech.alison.utils.PrivacyManager;
@@ -57,7 +58,7 @@ public class MessageListener implements EventListener {
             return;
         } else {
         	LOGGER.log(Level.INFO, "Command executed: " + commandOpt.getName() + " by " + message.getAuthor().getAsTag());
-        	commandOpt.run(message, messageArray.subList(1, messageArray.size()));
+        	commandOpt.run(new CommandContext(message), messageArray.subList(1, messageArray.size()));
         }
 	}
 	

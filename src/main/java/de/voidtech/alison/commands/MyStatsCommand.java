@@ -6,11 +6,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import main.java.de.voidtech.alison.entities.AlisonModel;
+import main.java.de.voidtech.alison.entities.CommandContext;
 import main.java.de.voidtech.alison.utils.PackManager;
 import main.java.de.voidtech.alison.utils.PrivacyManager;
-import main.java.de.voidtech.alison.utils.Responder;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.utils.Result;
@@ -18,22 +17,22 @@ import net.dv8tion.jda.api.utils.Result;
 public class MyStatsCommand extends AbstractCommand {
 
 	@Override
-	public void execute(Message message, List<String> args) {
+	public void execute(CommandContext context, List<String> args) {
 		String ID;
-    	if (args.isEmpty()) ID = message.getAuthor().getId();
+    	if (args.isEmpty()) ID = context.getAuthor().getId();
     	else ID = args.get(0).replaceAll("([^0-9])", "");
     	
-        if (ID.equals("")) Responder.sendAsReply(message, "I couldn't find that user :(");
+        if (ID.equals("")) context.reply("I couldn't find that user :(");
         else {
-        	Result<User> userResult = message.getJDA().retrieveUserById(ID).mapToResult().complete();
+        	Result<User> userResult = context.getJDA().retrieveUserById(ID).mapToResult().complete();
             if (userResult.isSuccess()) {
             	if (PrivacyManager.userHasOptedOut(ID)) {
-            		Responder.sendAsReply(message,"This user has chosen not to have their data analysed.");
+            		context.reply("This user has chosen not to have their data analysed.");
             		return;
             	}
                 MessageEmbed statsEmbed = createStatsEmbed(userResult.get()); 
-                Responder.sendAsReply(message, statsEmbed);
-            } else Responder.sendAsReply(message, "User " + ID + " could not be found");	
+                context.reply(statsEmbed);
+            } else context.reply("User " + ID + " could not be found");	
         }
 	}
 
