@@ -13,11 +13,11 @@ public class Alison{
         Bot = new DiscordBot(Config.getToken());
     }
 	
-	public static Configuration GetConfig() {
+	public static Configuration getConfig() {
 		return Config;
 	}
 	
-	public static DiscordBot GetBot() {
+	public static DiscordBot getBot() {
 		return Bot;
 	}
 }

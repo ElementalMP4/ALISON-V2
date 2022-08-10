@@ -32,4 +32,8 @@ public class Configuration {
 	public String getMasterId() {
 		return config.getProperty("Master");
 	}
+
+	public String getWebhookUrl() {
+		return config.getProperty("Webhook");
+	}
 }

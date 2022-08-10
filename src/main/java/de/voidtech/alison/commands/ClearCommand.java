@@ -28,7 +28,7 @@ public class ClearCommand extends AbstractCommand {
 	
 	private void getAwaitedButton(CommandContext context, String question, List<Component> actions, Consumer<ButtonConsumer> result) {
         Message msg = context.getMessage().reply(question).setActionRow(actions).mentionRepliedUser(false).complete();
-        Alison.GetBot().getEventWaiter().waitForEvent(ButtonClickEvent.class,
+        Alison.getBot().getEventWaiter().waitForEvent(ButtonClickEvent.class,
                 e -> e.getUser().getId().equals(context.getAuthor().getId()),
 				e -> result.accept(new ButtonConsumer(e, msg)), 30, TimeUnit.SECONDS,
                 () -> context.getMessage().getChannel().sendMessage("Timed out waiting for reply. Your data has not been erased.").queue());

@@ -31,6 +31,10 @@ public class WebhookManager {
 	}
 	
 	public static void sendWebhookMessage(Webhook webhook, String content, String username, String avatarUrl) {
+		sendWebhookMessage(webhook.getUrl(), content, username, avatarUrl);
+	}
+	
+	public static void sendWebhookMessage(String webhookUrl, String content, String username, String avatarUrl) {
 		ExecutorService executor = ThreadManager.getThreadByName("T-Webhook");
 		Runnable webhookRunnable = () -> {
 			JSONObject webhookPayload = new JSONObject();
@@ -39,7 +43,7 @@ public class WebhookManager {
 	        webhookPayload.put("avatar_url", avatarUrl);
 	        webhookPayload.put("tts", false);       
 	        try {              			
-	            URL url = new URL(webhook.getUrl());
+	            URL url = new URL(webhookUrl);
 	            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
 	            
 	            connection.addRequestProperty("Content-Type", "application/json");
