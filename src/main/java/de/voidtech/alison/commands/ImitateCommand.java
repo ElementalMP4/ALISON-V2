@@ -5,6 +5,7 @@ import java.util.List;
 import main.java.de.voidtech.alison.entities.AlisonModel;
 import main.java.de.voidtech.alison.entities.CommandContext;
 import main.java.de.voidtech.alison.utils.PackManager;
+import main.java.de.voidtech.alison.utils.ParsingUtils;
 import main.java.de.voidtech.alison.utils.PrivacyManager;
 import main.java.de.voidtech.alison.utils.WebhookManager;
 import net.dv8tion.jda.api.entities.User;
@@ -12,15 +13,15 @@ import net.dv8tion.jda.api.entities.Webhook;
 import net.dv8tion.jda.api.utils.Result;
 
 public class ImitateCommand extends AbstractCommand {
-
+	
     @Override
     public void execute(CommandContext context, List<String> args) {
     	String ID;
     	if (args.isEmpty()) ID = context.getAuthor().getId();
-    	else ID = args.get(0).replaceAll("([^0-9])", "");
+    	else ID = args.get(0).replaceAll("([^0-9a-zA-Z])", "");
     	
         if (!PackManager.packExists(ID)) {
-        	context.reply("I couldn't find that user :(");
+        	context.reply("I couldn't find any data for that user :(");
         	return;
         }
         
@@ -31,18 +32,19 @@ public class ImitateCommand extends AbstractCommand {
         AlisonModel model = PackManager.getPack(ID);
         String msg = model.createSentence();
 		if (msg == null) {
-			context.reply("There's no data for this user!");
+			context.reply("I couldn't find any data for that user :(");
 			return;
 		}
-        
-        Result<User> userResult = context.getJDA().retrieveUserById(ID).mapToResult().complete();
-        Webhook hook = WebhookManager.getOrCreateWebhook(context.getMessage().getTextChannel(), "ALISON", context.getJDA().getSelfUser().getId());
-        if (model.hasMeta()) {
-        	WebhookManager.sendWebhookMessage(hook, msg, model.getMeta().getName(), model.getMeta().getIconUrl());
-        } else {
-            if (userResult.isSuccess()) WebhookManager.sendWebhookMessage(hook, msg, userResult.get().getName(), userResult.get().getAvatarUrl());
-            else context.reply(msg);	
-        }
+		
+		Webhook hook = WebhookManager.getOrCreateWebhook(context.getMessage().getTextChannel(), "ALISON", context.getJDA().getSelfUser().getId());
+		if (ParsingUtils.isSnowflake(ID)) {
+			Result<User> userResult = context.getJDA().retrieveUserById(ID).mapToResult().complete();
+			if (userResult.isSuccess()) WebhookManager.sendWebhookMessage(hook, msg, userResult.get().getName(), userResult.get().getAvatarUrl());
+            else context.reply("I couldn't find that user :(");
+		} else {
+			if (model.hasMeta()) WebhookManager.sendWebhookMessage(hook, msg, model.getMeta().getName(), model.getMeta().getIconUrl());
+			else context.reply(msg);
+		}
     }
     
     @Override
