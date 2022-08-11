@@ -17,6 +17,7 @@ public class InfoCommand extends AbstractCommand {
 		long guildCount = context.getJDA().getGuildCache().size();
 		long memberCount = context.getJDA().getGuildCache().stream().mapToInt(Guild::getMemberCount).sum();
 		long wordCount = PackManager.getWordCount();
+		long modelCount = PackManager.getModelCount();
 		
 		MessageEmbed informationEmbed = new EmbedBuilder()
 				.setColor(Color.ORANGE)
@@ -25,6 +26,7 @@ public class InfoCommand extends AbstractCommand {
 				.addField("Member Count", "```" + memberCount + "```", true)
 				.addField("Active Threads", "```" + Thread.activeCount() + "```", true)
 				.addField("Total Word Count", "```" + wordCount + "```", true)
+				.addField("Model Count", "```" + modelCount + "```", true)
 				.setDescription("**Important Privacy Notice**\n"
 						+ "Data collected by ALISON is only available whilst you are opted in to the data collection program."
 						+ " To stop data collection, use the optout command."

@@ -29,6 +29,10 @@ public class PackManager {
 		return models;
 	}
 	
+	public static long getModelCount() {
+		return new File("models/").listFiles().length;
+	}
+	
 	public static long getWordCount() {
 		List<AlisonModel> models = getAllPacks();
 		return models.stream().map(AlisonModel::getWordCount).reduce((long) 0, (a, b) -> a + b);
