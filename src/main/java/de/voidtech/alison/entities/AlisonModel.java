@@ -2,11 +2,12 @@ package main.java.de.voidtech.alison.entities;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -17,36 +18,64 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Stack;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 
 public class AlisonModel {
 
 	private List<AlisonWord> words = new ArrayList<AlisonWord>(); 
+	private AlisonMetadata meta = null;
 	private String dataDir;
-	
-	@SuppressWarnings("unchecked")
+
 	public AlisonModel(String pack) {
-		dataDir = "models/" + pack + "/words.alison";
-		File modelFile = new File(dataDir);
-		if (modelFile.exists()) {
-			try {
-				FileInputStream fileInStream = new FileInputStream(dataDir);
-				ObjectInputStream objectInStream = new ObjectInputStream(fileInStream);
-				words = (List<AlisonWord>) objectInStream.readObject();
-				objectInStream.close();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-		} else {
+		dataDir = "models/" + pack;
+		File modelFile = new File(dataDir + "/words.alison");
+		if (modelFile.exists()) load();
+		else {
 			try {
 				modelFile.getParentFile().mkdirs();
 				modelFile.createNewFile();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void load() {
+		try {
+			FileInputStream fileInStream = new FileInputStream(dataDir + "/words.alison");
+			ObjectInputStream objectInStream = new ObjectInputStream(fileInStream);
+			words = (List<AlisonWord>) objectInStream.readObject();
+			objectInStream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		File metaFile = new File(dataDir + "/meta.json");
+		if (metaFile.exists()) {
+			try {
+				Gson gson = new Gson();
+				this.meta = gson.fromJson(Files.newBufferedReader(Paths.get(metaFile.getPath())), AlisonMetadata.class);
+			} catch (JsonSyntaxException | JsonIOException | IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void save() {
+		try {
+			FileOutputStream fileOutStream = new FileOutputStream(dataDir + "/words.alison");
+			ObjectOutputStream objectOutStream = new ObjectOutputStream(fileOutStream);
+			objectOutStream.writeObject(words);
+			objectOutStream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -71,7 +100,7 @@ public class AlisonModel {
             if (i == tokens.size() - 1) words.add(new AlisonWord(tokens.get(i), "StopWord"));
             else words.add(new AlisonWord(tokens.get(i), tokens.get(i + 1)));
         }
-        newWords.stream().forEach(word -> words.add(word));
+        Stream.concat(words.stream(), newWords.stream());
         save();
 	}
 
@@ -121,16 +150,11 @@ public class AlisonModel {
 		return words.size();
 	}
 	
-	public void save() {
-		try {
-			FileOutputStream fileOutStream = new FileOutputStream(dataDir);
-			ObjectOutputStream objectOutStream = new ObjectOutputStream(fileOutStream);
-			objectOutStream.writeObject(words);
-			objectOutStream.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public boolean hasMeta() {
+		return this.meta != null;
+	}
+	
+	public AlisonMetadata getMeta() {
+		return this.meta;
 	}
 }
