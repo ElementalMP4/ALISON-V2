@@ -27,8 +27,8 @@ public class TextAnalytics {
 	}
 	
 	public static Sentiment analysePack(String pack) {
-		if (!PackManager.packExists(pack)) return null;
-		AlisonModel model = PackManager.getPack(pack);
+		if (!ModelManager.modelExists(pack)) return null;
+		AlisonModel model = ModelManager.getModel(pack);
 		String words = String.join(" ", model.getAllWords());
 		Sentiment sentiment = analyseSentence(words);
 		return sentiment;
@@ -58,8 +58,8 @@ public class TextAnalytics {
 		List<String> words = guild.getMembers().stream()
 				.map(Member::getId)
 				.filter(memberID -> !PrivacyManager.userHasOptedOut(memberID))
-				.filter(PackManager::packExists)
-				.map(PackManager::getPack)
+				.filter(ModelManager::modelExists)
+				.map(ModelManager::getModel)
 				.map(AlisonModel::getAllWords)
 				.reduce(new ArrayList<String>(), (a, b) -> Stream.concat(a.stream(), b.stream()).collect(Collectors.toList()));
 		return analyseSentence(String.join(" ", words));		

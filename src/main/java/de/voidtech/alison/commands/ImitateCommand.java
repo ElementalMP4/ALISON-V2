@@ -4,7 +4,7 @@ import java.util.List;
 
 import main.java.de.voidtech.alison.entities.AlisonModel;
 import main.java.de.voidtech.alison.entities.CommandContext;
-import main.java.de.voidtech.alison.utils.PackManager;
+import main.java.de.voidtech.alison.utils.ModelManager;
 import main.java.de.voidtech.alison.utils.ParsingUtils;
 import main.java.de.voidtech.alison.utils.PrivacyManager;
 import main.java.de.voidtech.alison.utils.WebhookManager;
@@ -20,7 +20,7 @@ public class ImitateCommand extends AbstractCommand {
     	if (args.isEmpty()) ID = context.getAuthor().getId();
     	else ID = args.get(0).replaceAll("([^0-9a-zA-Z])", "");
     	
-        if (!PackManager.packExists(ID)) {
+        if (!ModelManager.modelExists(ID)) {
         	context.reply("I couldn't find any data for that user :(");
         	return;
         }
@@ -29,7 +29,7 @@ public class ImitateCommand extends AbstractCommand {
     		context.reply("This user has chosen not to be imitated.");
     		return;
     	}
-        AlisonModel model = PackManager.getPack(ID);
+        AlisonModel model = ModelManager.getModel(ID);
         String msg = model.createSentence();
 		if (msg == null) {
 			context.reply("I couldn't find any data for that user :(");

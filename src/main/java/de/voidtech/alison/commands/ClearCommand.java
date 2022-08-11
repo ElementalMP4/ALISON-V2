@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 import main.java.de.voidtech.alison.Alison;
 import main.java.de.voidtech.alison.entities.ButtonConsumer;
 import main.java.de.voidtech.alison.entities.CommandContext;
-import main.java.de.voidtech.alison.utils.PackManager;
+import main.java.de.voidtech.alison.utils.ModelManager;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
 import net.dv8tion.jda.api.interactions.components.Button;
@@ -40,7 +40,7 @@ public class ClearCommand extends AbstractCommand {
 			result.getButton().deferEdit().queue();
 			switch (result.getButton().getComponentId()) {
 			case "YES":
-				PackManager.deletePack(context.getAuthor().getId());
+				ModelManager.deleteModel(context.getAuthor().getId());
 				result.getMessage().editMessage("Your data has been cleared! If you want to stop data collection, use the `optout` command!").queue();
 				break;
 			case "NO":

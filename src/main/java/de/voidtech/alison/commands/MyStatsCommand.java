@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import main.java.de.voidtech.alison.entities.AlisonModel;
 import main.java.de.voidtech.alison.entities.CommandContext;
-import main.java.de.voidtech.alison.utils.PackManager;
+import main.java.de.voidtech.alison.utils.ModelManager;
 import main.java.de.voidtech.alison.utils.PrivacyManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -37,7 +37,7 @@ public class MyStatsCommand extends AbstractCommand {
 	}
 
 	private MessageEmbed createStatsEmbed(User user) {
-		AlisonModel pack = PackManager.getPack(user.getId());
+		AlisonModel pack = ModelManager.getModel(user.getId());
 		Map<String, Long> topFive = pack.getTopFiveWords();
         long wordCount = pack.getWordCount();
         String topFiveFormatted = String.join("\n", topFive.entrySet().stream()

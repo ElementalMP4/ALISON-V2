@@ -5,7 +5,7 @@ import java.util.List;
 
 import main.java.de.voidtech.alison.GlobalConstants;
 import main.java.de.voidtech.alison.entities.CommandContext;
-import main.java.de.voidtech.alison.utils.PackManager;
+import main.java.de.voidtech.alison.utils.ModelManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -16,8 +16,8 @@ public class InfoCommand extends AbstractCommand {
 	public void execute(CommandContext context, List<String> args) {
 		long guildCount = context.getJDA().getGuildCache().size();
 		long memberCount = context.getJDA().getGuildCache().stream().mapToInt(Guild::getMemberCount).sum();
-		long wordCount = PackManager.getWordCount();
-		long modelCount = PackManager.getModelCount();
+		long wordCount = ModelManager.getWordCount();
+		long modelCount = ModelManager.getModelCount();
 		
 		MessageEmbed informationEmbed = new EmbedBuilder()
 				.setColor(Color.ORANGE)

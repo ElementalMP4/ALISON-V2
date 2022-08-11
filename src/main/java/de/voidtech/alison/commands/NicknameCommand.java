@@ -4,7 +4,7 @@ import java.util.List;
 
 import main.java.de.voidtech.alison.entities.AlisonModel;
 import main.java.de.voidtech.alison.entities.CommandContext;
-import main.java.de.voidtech.alison.utils.PackManager;
+import main.java.de.voidtech.alison.utils.ModelManager;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.utils.Result;
@@ -32,7 +32,7 @@ public class NicknameCommand extends AbstractCommand {
     		return;
     	}
 		
-		AlisonModel model = PackManager.getPack(member.getId());
+		AlisonModel model = ModelManager.getModel(member.getId());
 		String nickname = model.createNickname();
 		if (nickname == null) context.reply("I don't have enough information to make a nickname!");
 		else {

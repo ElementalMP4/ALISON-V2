@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 import main.java.de.voidtech.alison.Alison;
 import main.java.de.voidtech.alison.entities.ButtonConsumer;
 import main.java.de.voidtech.alison.entities.CommandContext;
-import main.java.de.voidtech.alison.utils.PackManager;
+import main.java.de.voidtech.alison.utils.ModelManager;
 import main.java.de.voidtech.alison.utils.PrivacyManager;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
@@ -36,7 +36,7 @@ public class OptOutCommand extends AbstractCommand {
 				result.getButton().deferEdit().queue();
 				switch (result.getButton().getComponentId()) {
 				case "YES":
-					PackManager.deletePack(context.getAuthor().getId());
+					ModelManager.deleteModel(context.getAuthor().getId());
 					result.getMessage().editMessage("Data cleared!").queue();
 					break;
 				case "NO":
