@@ -18,6 +18,7 @@ public class PackManager {
 	}
 
 	public static void deletePack(String pack) {
+		new File("models/" + pack + "/meta.json").delete();
 		new File("models/" + pack + "/words.alison").delete();
 		new File("models/" + pack).delete();
 	}
