@@ -26,6 +26,11 @@ public class NicknameCommand extends AbstractCommand {
 				return;
     		} else member = memberResult.get();
     	}
+    	
+    	if (member.isOwner()) {
+    		context.reply("I Can't change the owner's nickname!");
+    		return;
+    	}
 		
 		AlisonModel model = PackManager.getPack(member.getId());
 		String nickname = model.createNickname();
