@@ -2,6 +2,7 @@ package main.java.de.voidtech.alison.commands;
 
 import java.util.List;
 
+import main.java.de.voidtech.alison.entities.AlisonModel;
 import main.java.de.voidtech.alison.entities.CommandContext;
 import main.java.de.voidtech.alison.utils.PackManager;
 import main.java.de.voidtech.alison.utils.PrivacyManager;
@@ -27,8 +28,8 @@ public class ImitateCommand extends AbstractCommand {
     		context.reply("This user has chosen not to be imitated.");
     		return;
     	}
-        
-        String msg = PackManager.getPack(ID).createSentence();
+        AlisonModel model = PackManager.getPack(ID);
+        String msg = model.createSentence();
 		if (msg == null) {
 			context.reply("There's no data for this user!");
 			return;
@@ -38,8 +39,12 @@ public class ImitateCommand extends AbstractCommand {
         if (userResult.isSuccess()) {
         	Webhook hook = WebhookManager.getOrCreateWebhook(context.getMessage().getTextChannel(), "ALISON", context.getJDA().getSelfUser().getId());
         	WebhookManager.sendWebhookMessage(hook, msg, userResult.get().getName(), userResult.get().getAvatarUrl());
+        } else {
+        	if (model.hasMeta()) {
+        		Webhook hook = WebhookManager.getOrCreateWebhook(context.getMessage().getTextChannel(), "ALISON", context.getJDA().getSelfUser().getId());
+            	WebhookManager.sendWebhookMessage(hook, msg, model.getMeta().getName(), model.getMeta().getIconUrl());
+        	} else context.reply(msg);	
         }
-        else context.reply(msg);	
     }
     
     @Override
