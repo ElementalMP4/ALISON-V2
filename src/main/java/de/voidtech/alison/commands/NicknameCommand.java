@@ -28,7 +28,7 @@ public class NicknameCommand extends AbstractCommand {
     	}
     	
     	if (member.isOwner()) {
-    		context.reply("I Can't change the owner's nickname!");
+    		context.reply("I can't change the owner's nickname!");
     		return;
     	}
 		
