@@ -25,6 +25,7 @@ import net.dv8tion.jda.api.hooks.EventListener;
 public class MessageListener implements EventListener {
 	
 	public static final Logger LOGGER = Logger.getLogger(MessageListener.class.getSimpleName());
+	private static final int LEVENSHTEIN_THRESHOLD = 3;
 	
 	@Override
 	public void onEvent(GenericEvent event) {
@@ -73,7 +74,7 @@ public class MessageListener implements EventListener {
         List<String> possibleOptions = new ArrayList<>();
         possibleOptions = CommandRegistry.getAllCommands().stream()
                 .map(AbstractCommand::getName)
-                .filter(name -> LevenshteinCalculator.calculate(commandName, name) <= 2)
+                .filter(name -> LevenshteinCalculator.calculate(commandName, name) <= LEVENSHTEIN_THRESHOLD)
                 .collect(Collectors.toList());
         if (!possibleOptions.isEmpty())
             message.getChannel().sendMessageEmbeds(createLevenshteinEmbed(possibleOptions)).queue();
