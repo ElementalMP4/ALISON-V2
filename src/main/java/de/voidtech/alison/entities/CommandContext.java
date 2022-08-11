@@ -1,6 +1,7 @@
 package main.java.de.voidtech.alison.entities;
 
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
@@ -16,7 +17,7 @@ public class CommandContext {
 	
 	public CommandContext(Message message) {
 		this.message = message;
-		this.guild = message.getGuild();
+		this.guild = !message.getChannel().getType().equals(ChannelType.TEXT) ? null : message.getGuild();
 		this.author = message.getAuthor();
 		this.member = message.getMember();
 		this.jda = message.getJDA();		
