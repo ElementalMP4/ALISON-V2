@@ -37,14 +37,15 @@ public class ImitateCommand extends AbstractCommand {
 		}
 		
 		Webhook hook = WebhookManager.getOrCreateWebhook(context.getMessage().getTextChannel(), "ALISON", context.getJDA().getSelfUser().getId());
+		if (model.hasMeta()) {
+			WebhookManager.sendWebhookMessage(hook, msg, model.getMeta().getName(), model.getMeta().getIconUrl());
+			return;
+		}
 		if (ParsingUtils.isSnowflake(ID)) {
 			Result<User> userResult = context.getJDA().retrieveUserById(ID).mapToResult().complete();
 			if (userResult.isSuccess()) WebhookManager.sendWebhookMessage(hook, msg, userResult.get().getName(), userResult.get().getAvatarUrl());
             else context.reply("I couldn't find that user :(");
-		} else {
-			if (model.hasMeta()) WebhookManager.sendWebhookMessage(hook, msg, model.getMeta().getName(), model.getMeta().getIconUrl());
-			else context.reply(msg);
-		}
+		} else context.reply(msg);
     }
     
     @Override
