@@ -18,7 +18,6 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Stack;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
@@ -95,12 +94,10 @@ public class AlisonModel {
 
 	public void learn(String content) {
         List<String> tokens = Arrays.asList(content.split(" "));
-        List<AlisonWord> newWords = new ArrayList<AlisonWord>();
         for (int i = 0; i < tokens.size(); ++i) {
             if (i == tokens.size() - 1) words.add(new AlisonWord(tokens.get(i), "StopWord"));
             else words.add(new AlisonWord(tokens.get(i), tokens.get(i + 1)));
         }
-        Stream.concat(words.stream(), newWords.stream());
         save();
 	}
 
