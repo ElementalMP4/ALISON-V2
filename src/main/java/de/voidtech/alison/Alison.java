@@ -2,6 +2,7 @@ package main.java.de.voidtech.alison;
 
 import main.java.de.voidtech.alison.utils.Configuration;
 import main.java.de.voidtech.alison.utils.DiscordBot;
+import main.java.de.voidtech.alison.utils.PrivacyManager;
 
 public class Alison{
 	
@@ -11,6 +12,7 @@ public class Alison{
 	public static void main(String[] args) {
 		Config = new Configuration();
         Bot = new DiscordBot(Config.getToken());
+        PrivacyManager.Connect();
     }
 	
 	public static Configuration getConfig() {
