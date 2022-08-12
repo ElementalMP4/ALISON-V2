@@ -4,7 +4,7 @@ import main.java.de.voidtech.alison.utils.Configuration;
 import main.java.de.voidtech.alison.utils.DiscordBot;
 import main.java.de.voidtech.alison.utils.PrivacyManager;
 
-public class Alison{
+public class Alison {
 	
 	private static Configuration Config;
 	private static DiscordBot Bot;
