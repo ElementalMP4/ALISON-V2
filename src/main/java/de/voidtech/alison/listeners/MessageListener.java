@@ -16,6 +16,7 @@ import main.java.de.voidtech.alison.utils.LevenshteinCalculator;
 import main.java.de.voidtech.alison.utils.ModelManager;
 import main.java.de.voidtech.alison.utils.PrivacyManager;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.GenericEvent;
@@ -45,14 +46,16 @@ public class MessageListener implements EventListener {
 	private void handleMessage(Message message) {
 		String prefix = Alison.getConfig().getPrefix();
 		if (!shouldHandleAsChatCommand(prefix, message)) {
+			if (message.getChannel().getType().equals(ChannelType.PRIVATE))
+				return;
 			if (message.getContentRaw().equals(""))
 				return;
 			if (PrivacyManager.userHasOptedOut(message.getAuthor().getId()))
 				return;
 			ModelManager.getModel(message.getAuthor().getId()).learn(message.getContentRaw());
 			return;
-		}
-		;
+		};
+		
 		String messageContent = message.getContentRaw().substring(prefix.length());
 		List<String> messageArray = Arrays.asList(messageContent.trim().split("\\s+"));
 
