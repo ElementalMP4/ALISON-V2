@@ -1,5 +1,7 @@
 package main.java.de.voidtech.alison.entities;
 
+import main.java.de.voidtech.alison.Alison;
+
 public class AlisonMetadata {
 	
 	@Deprecated
@@ -14,6 +16,6 @@ public class AlisonMetadata {
 	}
 	
 	public String getIconUrl() {
-		return this.iconUrl;
+		return this.iconUrl == null ? Alison.getBot().getJDA().getSelfUser().getAvatarUrl() : this.iconUrl;
 	}
 }
