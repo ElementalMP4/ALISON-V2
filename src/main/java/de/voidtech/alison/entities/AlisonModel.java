@@ -10,7 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -106,7 +106,7 @@ public class AlisonModel {
 	public Map<String, Long> getTopFiveWords() {
 		Map<String, Long> countedWords = (Map<String, Long>) words.stream()
 				.collect(Collectors.groupingBy(word -> word.getWord(), Collectors.counting()));	
-		Map<String, Long> topFiveWords = new HashMap<String, Long>();
+		Map<String, Long> topFiveWords = new LinkedHashMap<String, Long>();
 		String lastWord = "";
 		Long lastCount = 0L;
 		
