@@ -10,7 +10,7 @@ public class AlisonMetadata {
 	private String iconUrl;
 	
 	public String getName() {
-		return this.name;
+		return this.name == null ? "Unnamed Model" : this.name;
 	}
 	
 	public String getIconUrl() {
