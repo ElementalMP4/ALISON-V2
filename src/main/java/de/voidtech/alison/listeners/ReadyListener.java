@@ -11,11 +11,11 @@ import net.dv8tion.jda.api.hooks.EventListener;
 public class ReadyListener implements EventListener {
 
 	public static final Logger LOGGER = Logger.getLogger(ReadyListener.class.getSimpleName());
-	
+
 	@Override
 	public void onEvent(GenericEvent event) {
 		if (event instanceof ReadyEvent) {
-			ReadyEvent readyEvent = (ReadyEvent)event;
+			ReadyEvent readyEvent = (ReadyEvent) event;
 			LOGGER.log(Level.INFO, "Logged in as " + readyEvent.getJDA().getSelfUser().getAsTag());
 			StatusLogger.init();
 		}

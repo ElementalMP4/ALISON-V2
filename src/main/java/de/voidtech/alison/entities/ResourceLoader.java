@@ -10,11 +10,11 @@ import java.util.List;
 public class ResourceLoader {
 
 	public List<String> getResource(String filename) {
-	   	List<String> lines = new ArrayList<String>();
-        try {
-    		InputStream dataInStream = getClass().getClassLoader().getResourceAsStream(filename);
-            BufferedReader br = new BufferedReader(new InputStreamReader(dataInStream));
-            String line;
+		List<String> lines = new ArrayList<String>();
+		try {
+			InputStream dataInStream = getClass().getClassLoader().getResourceAsStream(filename);
+			BufferedReader br = new BufferedReader(new InputStreamReader(dataInStream));
+			String line;
 			while ((line = br.readLine()) != null) {
 				lines.add(line);
 			}
@@ -22,6 +22,6 @@ public class ResourceLoader {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-        return lines;
-	}	
+		return lines;
+	}
 }

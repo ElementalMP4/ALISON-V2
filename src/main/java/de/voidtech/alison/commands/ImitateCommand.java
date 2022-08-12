@@ -13,45 +13,49 @@ import net.dv8tion.jda.api.entities.Webhook;
 import net.dv8tion.jda.api.utils.Result;
 
 public class ImitateCommand extends AbstractCommand {
-	
-    @Override
-    public void execute(CommandContext context, List<String> args) {
-    	String ID;
-    	if (args.isEmpty()) ID = context.getAuthor().getId();
-    	else ID = args.get(0).replaceAll("([^0-9a-zA-Z])", "");
-    	
-        if (!ModelManager.modelExists(ID)) {
-        	context.reply("I couldn't find any data for that user :(");
-        	return;
-        }
-        
-        if (PrivacyManager.userHasOptedOut(ID)) {
-    		context.reply("This user has chosen not to be imitated.");
-    		return;
-    	}
-        AlisonModel model = ModelManager.getModel(ID);
-        String msg = model.createSentence();
+
+	@Override
+	public void execute(CommandContext context, List<String> args) {
+		String ID;
+		if (args.isEmpty()) ID = context.getAuthor().getId();
+		else ID = args.get(0).replaceAll("([^0-9a-zA-Z])", "");
+
+		if (!ModelManager.modelExists(ID)) {
+			context.reply("I couldn't find any data for that user :(");
+			return;
+		}
+
+		if (PrivacyManager.userHasOptedOut(ID)) {
+			context.reply("This user has chosen not to be imitated.");
+			return;
+		}
+		
+		AlisonModel model = ModelManager.getModel(ID);
+		String msg = model.createSentence();
 		if (msg == null) {
 			context.reply("I couldn't find any data for that user :(");
 			return;
 		}
-		
-		Webhook hook = WebhookManager.getOrCreateWebhook(context.getMessage().getTextChannel(), "ALISON", context.getJDA().getSelfUser().getId());
+
+		Webhook hook = WebhookManager.getOrCreateWebhook(context.getMessage().getTextChannel(), "ALISON",
+				context.getJDA().getSelfUser().getId());
 		if (model.hasMeta()) {
 			WebhookManager.sendWebhookMessage(hook, msg, model.getMeta().getName(), model.getMeta().getIconUrl());
 			return;
 		}
+		
 		if (ParsingUtils.isSnowflake(ID)) {
 			Result<User> userResult = context.getJDA().retrieveUserById(ID).mapToResult().complete();
-			if (userResult.isSuccess()) WebhookManager.sendWebhookMessage(hook, msg, userResult.get().getName(), userResult.get().getAvatarUrl());
-            else context.reply("I couldn't find that user :(");
+			if (userResult.isSuccess())	WebhookManager.sendWebhookMessage(hook, msg,
+					userResult.get().getName(), userResult.get().getAvatarUrl());
+			else context.reply("I couldn't find that user :(");
 		} else context.reply(msg);
-    }
-    
-    @Override
-    public String getName() {
-        return "imitate";
-    }
+	}
+
+	@Override
+	public String getName() {
+		return "imitate";
+	}
 
 	@Override
 	public String getUsage() {

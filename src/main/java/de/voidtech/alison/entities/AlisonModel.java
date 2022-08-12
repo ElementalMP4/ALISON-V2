@@ -10,11 +10,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Stack;
 import java.util.stream.Collectors;
@@ -108,10 +106,21 @@ public class AlisonModel {
 	public Map<String, Long> getTopFiveWords() {
 		Map<String, Long> countedWords = (Map<String, Long>) words.stream()
 				.collect(Collectors.groupingBy(word -> word.getWord(), Collectors.counting()));	
-		Map<String, Long> topFiveWords = countedWords.entrySet().stream()
-				.sorted(Entry.comparingByValue(Comparator.reverseOrder()))
-				.limit(5)
-				.collect(Collectors.toMap(Entry::getKey, Entry::getValue, (e1, e2) -> e1, HashMap::new));
+		Map<String, Long> topFiveWords = new HashMap<String, Long>();
+		String lastWord = "";
+		Long lastCount = 0L;
+		
+		for (int i = 0; i < 5; i++) {
+			for(String word : countedWords.keySet()) {
+				if (countedWords.get(word) > lastCount && !topFiveWords.containsKey(word)) {
+					lastCount = countedWords.get(word);
+					lastWord = word;
+				}
+			}
+			topFiveWords.put(lastWord, lastCount);
+			lastCount = 0L;
+		}
+		
 		return topFiveWords;
 	}
 	

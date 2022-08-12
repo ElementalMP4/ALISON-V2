@@ -14,11 +14,11 @@ public class Configuration {
 
 	public Configuration() {
 		File configFile = new File("AlisonConfig.properties");
-		try (FileInputStream fis = new FileInputStream(configFile)){
+		try (FileInputStream fis = new FileInputStream(configFile)) {
 			config.load(fis);
 		} catch (IOException e) {
 			LOGGER.log(Level.SEVERE, "An error has occurred while reading the config: " + e.getMessage());
-		}	
+		}
 	}
 
 	public String getToken() {
@@ -28,7 +28,7 @@ public class Configuration {
 	public String getPrefix() {
 		return config.getProperty("Prefix");
 	}
-	
+
 	public String getMasterId() {
 		return config.getProperty("Master");
 	}
