@@ -15,14 +15,11 @@ import net.dv8tion.jda.api.interactions.components.Button;
 import net.dv8tion.jda.api.interactions.components.Component;
 
 public class ClearCommand extends AbstractCommand {
-	
-	private static final String TRUE_EMOTE = "\u2705";
-	private static final String FALSE_EMOTE = "\u274C";
     
 	private List<Component> createTrueFalseButtons() {
 		List<Component> components = new ArrayList<>();
-		components.add(Button.secondary("YES", TRUE_EMOTE));
-		components.add(Button.secondary("NO", FALSE_EMOTE));
+		components.add(Button.secondary("YES", ButtonConsumer.TRUE_EMOTE));
+		components.add(Button.secondary("NO", ButtonConsumer.FALSE_EMOTE));
 		return components;
 	}
 	

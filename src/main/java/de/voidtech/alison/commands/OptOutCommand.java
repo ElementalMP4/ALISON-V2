@@ -17,9 +17,6 @@ import net.dv8tion.jda.api.interactions.components.Component;
 
 public class OptOutCommand extends AbstractCommand {
 
-	private static final String TRUE_EMOTE = "\u2705";
-	private static final String FALSE_EMOTE = "\u274C";
-
 	private void getAwaitedButton(CommandContext context, String question, List<Component> actions, Consumer<ButtonConsumer> result) {
         Message msg = context.getMessage().reply(question).setActionRow(actions).mentionRepliedUser(false).complete();
         Alison.getBot().getEventWaiter().waitForEvent(ButtonClickEvent.class,
@@ -37,10 +34,10 @@ public class OptOutCommand extends AbstractCommand {
 				switch (result.getButton().getComponentId()) {
 				case "YES":
 					ModelManager.deleteModel(context.getAuthor().getId());
-					result.getMessage().editMessage("Data cleared!").queue();
+					result.getMessage().editMessage("Your data has been cleared!").queue();
 					break;
 				case "NO":
-					result.getMessage().editMessage("Data has been left alone for now. Use the `clear` command if you change your mind!").queue();
+					result.getMessage().editMessage("Your data has been left alone for now. Use the `clear` command if you change your mind!").queue();
 					break;
 				}
 			});			
@@ -50,8 +47,8 @@ public class OptOutCommand extends AbstractCommand {
 	
 	private List<Component> createTrueFalseButtons() {
 		List<Component> components = new ArrayList<>();
-		components.add(Button.secondary("YES", TRUE_EMOTE));
-		components.add(Button.secondary("NO", FALSE_EMOTE));
+		components.add(Button.secondary("YES", ButtonConsumer.TRUE_EMOTE));
+		components.add(Button.secondary("NO", ButtonConsumer.FALSE_EMOTE));
 		return components;
 	}
 
@@ -68,7 +65,7 @@ public class OptOutCommand extends AbstractCommand {
 	@Override
 	public String getDescription() {
 		return "Stops ALISON from learning from your messages. By default, you will be opted in."
-				+ " You can use the optin command to let ALISON learn from you, and the clear command to delete all your learnt words.";
+				+ " You can use the optin command if you change your mind, and the clear command to delete all your data.";
 	}
 
 	@Override

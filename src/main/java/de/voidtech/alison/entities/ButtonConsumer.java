@@ -5,6 +5,9 @@ import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
 
 public class ButtonConsumer {
 	
+	public static final String TRUE_EMOTE = "\u2705";
+	public static final String FALSE_EMOTE = "\u274C";
+	
 	private Message message;
 	private ButtonClickEvent button;
 	
