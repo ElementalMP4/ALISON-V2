@@ -123,3 +123,9 @@ Token=[Discord bot token]
 With this file created and in the right place, Alison should now come crashing into existence for your enjoyment.
 
 Alison does not come with any tech support. She has no support server, no forum and my instance is not available to the public.
+
+## Creating custom models
+
+If you want to use an already-existing corpus to create a model, you will need [ALISON-Trainer](https://github.com/Elementalmp4/ALISON-Trainer)
+
+Follow the steps in the trainer repository to create a custom model.
