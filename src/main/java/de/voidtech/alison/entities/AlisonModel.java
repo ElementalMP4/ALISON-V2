@@ -50,9 +50,7 @@ public class AlisonModel {
 			ObjectInputStream objectInStream = new ObjectInputStream(fileInStream);
 			words = (List<AlisonWord>) objectInStream.readObject();
 			objectInStream.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
+		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
 		
