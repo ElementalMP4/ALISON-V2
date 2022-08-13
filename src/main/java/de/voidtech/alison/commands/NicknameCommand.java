@@ -26,28 +26,31 @@ public class NicknameCommand extends AbstractCommand {
 				return;
     		} else member = memberResult.get();
     	}
-    	
-    	if (member.isOwner()) {
-    		context.reply("I can't change the owner's nickname!");
-    		return;
-    	}
 		
 		AlisonModel model = ModelManager.getModel(member.getId());
 		String nickname = model.createNickname();
 		if (nickname == null) context.reply("I don't have enough information to make a nickname!");
 		else {
+	    	if (member.isOwner()) {
+	    		sendFailedMessage(context, nickname, "I can't change the owner's nickname!");
+	    		return;
+	    	}
 			if (!context.getGuild().getSelfMember().hasPermission(Permission.NICKNAME_MANAGE)) {
-				context.reply("I don't have permission to change nicknames! Please make sure I have the `Manage Nicknames` permission!");
+				sendFailedMessage(context, nickname,"I don't have permission to change nicknames! Please make sure I have the `Manage Nicknames` permission!");
 				return;
 			}
 			if (!context.getGuild().getSelfMember().canInteract(member)) {
-				context.reply("I don't have permission to change **" + member.getUser().getAsTag() +
+				sendFailedMessage(context, nickname,"I don't have permission to change **" + member.getUser().getAsTag() +
 						"'s**  nickname! I need my role to be above **" + member.getUser().getAsTag() + "'s** highest role!");
 				return;
 			}
 			member.modifyNickname(nickname).complete();
 			context.reply("**" + member.getUser().getAsTag() + "'s** Nickname changed to **" + nickname + "**");
 		}
+	}
+	
+	private void sendFailedMessage(CommandContext context, String nickname, String message) {
+		context.reply(message + " (The nickname I came up with is **" + nickname + "**)");
 	}
 
 	@Override
