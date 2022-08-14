@@ -50,9 +50,11 @@ public class QuoteCommand extends AbstractCommand {
 		
 		Result<Member> userResult = context.getGuild().retrieveMemberById(ID).mapToResult().complete();
 		if (userResult.isSuccess()) {
+			context.getMessage().getChannel().sendTyping().complete();
 			User user = userResult.get().getUser();
 			byte[] image = getQuoteImage(user, quote);
 			MessageEmbed quoteEmbed = new EmbedBuilder()
+					.setTitle("An infamous quote from " + user.getName())
 					.setColor(Color.ORANGE)
 					.setImage("attachment://quote.png")
 					.setTimestamp(Instant.now())
