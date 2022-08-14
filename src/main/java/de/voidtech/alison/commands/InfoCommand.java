@@ -40,7 +40,7 @@ public class InfoCommand extends AbstractCommand {
 
 	@Override
 	public String getDescription() {
-		return "Provides information about ALISON";
+		return "Provides interetsing information about ALISON including word counts and model counts";
 	}
 
 	@Override
@@ -66,6 +66,11 @@ public class InfoCommand extends AbstractCommand {
 	@Override
 	public boolean requiresArguments() {
 		return false;
+	}
+
+	@Override
+	public String getBriefDescription() {
+		return "Shows ALISON stats";
 	}
 
 }

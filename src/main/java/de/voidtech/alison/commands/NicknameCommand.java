@@ -83,4 +83,9 @@ public class NicknameCommand extends AbstractCommand {
 		return false;
 	}
 
+	@Override
+	public String getBriefDescription() {
+		return "Makes you a nickname";
+	}
+
 }

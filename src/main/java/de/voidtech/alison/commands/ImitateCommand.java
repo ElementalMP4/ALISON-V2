@@ -83,4 +83,9 @@ public class ImitateCommand extends AbstractCommand {
 	public boolean requiresArguments() {
 		return false;
 	}
+
+	@Override
+	public String getBriefDescription() {
+		return "Create fake messages of yourself";
+	}
 }

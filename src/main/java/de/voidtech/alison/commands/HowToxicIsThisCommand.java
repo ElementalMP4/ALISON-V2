@@ -61,7 +61,8 @@ public class HowToxicIsThisCommand extends AbstractCommand {
 
 	@Override
 	public String getDescription() {
-		return "Tell me something interesting and I'll tell you how nasty or nice it is!";
+		return "Tell me something interesting and I'll tell you how nasty or nice it is!"
+				+ " Either provide some text as an argument, or reply to a message and use this command to see the sentiment!";
 	}
 
 	@Override
@@ -77,6 +78,11 @@ public class HowToxicIsThisCommand extends AbstractCommand {
 	@Override
 	public boolean requiresArguments() {
 		return false;
+	}
+
+	@Override
+	public String getBriefDescription() {
+		return "Sentiment analysis of text";
 	}
 
 }

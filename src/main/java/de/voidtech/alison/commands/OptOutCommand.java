@@ -65,7 +65,8 @@ public class OptOutCommand extends AbstractCommand {
 	@Override
 	public String getDescription() {
 		return "Stops ALISON from learning from your messages. By default, you will be opted in."
-				+ " You can use the optin command if you change your mind, and the clear command to delete all your data.";
+				+ " You can use the optin command if you change your mind, and the clear command to delete all your data."
+				+ " Once you are opted out, your data will no longer be used for imitation and other commands.";
 	}
 
 	@Override
@@ -81,6 +82,11 @@ public class OptOutCommand extends AbstractCommand {
 	@Override
 	public boolean requiresArguments() {
 		return false;
+	}
+
+	@Override
+	public String getBriefDescription() {
+		return "Stop data collection";
 	}
 
 }

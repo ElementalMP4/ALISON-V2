@@ -109,4 +109,9 @@ public class QuoteCommand extends AbstractCommand {
 		return false;
 	}
 
+	@Override
+	public String getBriefDescription() {
+		return "Quote generator";
+	}
+
 }

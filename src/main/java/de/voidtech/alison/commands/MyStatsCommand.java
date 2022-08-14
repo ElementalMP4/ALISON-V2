@@ -64,7 +64,7 @@ public class MyStatsCommand extends AbstractCommand {
 
 	@Override
 	public String getDescription() {
-		return "Shows some stats about your stored data!";
+		return "Shows some stats about your stored data, as well as your 5 most commonly used words!";
 	}
 
 	@Override
@@ -80,6 +80,11 @@ public class MyStatsCommand extends AbstractCommand {
 	@Override
 	public boolean requiresArguments() {
 		return false;
+	}
+
+	@Override
+	public String getBriefDescription() {
+		return "Info about your data";
 	}
 
 }

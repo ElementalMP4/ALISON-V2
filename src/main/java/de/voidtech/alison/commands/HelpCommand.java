@@ -2,7 +2,6 @@ package main.java.de.voidtech.alison.commands;
 
 import java.awt.Color;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import main.java.de.voidtech.alison.GlobalConstants;
 import main.java.de.voidtech.alison.entities.CommandContext;
@@ -27,17 +26,13 @@ public class HelpCommand extends AbstractCommand {
 	}
 
 	private void showAllCommands(CommandContext context) {
-		String commandsList = String.join("\n", COMMANDS.stream()
-				.map(c -> addFormatting(c.getName()))
-				.collect(Collectors.toList()));
-		MessageEmbed helpEmbed = new EmbedBuilder()
+		EmbedBuilder helpEmbed = new EmbedBuilder()
 				.setTitle("ALISON Commands")
 				.setColor(Color.ORANGE)
-				.setDescription(commandsList)
 				.setThumbnail(context.getJDA().getSelfUser().getAvatarUrl())
-				.setFooter(GlobalConstants.VERSION, context.getJDA().getSelfUser().getAvatarUrl())
-				.build();
-		context.reply(helpEmbed);
+				.setFooter(GlobalConstants.VERSION, context.getJDA().getSelfUser().getAvatarUrl());
+		COMMANDS.stream().forEach(c -> helpEmbed.addField(c.getName(), addFormatting(c.getBriefDescription()), true));
+		context.reply(helpEmbed.build());
 	}
 
 	private String addFormatting(String input) {
@@ -52,10 +47,16 @@ public class HelpCommand extends AbstractCommand {
 				.addField("Usage", addFormatting(command.getUsage()), true)
 				.addField("Name", addFormatting(command.getName()), true)
 				.addField("Short name", addFormatting(command.getShorthand()), true)
+				.addField("Can be used in DMs?", booleanToEmote(command.isDmCapable()), true)
+				.addField("Requires arguments?", booleanToEmote(command.requiresArguments()), true)
 				.setThumbnail(context.getJDA().getSelfUser().getAvatarUrl())
 				.setFooter(GlobalConstants.VERSION, context.getJDA().getSelfUser().getAvatarUrl())
 				.build();
 		context.reply(helpEmbed);
+	}
+
+	private String booleanToEmote(boolean b) {
+		return addFormatting(b ? "✅" : "❌");
 	}
 
 	@Override
@@ -86,6 +87,11 @@ public class HelpCommand extends AbstractCommand {
 	@Override
 	public boolean requiresArguments() {
 		return false;
+	}
+
+	@Override
+	public String getBriefDescription() {
+		return "How to use every command";
 	}
 
 }

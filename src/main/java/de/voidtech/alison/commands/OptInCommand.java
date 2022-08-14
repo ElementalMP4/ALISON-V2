@@ -45,5 +45,10 @@ public class OptInCommand extends AbstractCommand {
 	@Override
 	public boolean requiresArguments() {
 		return false;
+	}
+
+	@Override
+	public String getBriefDescription() {
+		return "Allow data collection";
 	}	
 }

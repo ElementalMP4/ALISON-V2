@@ -60,4 +60,9 @@ public class PingCommand extends AbstractCommand{
 		return false;
 	}
 
+	@Override
+	public String getBriefDescription() {
+		return "Bot response time";
+	}
+
 }

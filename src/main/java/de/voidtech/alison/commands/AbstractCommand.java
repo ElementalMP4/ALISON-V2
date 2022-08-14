@@ -32,6 +32,8 @@ public abstract class AbstractCommand {
 	public abstract String getDescription();
 
 	public abstract String getShorthand();
+	
+	public abstract String getBriefDescription();
 
 	public abstract boolean isDmCapable();
 

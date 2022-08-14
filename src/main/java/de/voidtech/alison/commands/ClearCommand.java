@@ -77,4 +77,9 @@ public class ClearCommand extends AbstractCommand {
 		return false;
 	}
 
+	@Override
+	public String getBriefDescription() {
+		return "Clear all your data";
+	}
+
 }

@@ -78,7 +78,8 @@ public class HowToxicAmICommand extends AbstractCommand {
 
 	@Override
 	public String getDescription() {
-		return "Using everything I know about you, I will determine how toxic you are!";
+		return "Using everything I know about you, I will determine how toxic you are!"
+				+ " Optionally, you can use another member's ID or mention to see their sentiment!";
 	}
 
 	@Override
@@ -94,5 +95,10 @@ public class HowToxicAmICommand extends AbstractCommand {
 	@Override
 	public boolean requiresArguments() {
 		return false;
+	}
+
+	@Override
+	public String getBriefDescription() {
+		return "Sentiment analysis of your messages";
 	}
 }
