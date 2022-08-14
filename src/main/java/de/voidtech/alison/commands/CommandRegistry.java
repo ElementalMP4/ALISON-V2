@@ -20,6 +20,7 @@ public class CommandRegistry {
 		Commands.add(new OptInCommand());
 		Commands.add(new OptOutCommand());
 		Commands.add(new PingCommand());
+		Commands.add(new QuoteCommand());
 	}
 	
 	public static List<AbstractCommand> getAllCommands() {

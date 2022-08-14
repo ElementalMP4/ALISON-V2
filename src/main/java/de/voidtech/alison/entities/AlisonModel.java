@@ -25,6 +25,9 @@ import com.google.gson.JsonSyntaxException;
 
 public class AlisonModel {
 
+	private static final int NICKNAME_LENGTH = 32;
+	private static final int QUOTE_LENGTH = 100;
+	
 	private List<AlisonWord> words = new ArrayList<AlisonWord>(); 
 	private AlisonMetadata meta = null;
 	private String dataDir;
@@ -76,18 +79,26 @@ public class AlisonModel {
 		}
 	}
 	
-	public String createNickname() {
-		String name = createSentence();
-		if (name == null) return null;
-		if (name.length() > 32) {
+	private String createStringUnderLength(int length) {
+		String text = createSentence();
+		if (text == null) return null;
+		if (text.length() > length) {
 			Stack<String> words = new Stack<String>();
-			Arrays.asList(name.split(" ")).stream().forEach(word -> words.push(word));
-			name = "";
-			while (name.trim().length() + words.peek().length() < 32) {
-				name += words.pop() + " ";
+			Arrays.asList(text.split(" ")).stream().forEach(word -> words.push(word));
+			text = "";
+			while (text.trim().length() + words.peek().length() < length) {
+				text += words.pop() + " ";
 			}
 		}
-		return name.trim();
+		return text.trim();
+	}
+	
+	public String createNickname() {
+		return createStringUnderLength(NICKNAME_LENGTH);
+	}
+	
+	public String createQuote() {
+		return createStringUnderLength(QUOTE_LENGTH);
 	}
 
 	public void learn(String content) {

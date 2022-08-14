@@ -1,5 +1,7 @@
 package main.java.de.voidtech.alison.entities;
 
+import java.util.Arrays;
+
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
@@ -30,6 +32,10 @@ public class CommandContext {
 	public void reply(MessageEmbed embed) {
 		this.message.replyEmbeds(embed).mentionRepliedUser(false).queue();
 	}
+	
+    public void replyWithFile(byte[] attachment, String attachmentName, MessageEmbed... embeds) {
+    	this.message.replyEmbeds(Arrays.asList(embeds)).mentionRepliedUser(false).addFile(attachment, attachmentName).queue();
+    }
 	
 	public User getAuthor() {
 		return this.author;
