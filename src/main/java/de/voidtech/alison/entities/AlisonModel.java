@@ -98,7 +98,7 @@ public class AlisonModel {
 	}
 	
 	public String createQuote() {
-		return createStringUnderLength(QUOTE_LENGTH);
+		return createStringUnderLength(QUOTE_LENGTH).replaceAll("\n", " ");
 	}
 
 	public void learn(String content) {
