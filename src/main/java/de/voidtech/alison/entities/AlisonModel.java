@@ -161,12 +161,6 @@ public class AlisonModel {
 		save();
 	}
 	
-	public String export() {
-		return words.stream()
-				.map(w -> w.getWord() + " - " + w.getNext())
-				.collect(Collectors.joining("\n"));
-	}
-	
 	public long getWordCount() {
 		return words.size();
 	}

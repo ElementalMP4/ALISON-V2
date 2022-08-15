@@ -93,7 +93,9 @@ public class ModifyCommand extends AbstractCommand {
 
 	@Override
 	public String getDescription() {
-		return "Allows the botmaster to modify packs";
+		return "Allows the botmaster to modify packs."
+				+ " WARNING: Can cause issues with models if used in production."
+				+ " Pull models, modify, then redeploy first for safety.";
 	}
 
 	@Override
@@ -115,5 +117,4 @@ public class ModifyCommand extends AbstractCommand {
 	public boolean requiresArguments() {
 		return true;
 	}
-
 }

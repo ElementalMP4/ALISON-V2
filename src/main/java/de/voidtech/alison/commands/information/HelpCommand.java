@@ -2,7 +2,6 @@ package main.java.de.voidtech.alison.commands.information;
 
 import java.awt.Color;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import main.java.de.voidtech.alison.GlobalConstants;
 import main.java.de.voidtech.alison.commands.AbstractCommand;
@@ -16,55 +15,125 @@ public class HelpCommand extends AbstractCommand {
 
 	private static final List<AbstractCommand> COMMANDS = CommandRegistry.getAllCommands();
 	
-	@Override
-	public void execute(CommandContext context, List<String> args) {
-		if (args.size() == 0) showAllCommands(context);
-		else {
-			AbstractCommand commandOpt = COMMANDS.stream()
-					.filter(c -> c.getName().equals(args.get(0)) | c.getShorthand().equals(args.get(0)))
-					.findFirst()
-					.orElse(null);
-			if (commandOpt == null) context.reply("I couldn't find that command :(");
-			else showCommandHelp(commandOpt, context);
-		}
-	}
-
-	private void showAllCommands(CommandContext context) {
-		String commandsList = String.join("\n", COMMANDS.stream()
-				.map(c -> addFormatting(c.getName()))
-				.collect(Collectors.toList()));
-		MessageEmbed helpEmbed = new EmbedBuilder()
-				.setTitle("ALISON Commands")
-				.setColor(Color.ORANGE)
-				.setDescription(commandsList)
-				.setThumbnail(context.getJDA().getSelfUser().getAvatarUrl())
-				.setFooter(GlobalConstants.VERSION, context.getJDA().getSelfUser().getAvatarUrl())
-				.build();
-		context.reply(helpEmbed);
-	}
-	private String addFormatting(String input) {
-		return "```\n" + input + "\n```";
+	private static final String TRUE_EMOTE = "\u2705";
+	private static final String FALSE_EMOTE = "\u274C";
+	
+	private String capitaliseFirstLetter(String word) {
+		return word.substring(0, 1).toUpperCase() + word.substring(1);
 	}
 	
-	private void showCommandHelp(AbstractCommand command, CommandContext context) {
-		MessageEmbed helpEmbed = new EmbedBuilder()
-				.setTitle("How to use " + command.getName())
+	private void showCategoryList(CommandContext command) {
+		
+		boolean inlineFieldState = true;
+		int fieldCounter = 1;
+		
+		EmbedBuilder categoryListEmbedBuilder = new EmbedBuilder();
+		categoryListEmbedBuilder.setColor(Color.ORANGE);
+		categoryListEmbedBuilder.setTitle("Alison's Lovely Commands");
+		categoryListEmbedBuilder.setThumbnail(command.getJDA().getSelfUser().getAvatarUrl());
+		categoryListEmbedBuilder.setFooter("Alison Version " + GlobalConstants.VERSION + "\nCommand Count: " + COMMANDS.size(),
+				command.getJDA().getSelfUser().getAvatarUrl());
+		
+		for (CommandCategory commandCategory : CommandCategory.values()) {
+			if (fieldCounter == 1) inlineFieldState = true;
+			String title = capitaliseFirstLetter(commandCategory.getCategory()) + " " + commandCategory.getIcon();
+			String description = "```\nhelp " + commandCategory.getCategory() + "\n```";
+			categoryListEmbedBuilder.addField(title, description, inlineFieldState);
+			fieldCounter++;
+			if (fieldCounter == 3) {
+				inlineFieldState = false;
+				fieldCounter = 1;
+			}
+		}
+		
+		categoryListEmbedBuilder.addField("Any Command :clipboard: ", "```\nhelp [command]\n```", true);	
+		command.reply(categoryListEmbedBuilder.build());
+	}
+	
+	private boolean isCommandCategory(String categoryName) {
+		for (CommandCategory commandCategory : CommandCategory.values()) {
+			if (commandCategory.getCategory().equals(categoryName))
+				return true;
+		}
+		return false;
+	}
+	
+	
+	private String getCategoryIconByName(String name) {
+		for (CommandCategory commandCategory : CommandCategory.values()) {
+			if (commandCategory.getCategory().equals(name))
+				return commandCategory.getIcon();
+		}
+		return "";
+	}
+	
+	private boolean isCommand(String commandName) {
+		return getCommand(commandName) != null;
+	}
+	
+	private void showCommandsFromCategory(CommandContext context, String categoryName) {
+        StringBuilder commandListBuilder = new StringBuilder();
+        for (AbstractCommand command : COMMANDS) {
+			if(command.getCommandCategory().getCategory().equals(categoryName))
+				commandListBuilder.append("`").append(command.getName()).append("`, ");
+		}
+        String commandList = commandListBuilder.toString();
+        commandList = commandList.substring(0, commandList.length() - 2);
+		
+		MessageEmbed commandHelpEmbed = new EmbedBuilder()
 				.setColor(Color.ORANGE)
-				.setDescription(addFormatting(command.getDescription()))
-				.addField("Usage", addFormatting(command.getUsage()), true)
-				.addField("Name", addFormatting(command.getName()), true)
-				.addField("Short name", addFormatting(command.getShorthand()), true)
-				.addField("Can be used in DMs?", booleanToEmote(command.isDmCapable()), true)
-				.addField("Requires arguments?", booleanToEmote(command.requiresArguments()), true)
-				.addField("Category", command.getCommandCategory().getIcon(), true)
+				.setTitle(capitaliseFirstLetter(categoryName) + " Help")
+				.addField(capitaliseFirstLetter(categoryName) + " Commands " + getCategoryIconByName(categoryName), commandList, false)
 				.setThumbnail(context.getJDA().getSelfUser().getAvatarUrl())
-				.setFooter(GlobalConstants.VERSION, context.getJDA().getSelfUser().getAvatarUrl())
+				.setFooter("Alison Version " + GlobalConstants.VERSION + "\nCommand Count: " + COMMANDS.size(),
+						context.getJDA().getSelfUser().getAvatarUrl())
 				.build();
-		context.reply(helpEmbed);
+		context.reply(commandHelpEmbed);
 	}
 
-	private String booleanToEmote(boolean b) {
-		return addFormatting(b ? "✅" : "❌");
+	private String displayCommandCategoryOrNull(CommandCategory category) {
+		return category == null ? "No Category" : capitaliseFirstLetter(category.getCategory());
+	}
+	
+	private AbstractCommand getCommand(String name) {
+		return COMMANDS.stream()
+				.filter(c -> c.getName().equals(name) | c.getShorthand().equals(name))
+				.findFirst().orElse(null);
+	}
+	
+	private void showCommand(CommandContext context, String commandName) {
+		AbstractCommand commandToBeDisplayed = getCommand(commandName);	
+
+		MessageEmbed commandHelpEmbed = new EmbedBuilder()
+				.setColor(Color.ORANGE)
+				.setTitle("How it works: " + capitaliseFirstLetter(commandToBeDisplayed.getName()) + " Command")
+				.setThumbnail(context.getJDA().getSelfUser().getAvatarUrl())
+				.addField("Command Name", "```" + capitaliseFirstLetter(commandToBeDisplayed.getName()) + "```", true)
+				.addField("Category", "```" + displayCommandCategoryOrNull(commandToBeDisplayed.getCommandCategory()) + "```", true)
+				.addField("Description", "```" + commandToBeDisplayed.getDescription() + "```", false)
+				.addField("Usage", "```" + commandToBeDisplayed.getUsage() + "```", false)
+				.addField("Requires Arguments", "```" + booleanToEmote(commandToBeDisplayed.requiresArguments()) + "```", true)
+				.addField("Is DM Capable", "```" + booleanToEmote(commandToBeDisplayed.isDmCapable()) + "```", true)
+				.addField("Shorthand Name", "```" + commandToBeDisplayed.getShorthand() + "```", false)
+				.setFooter("Alison Version " + GlobalConstants.VERSION + "\nCommand Count: " + COMMANDS.size(),
+						context.getJDA().getSelfUser().getAvatarUrl())
+				.build();
+		context.reply(commandHelpEmbed);
+	}
+
+	private String booleanToEmote(boolean option) {
+		return option ? TRUE_EMOTE : FALSE_EMOTE;
+	}
+
+	@Override
+	public void execute(CommandContext context, List<String> args) {
+		if (args.size() == 0) showCategoryList(context);
+		else {
+			String itemToBeQueried = args.get(0).toLowerCase();
+			if (isCommandCategory(itemToBeQueried)) showCommandsFromCategory(context, itemToBeQueried);
+			else if (isCommand(itemToBeQueried)) showCommand(context, itemToBeQueried);
+			else context.reply("**That command/category could not be found!**");
+		}
 	}
 
 	@Override
