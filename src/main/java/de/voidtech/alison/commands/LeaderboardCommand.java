@@ -3,6 +3,7 @@ package main.java.de.voidtech.alison.commands;
 import java.awt.Color;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import main.java.de.voidtech.alison.entities.CommandContext;
 import main.java.de.voidtech.alison.entities.Sentiment;
@@ -18,7 +19,7 @@ public class LeaderboardCommand extends AbstractCommand {
 		String leaderboard = createLeaderboardString(allMembers);
 		MessageEmbed leaderboardEmbed = new EmbedBuilder()
 				.setColor(Color.ORANGE)
-				.setTitle("Tosicity leaderboard for " + context.getGuild().getName())
+				.setTitle("Toxicity leaderboard for " + context.getGuild().getName())
 				.setDescription(leaderboard)
 				.build();
 		context.reply(leaderboardEmbed);
@@ -26,10 +27,11 @@ public class LeaderboardCommand extends AbstractCommand {
 	
 	private String createLeaderboardString(List<Sentiment> allMembers) {
 		String leaderboard = "**Top 5 members**\n";
-		List<Sentiment> topFive = allMembers.subList(0, allMembers.size() < 5 ? allMembers.size() - 1 : 4);
+		List<Sentiment> topFive = allMembers.stream().limit(5).collect(Collectors.toList());
 		Collections.reverse(allMembers);
-		List<Sentiment> bottomFive = allMembers.subList(0, allMembers.size() < 5 ? allMembers.size() - 1 : 4);
+		List<Sentiment> bottomFive = allMembers.stream().limit(5).collect(Collectors.toList());
 		Collections.reverse(allMembers);
+		Collections.reverse(bottomFive);
 		
 		for (Sentiment sentiment : topFive) {
 			leaderboard += intToEmojiString(allMembers.indexOf(sentiment) + 1);
