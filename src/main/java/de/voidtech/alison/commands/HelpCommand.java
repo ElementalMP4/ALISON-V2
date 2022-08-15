@@ -2,6 +2,7 @@ package main.java.de.voidtech.alison.commands;
 
 import java.awt.Color;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import main.java.de.voidtech.alison.GlobalConstants;
 import main.java.de.voidtech.alison.entities.CommandContext;
@@ -26,14 +27,18 @@ public class HelpCommand extends AbstractCommand {
 	}
 
 	private void showAllCommands(CommandContext context) {
-		EmbedBuilder helpEmbed = new EmbedBuilder()
+		String commandsList = String.join("\n", COMMANDS.stream()
+				.map(c -> addFormatting(c.getName()))
+				.collect(Collectors.toList()));
+		MessageEmbed helpEmbed = new EmbedBuilder()
 				.setTitle("ALISON Commands")
 				.setColor(Color.ORANGE)
+				.setDescription(commandsList)
 				.setThumbnail(context.getJDA().getSelfUser().getAvatarUrl())
-				.setFooter(GlobalConstants.VERSION, context.getJDA().getSelfUser().getAvatarUrl());
-		context.reply(helpEmbed.build());
+				.setFooter(GlobalConstants.VERSION, context.getJDA().getSelfUser().getAvatarUrl())
+				.build();
+		context.reply(helpEmbed);
 	}
-
 	private String addFormatting(String input) {
 		return "```\n" + input + "\n```";
 	}
