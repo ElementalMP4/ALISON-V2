@@ -15,6 +15,7 @@ public class CommandRegistry {
 		Commands.add(new HowToxicIsThisServerCommand());
 		Commands.add(new ImitateCommand());
 		Commands.add(new InfoCommand());
+		Commands.add(new LeaderboardCommand());
 		Commands.add(new MyStatsCommand());
 		Commands.add(new NicknameCommand());
 		Commands.add(new OptInCommand());

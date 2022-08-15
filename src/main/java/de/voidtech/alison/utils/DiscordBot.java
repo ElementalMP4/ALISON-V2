@@ -19,7 +19,7 @@ public class DiscordBot {
 	
 	public DiscordBot(String token) {
 		try {
-			jda = JDABuilder.createLight(token, GatewayIntent.GUILD_MESSAGES)
+			jda = JDABuilder.createLight(token, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MEMBERS)
 					.setMemberCachePolicy(MemberCachePolicy.ALL)
 					.addEventListeners(new ReadyListener(), new MessageListener(), waiter)
 					.setActivity(Activity.watching("you"))
@@ -38,5 +38,4 @@ public class DiscordBot {
 	public EventWaiter getEventWaiter() {
 		return this.waiter;
 	}
-
 }

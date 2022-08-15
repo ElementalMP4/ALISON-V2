@@ -12,6 +12,7 @@ public class Sentiment {
 	private List<String> tokens;
 
 	private int score;
+	private String pack;
 
 	public Sentiment(List<String> positives, List<String> negatives, String originalWords) {
 		this.positives = positives;
@@ -64,4 +65,25 @@ public class Sentiment {
 	public int getTotalWordCount() {
 		return this.originalWords.split(" ").length;
 	}
+	
+	public String getPack() {
+		return this.pack;
+	}
+	
+	public void setPack(String pack) {
+		this.pack = pack;
+	}
+	
+	public List<String> getPositives() {
+		return this.positives;
+	}
+	
+	public List<String> getNegatives() {
+		return this.negatives;
+	}
+	
+	public String getOriginalString() {
+		return this.originalWords;
+	}
 }
+ 

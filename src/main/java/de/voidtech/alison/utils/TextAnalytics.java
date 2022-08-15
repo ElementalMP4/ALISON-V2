@@ -2,10 +2,11 @@ package main.java.de.voidtech.alison.utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -37,6 +38,7 @@ public class TextAnalytics {
 		AlisonModel model = ModelManager.getModel(pack);
 		String words = String.join(" ", model.getAllWords());
 		Sentiment sentiment = analyseSentence(words);
+		sentiment.setPack(pack);
 		return sentiment;
 	}
 
@@ -59,16 +61,33 @@ public class TextAnalytics {
 		 });
 		return results;
 	}
-	
-	public static Sentiment analyseServer(Guild guild) {
-		List<String> words = guild.getMembers().stream()
+
+	public static List<Sentiment> analyseServer(Guild guild) {
+		List<Member> members = guild.loadMembers().get();
+		List<Sentiment> sentiments = members.stream()
 				.map(Member::getId)
 				.filter(memberID -> !PrivacyManager.userHasOptedOut(memberID))
 				.filter(ModelManager::modelExists)
-				.map(ModelManager::getModel)
-				.map(AlisonModel::getAllWords)
-				.reduce(new ArrayList<String>(), (a, b) -> Stream.concat(a.stream(), b.stream()).collect(Collectors.toList()));
-		return analyseSentence(String.join(" ", words));		
+				.map(TextAnalytics::analysePack)
+				.collect(Collectors.toList());
+		sentiments.sort(Comparator.comparing(Sentiment::getAdjustedScore));
+		Collections.reverse(sentiments);
+		return sentiments;
+	}
+	
+	public static Sentiment averageSentiment(List<Sentiment> sentiments) {
+		List<String> positives = sentiments.stream()
+				.map(Sentiment::getPositives)
+				.flatMap(List::stream)
+		        .collect(Collectors.toList());
+		List<String> negatives = sentiments.stream()
+				.map(Sentiment::getNegatives)
+				.flatMap(List::stream)
+		        .collect(Collectors.toList());
+		String original = sentiments.stream()
+				.map(Sentiment::getOriginalString)
+				.collect(Collectors.joining(" "));
+		return new Sentiment(positives, negatives, original);
 	}
 	
 	private static String getRandomEmote(List<String> emotes) {
