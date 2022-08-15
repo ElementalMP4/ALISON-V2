@@ -1,4 +1,4 @@
-package main.java.de.voidtech.alison.commands;
+package main.java.de.voidtech.alison.commands.privacy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 import main.java.de.voidtech.alison.Alison;
+import main.java.de.voidtech.alison.commands.AbstractCommand;
+import main.java.de.voidtech.alison.commands.CommandCategory;
 import main.java.de.voidtech.alison.entities.ButtonConsumer;
 import main.java.de.voidtech.alison.entities.CommandContext;
 import main.java.de.voidtech.alison.utils.ModelManager;

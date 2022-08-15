@@ -1,8 +1,10 @@
-package main.java.de.voidtech.alison.commands;
+package main.java.de.voidtech.alison.commands.information;
 
 import java.awt.Color;
 import java.util.List;
 
+import main.java.de.voidtech.alison.commands.AbstractCommand;
+import main.java.de.voidtech.alison.commands.CommandCategory;
 import main.java.de.voidtech.alison.entities.CommandContext;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;

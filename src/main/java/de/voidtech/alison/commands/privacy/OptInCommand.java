@@ -1,7 +1,9 @@
-package main.java.de.voidtech.alison.commands;
+package main.java.de.voidtech.alison.commands.privacy;
 
 import java.util.List;
 
+import main.java.de.voidtech.alison.commands.AbstractCommand;
+import main.java.de.voidtech.alison.commands.CommandCategory;
 import main.java.de.voidtech.alison.entities.CommandContext;
 import main.java.de.voidtech.alison.utils.PrivacyManager;
 

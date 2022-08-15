@@ -3,6 +3,21 @@ package main.java.de.voidtech.alison.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import main.java.de.voidtech.alison.commands.generation.ImitateCommand;
+import main.java.de.voidtech.alison.commands.generation.NicknameCommand;
+import main.java.de.voidtech.alison.commands.generation.QuoteCommand;
+import main.java.de.voidtech.alison.commands.information.HelpCommand;
+import main.java.de.voidtech.alison.commands.information.InfoCommand;
+import main.java.de.voidtech.alison.commands.information.MyStatsCommand;
+import main.java.de.voidtech.alison.commands.information.PingCommand;
+import main.java.de.voidtech.alison.commands.privacy.ClearCommand;
+import main.java.de.voidtech.alison.commands.privacy.OptInCommand;
+import main.java.de.voidtech.alison.commands.privacy.OptOutCommand;
+import main.java.de.voidtech.alison.commands.sentiment.HowToxicAmICommand;
+import main.java.de.voidtech.alison.commands.sentiment.HowToxicIsThisCommand;
+import main.java.de.voidtech.alison.commands.sentiment.HowToxicIsThisServerCommand;
+import main.java.de.voidtech.alison.commands.sentiment.LeaderboardCommand;
+
 public class CommandRegistry {
 	
 	private static List<AbstractCommand> Commands = new ArrayList<AbstractCommand>();

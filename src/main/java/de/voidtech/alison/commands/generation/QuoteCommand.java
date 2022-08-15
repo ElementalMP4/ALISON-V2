@@ -1,9 +1,11 @@
-package main.java.de.voidtech.alison.commands;
+package main.java.de.voidtech.alison.commands.generation;
 
 import java.awt.Color;
 import java.time.Instant;
 import java.util.List;
 
+import main.java.de.voidtech.alison.commands.AbstractCommand;
+import main.java.de.voidtech.alison.commands.CommandCategory;
 import main.java.de.voidtech.alison.entities.AlisonModel;
 import main.java.de.voidtech.alison.entities.CommandContext;
 import main.java.de.voidtech.alison.utils.ModelManager;
