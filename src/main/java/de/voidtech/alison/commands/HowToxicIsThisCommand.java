@@ -81,8 +81,8 @@ public class HowToxicIsThisCommand extends AbstractCommand {
 	}
 
 	@Override
-	public String getBriefDescription() {
-		return "Sentiment analysis of text";
+	public CommandCategory getCommandCategory() {
+		return CommandCategory.SENTIMENT_ANALYSIS;
 	}
 
 }

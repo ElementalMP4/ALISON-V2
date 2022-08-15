@@ -152,6 +152,12 @@ public class AlisonModel {
 		return words.stream().map(AlisonWord::getWord).collect(Collectors.toList());
 	}
 	
+	public String export() {
+		return words.stream()
+				.map(w -> w.getWord() + " - " + w.getNext())
+				.collect(Collectors.joining("\n"));
+	}
+	
 	public long getWordCount() {
 		return words.size();
 	}

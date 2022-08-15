@@ -76,8 +76,8 @@ public class HowToxicIsThisServerCommand extends AbstractCommand {
 	}
 
 	@Override
-	public String getBriefDescription() {
-		return "Sentiment analysis of a server";
+	public CommandCategory getCommandCategory() {
+		return CommandCategory.SENTIMENT_ANALYSIS;
 	}
 
 }

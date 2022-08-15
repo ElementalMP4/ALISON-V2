@@ -110,8 +110,8 @@ public class QuoteCommand extends AbstractCommand {
 	}
 
 	@Override
-	public String getBriefDescription() {
-		return "Quote generator";
+	public CommandCategory getCommandCategory() {
+		return CommandCategory.TEXT_GENERATION;
 	}
 
 }

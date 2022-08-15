@@ -78,8 +78,8 @@ public class ClearCommand extends AbstractCommand {
 	}
 
 	@Override
-	public String getBriefDescription() {
-		return "Clear all your data";
+	public CommandCategory getCommandCategory() {
+		return CommandCategory.PRIVACY;
 	}
 
 }

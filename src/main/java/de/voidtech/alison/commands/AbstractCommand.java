@@ -33,7 +33,7 @@ public abstract class AbstractCommand {
 
 	public abstract String getShorthand();
 	
-	public abstract String getBriefDescription();
+	public abstract CommandCategory getCommandCategory();
 
 	public abstract boolean isDmCapable();
 

@@ -81,10 +81,10 @@ public class MyStatsCommand extends AbstractCommand {
 	public boolean requiresArguments() {
 		return false;
 	}
-
+	
 	@Override
-	public String getBriefDescription() {
-		return "Info about your data";
+	public CommandCategory getCommandCategory() {
+		return CommandCategory.INFORMATION;
 	}
 
 }

@@ -48,7 +48,7 @@ public class OptInCommand extends AbstractCommand {
 	}
 
 	@Override
-	public String getBriefDescription() {
-		return "Allow data collection";
+	public CommandCategory getCommandCategory() {
+		return CommandCategory.PRIVACY;
 	}	
 }

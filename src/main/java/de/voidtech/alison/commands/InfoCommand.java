@@ -69,8 +69,8 @@ public class InfoCommand extends AbstractCommand {
 	}
 
 	@Override
-	public String getBriefDescription() {
-		return "Shows ALISON stats";
+	public CommandCategory getCommandCategory() {
+		return CommandCategory.INFORMATION;
 	}
 
 }

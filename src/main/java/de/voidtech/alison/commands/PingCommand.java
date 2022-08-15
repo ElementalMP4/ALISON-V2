@@ -61,8 +61,8 @@ public class PingCommand extends AbstractCommand{
 	}
 
 	@Override
-	public String getBriefDescription() {
-		return "Bot response time";
+	public CommandCategory getCommandCategory() {
+		return CommandCategory.INFORMATION;
 	}
 
 }

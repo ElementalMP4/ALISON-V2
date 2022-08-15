@@ -85,8 +85,8 @@ public class OptOutCommand extends AbstractCommand {
 	}
 
 	@Override
-	public String getBriefDescription() {
-		return "Stop data collection";
+	public CommandCategory getCommandCategory() {
+		return CommandCategory.PRIVACY;
 	}
 
 }

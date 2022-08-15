@@ -84,8 +84,8 @@ public class NicknameCommand extends AbstractCommand {
 	}
 
 	@Override
-	public String getBriefDescription() {
-		return "Makes you a nickname";
+	public CommandCategory getCommandCategory() {
+		return CommandCategory.TEXT_GENERATION;
 	}
 
 }

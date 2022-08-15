@@ -85,7 +85,7 @@ public class ImitateCommand extends AbstractCommand {
 	}
 
 	@Override
-	public String getBriefDescription() {
-		return "Create fake messages of yourself";
+	public CommandCategory getCommandCategory() {
+		return CommandCategory.TEXT_GENERATION;
 	}
 }

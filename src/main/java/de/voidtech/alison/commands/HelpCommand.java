@@ -31,7 +31,6 @@ public class HelpCommand extends AbstractCommand {
 				.setColor(Color.ORANGE)
 				.setThumbnail(context.getJDA().getSelfUser().getAvatarUrl())
 				.setFooter(GlobalConstants.VERSION, context.getJDA().getSelfUser().getAvatarUrl());
-		COMMANDS.stream().forEach(c -> helpEmbed.addField(c.getName(), addFormatting(c.getBriefDescription()), true));
 		context.reply(helpEmbed.build());
 	}
 
@@ -49,6 +48,7 @@ public class HelpCommand extends AbstractCommand {
 				.addField("Short name", addFormatting(command.getShorthand()), true)
 				.addField("Can be used in DMs?", booleanToEmote(command.isDmCapable()), true)
 				.addField("Requires arguments?", booleanToEmote(command.requiresArguments()), true)
+				.addField("Category", command.getCommandCategory().getIcon(), true)
 				.setThumbnail(context.getJDA().getSelfUser().getAvatarUrl())
 				.setFooter(GlobalConstants.VERSION, context.getJDA().getSelfUser().getAvatarUrl())
 				.build();
@@ -90,8 +90,8 @@ public class HelpCommand extends AbstractCommand {
 	}
 
 	@Override
-	public String getBriefDescription() {
-		return "How to use every command";
+	public CommandCategory getCommandCategory() {
+		return CommandCategory.INFORMATION;
 	}
 
 }

@@ -98,7 +98,7 @@ public class HowToxicAmICommand extends AbstractCommand {
 	}
 
 	@Override
-	public String getBriefDescription() {
-		return "Sentiment analysis of your messages";
+	public CommandCategory getCommandCategory() {
+		return CommandCategory.SENTIMENT_ANALYSIS;
 	}
 }
