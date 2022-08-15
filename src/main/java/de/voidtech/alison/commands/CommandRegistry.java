@@ -12,6 +12,7 @@ import main.java.de.voidtech.alison.commands.information.InfoCommand;
 import main.java.de.voidtech.alison.commands.information.MyStatsCommand;
 import main.java.de.voidtech.alison.commands.information.PingCommand;
 import main.java.de.voidtech.alison.commands.privacy.ClearCommand;
+import main.java.de.voidtech.alison.commands.privacy.ModifyCommand;
 import main.java.de.voidtech.alison.commands.privacy.OptInCommand;
 import main.java.de.voidtech.alison.commands.privacy.OptOutCommand;
 import main.java.de.voidtech.alison.commands.sentiment.HowToxicAmICommand;
@@ -33,6 +34,7 @@ public class CommandRegistry {
 		Commands.add(new ImitateCommand());
 		Commands.add(new InfoCommand());
 		Commands.add(new LeaderboardCommand());
+		Commands.add(new ModifyCommand());
 		Commands.add(new MyStatsCommand());
 		Commands.add(new NicknameCommand());
 		Commands.add(new OptInCommand());

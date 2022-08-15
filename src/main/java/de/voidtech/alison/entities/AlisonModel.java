@@ -152,6 +152,15 @@ public class AlisonModel {
 		return words.stream().map(AlisonWord::getWord).collect(Collectors.toList());
 	}
 	
+	public List<AlisonWord> getAllAlisonWords() {
+		return this.words;
+	}
+	
+	public void overwriteModel(List<AlisonWord> words) {
+		this.words = words;
+		save();
+	}
+	
 	public String export() {
 		return words.stream()
 				.map(w -> w.getWord() + " - " + w.getNext())
