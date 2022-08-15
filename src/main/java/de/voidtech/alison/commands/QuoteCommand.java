@@ -1,21 +1,13 @@
 package main.java.de.voidtech.alison.commands;
 
 import java.awt.Color;
-import java.io.IOException;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.List;
 
-import javax.xml.bind.DatatypeConverter;
-
-import org.jsoup.Jsoup;
-
-import main.java.de.voidtech.alison.Alison;
 import main.java.de.voidtech.alison.entities.AlisonModel;
 import main.java.de.voidtech.alison.entities.CommandContext;
 import main.java.de.voidtech.alison.utils.ModelManager;
+import main.java.de.voidtech.alison.utils.NodeUtils;
 import main.java.de.voidtech.alison.utils.PrivacyManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
@@ -52,7 +44,7 @@ public class QuoteCommand extends AbstractCommand {
 		if (userResult.isSuccess()) {
 			context.getMessage().getChannel().sendTyping().complete();
 			User user = userResult.get().getUser();
-			byte[] image = getQuoteImage(user, quote);
+			byte[] image = NodeUtils.getQuoteImage(user, quote);
 			MessageEmbed quoteEmbed = new EmbedBuilder()
 					.setTitle("An infamous quote from " + user.getName())
 					.setColor(Color.ORANGE)
@@ -61,22 +53,6 @@ public class QuoteCommand extends AbstractCommand {
 					.build();
 			context.replyWithFile(image, "quote.png", quoteEmbed);
 		} else context.reply("I couldn't find that user :(");
-	}
-	
-	private byte[] getQuoteImage(User user, String quote) {
-		try {
-			String cardURL = Alison.getConfig().getImageApiUrl() + "quote/?avatar_url=" + user.getEffectiveAvatarUrl() + "?size=2048"
-					+ "&username=" + URLEncoder.encode(user.getName(), StandardCharsets.UTF_8.toString())
-					+ "&quote=" + URLEncoder.encode(quote, StandardCharsets.UTF_8.toString());
-			URL url = new URL(cardURL);
-			//Remove the data:image/png;base64 part
-			String response = Jsoup.connect(url.toString()).get().toString().split(",")[1];
-			byte[] imageBytes = DatatypeConverter.parseBase64Binary(response);
-			return imageBytes;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
 	}
 
 	@Override

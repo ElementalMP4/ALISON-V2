@@ -15,6 +15,7 @@ import main.java.de.voidtech.alison.entities.CommandContext;
 import main.java.de.voidtech.alison.utils.LevenshteinCalculator;
 import main.java.de.voidtech.alison.utils.ModelManager;
 import main.java.de.voidtech.alison.utils.PrivacyManager;
+import main.java.de.voidtech.alison.utils.TextAnalytics;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Message;
@@ -52,6 +53,7 @@ public class MessageListener implements EventListener {
 				return;
 			if (PrivacyManager.userHasOptedOut(message.getAuthor().getId()))
 				return;
+			TextAnalytics.respondToAlisonMention(message);
 			ModelManager.getModel(message.getAuthor().getId()).learn(message.getContentRaw());
 			return;
 		};

@@ -37,7 +37,7 @@ public class Configuration {
 		return config.getProperty("Webhook");
 	}
 
-	public String getImageApiUrl() {
+	public String getApiUrl() {
 		String url = config.getProperty("ImageAPI"); 
 		return url != null ? url : "http://localhost:3000/api/";
 	}

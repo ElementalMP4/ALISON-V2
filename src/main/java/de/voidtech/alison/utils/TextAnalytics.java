@@ -1,7 +1,9 @@
 package main.java.de.voidtech.alison.utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -12,11 +14,15 @@ import main.java.de.voidtech.alison.entities.ResourceLoader;
 import main.java.de.voidtech.alison.entities.Sentiment;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
 
 public class TextAnalytics {
 	
 	private static List<String> NegativeWords = new ArrayList<String>();
 	private static List<String> PositiveWords = new ArrayList<String>();
+	
+	private static final List<String> POSITIVE_EMOTES = Arrays.asList(new String[] {"♥", "🥰", "😘"});
+	private static final List<String> NEGATIVE_EMOTES = Arrays.asList(new String[] {"💔", "😔", "😭"});
 
 	private static void populateLexicon() {
 		NegativeWords.clear();
@@ -63,5 +69,16 @@ public class TextAnalytics {
 				.map(AlisonModel::getAllWords)
 				.reduce(new ArrayList<String>(), (a, b) -> Stream.concat(a.stream(), b.stream()).collect(Collectors.toList()));
 		return analyseSentence(String.join(" ", words));		
+	}
+	
+	private static String getRandomEmote(List<String> emotes) {
+        return emotes.get(new Random().nextInt(emotes.size()));
+    }
+	
+	public static void respondToAlisonMention(Message message) {
+		if (!message.getContentRaw().toLowerCase().contains("alison")) return;
+		String intent = NodeUtils.getAlisonMentionIntent(message.getContentRaw().toLowerCase());
+		if (intent == "None") return;
+		message.addReaction(intent.equals("Positive") ? getRandomEmote(POSITIVE_EMOTES) : getRandomEmote(NEGATIVE_EMOTES)).queue();
 	}
 }
