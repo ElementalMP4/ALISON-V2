@@ -6,6 +6,7 @@ import java.util.List;
 import main.java.de.voidtech.alison.commands.generation.ImitateCommand;
 import main.java.de.voidtech.alison.commands.generation.NicknameCommand;
 import main.java.de.voidtech.alison.commands.generation.QuoteCommand;
+import main.java.de.voidtech.alison.commands.information.CountCommand;
 import main.java.de.voidtech.alison.commands.information.HelpCommand;
 import main.java.de.voidtech.alison.commands.information.InfoCommand;
 import main.java.de.voidtech.alison.commands.information.MyStatsCommand;
@@ -24,6 +25,7 @@ public class CommandRegistry {
 	
 	private static void populateCommands() {
 		Commands.add(new ClearCommand());
+		Commands.add(new CountCommand());
 		Commands.add(new HelpCommand());
 		Commands.add(new HowToxicAmICommand());
 		Commands.add(new HowToxicIsThisCommand());
