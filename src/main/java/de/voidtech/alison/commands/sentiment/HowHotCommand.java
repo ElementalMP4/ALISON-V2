@@ -8,31 +8,29 @@ import main.java.de.voidtech.alison.commands.AbstractCommand;
 import main.java.de.voidtech.alison.commands.CommandCategory;
 import main.java.de.voidtech.alison.entities.CommandContext;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Message.Attachment;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.utils.Result;
 
 public class HowHotCommand extends AbstractCommand {
 
 	@Override
 	public void execute(CommandContext context, List<String> args) {
 		int seed = 0;
-		if (context.getMessage().getAttachments().isEmpty()) {
-			context.reply("You need to upload an image to use this command!");
-			return;
-		}
-		if (!context.getMessage().getAttachments().get(0).isImage()) {
-			context.reply("This command only works with images!");
-			return;
-		}
-		Attachment attachment = context.getMessage().getAttachments().get(0);
-		seed = attachment.getHeight() + attachment.getWidth() + attachment.getSize();
-		int rating = new Random(seed).nextInt(10);
-		
-		MessageEmbed hotnessEmbed = new EmbedBuilder()
-				.setColor(getColor(rating))
-				.setTitle("I rate you a " + rating + " out of 10. " + getPhrase(rating))
-				.build();
-		context.reply(hotnessEmbed);
+		String ID;
+		if (args.isEmpty()) ID = context.getAuthor().getId();
+		else ID = args.get(0).replaceAll("([^0-9a-zA-Z])", "");
+		Result<User> userResult = context.getJDA().retrieveUserById(ID).mapToResult().complete();
+		if (userResult.isSuccess()) {
+			seed = userResult.get().getAvatarId().hashCode();
+			int rating = new Random(seed).nextInt(10);
+			MessageEmbed hotnessEmbed = new EmbedBuilder()
+					.setColor(getColor(rating))
+					.setTitle("I rate you a " + rating + " out of 10. " + getPhrase(rating))
+					.setImage(userResult.get().getAvatarUrl())
+					.build();
+			context.reply(hotnessEmbed);
+		} else context.reply("I couldn't find that user :(");
 	}
 	
 	private Color getColor(int rating)
@@ -60,13 +58,13 @@ public class HowHotCommand extends AbstractCommand {
 
 	@Override
 	public String getUsage() {
-		return "howhotami";
+		return "howhotami\n"
+				+ "howhotami [user ID/mention]";
 	}
 
 	@Override
 	public String getDescription() {
-		return "Upload an image and use this command to see how hot you are! (ALISON will be very honest."
-				+ " You may not like the result.)";
+		return "See how hot you are (based on your pfp)! (ALISON will be very honest. You may not like the result.)";
 	}
 
 	@Override
