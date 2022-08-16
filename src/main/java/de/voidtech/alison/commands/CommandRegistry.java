@@ -6,6 +6,7 @@ import java.util.List;
 import main.java.de.voidtech.alison.commands.generation.ImitateCommand;
 import main.java.de.voidtech.alison.commands.generation.NicknameCommand;
 import main.java.de.voidtech.alison.commands.generation.QuoteCommand;
+import main.java.de.voidtech.alison.commands.generation.SearchCommand;
 import main.java.de.voidtech.alison.commands.information.CountCommand;
 import main.java.de.voidtech.alison.commands.information.HelpCommand;
 import main.java.de.voidtech.alison.commands.information.InfoCommand;
@@ -41,6 +42,7 @@ public class CommandRegistry {
 		Commands.add(new OptOutCommand());
 		Commands.add(new PingCommand());
 		Commands.add(new QuoteCommand());
+		Commands.add(new SearchCommand());
 	}
 	
 	public static List<AbstractCommand> getAllCommands() {

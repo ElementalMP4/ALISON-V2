@@ -14,7 +14,7 @@ public class PrivacyManager {
 
 	private static Connection DatabaseConnection = null;
 
-	public static void Connect() {
+	public static void connect() {
 		try {
 			DatabaseConnection = DriverManager.getConnection("jdbc:sqlite:Alison.db");
 			DatabaseInterface.executeUpdate(DatabaseConnection, CREATE_TABLE);
