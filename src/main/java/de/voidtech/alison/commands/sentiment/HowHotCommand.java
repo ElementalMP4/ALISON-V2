@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.List;
 import java.util.Random;
 
+import main.java.de.voidtech.alison.Alison;
 import main.java.de.voidtech.alison.commands.AbstractCommand;
 import main.java.de.voidtech.alison.commands.CommandCategory;
 import main.java.de.voidtech.alison.entities.CommandContext;
@@ -23,7 +24,7 @@ public class HowHotCommand extends AbstractCommand {
 		Result<User> userResult = context.getJDA().retrieveUserById(ID).mapToResult().complete();
 		if (userResult.isSuccess()) {
 			seed = userResult.get().getAvatarId().hashCode();
-			int rating = new Random(seed).nextInt(10);
+			int rating = userResult.get().getId().equals(Alison.getConfig().getMasterId()) ? 10 :  new Random(seed).nextInt(10);
 			MessageEmbed hotnessEmbed = new EmbedBuilder()
 					.setColor(getColor(rating))
 					.setTitle("I rate you a " + rating + " out of 10. " + getPhrase(rating))
