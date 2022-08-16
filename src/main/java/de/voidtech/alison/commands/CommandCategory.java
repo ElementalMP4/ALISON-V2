@@ -2,7 +2,7 @@ package main.java.de.voidtech.alison.commands;
 
 public enum CommandCategory {
 	TEXT_GENERATION("generation", ":robot:"),
-	PRIVACY("privacy", ":gear:"),
+	PRIVACY("privacy", ":lock:"),
 	INFORMATION("information", ":books:"),
     SENTIMENT_ANALYSIS("sentiment", ":heart:");
  
