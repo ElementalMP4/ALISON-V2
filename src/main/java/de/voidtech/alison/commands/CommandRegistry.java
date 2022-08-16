@@ -16,6 +16,7 @@ import main.java.de.voidtech.alison.commands.privacy.ClearCommand;
 import main.java.de.voidtech.alison.commands.privacy.ModifyCommand;
 import main.java.de.voidtech.alison.commands.privacy.OptInCommand;
 import main.java.de.voidtech.alison.commands.privacy.OptOutCommand;
+import main.java.de.voidtech.alison.commands.sentiment.HowHotCommand;
 import main.java.de.voidtech.alison.commands.sentiment.HowToxicAmICommand;
 import main.java.de.voidtech.alison.commands.sentiment.HowToxicIsThisCommand;
 import main.java.de.voidtech.alison.commands.sentiment.HowToxicIsThisServerCommand;
@@ -29,6 +30,7 @@ public class CommandRegistry {
 		Commands.add(new ClearCommand());
 		Commands.add(new CountCommand());
 		Commands.add(new HelpCommand());
+		Commands.add(new HowHotCommand());
 		Commands.add(new HowToxicAmICommand());
 		Commands.add(new HowToxicIsThisCommand());
 		Commands.add(new HowToxicIsThisServerCommand());
