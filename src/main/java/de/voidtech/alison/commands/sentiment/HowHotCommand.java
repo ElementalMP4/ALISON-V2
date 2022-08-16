@@ -27,7 +27,7 @@ public class HowHotCommand extends AbstractCommand {
 			MessageEmbed hotnessEmbed = new EmbedBuilder()
 					.setColor(getColor(rating))
 					.setTitle("I rate you a " + rating + " out of 10. " + getPhrase(rating))
-					.setImage(userResult.get().getAvatarUrl())
+					.setImage(userResult.get().getAvatarUrl() + "?size=2048")
 					.build();
 			context.reply(hotnessEmbed);
 		} else context.reply("I couldn't find that user :(");
