@@ -38,7 +38,12 @@ public class Configuration {
 	}
 
 	public String getApiUrl() {
-		String url = config.getProperty("ImageAPI"); 
+		String url = config.getProperty("API"); 
 		return url != null ? url : "http://localhost:3000/api/";
+	}
+	
+	public boolean classifierEnabled() {
+		String enabled = config.getProperty("ClassifierEnabled"); 
+		return enabled != null ? false : Boolean.valueOf(enabled);
 	}
 }
