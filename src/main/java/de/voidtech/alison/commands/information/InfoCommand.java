@@ -16,16 +16,15 @@ public class InfoCommand extends AbstractCommand {
 
 	@Override
 	public void execute(CommandContext context, List<String> args) {
-		long guildCount = context.getJDA().getGuildCache().size();
-		long memberCount = context.getJDA().getGuildCache().stream().mapToInt(Guild::getMemberCount).sum();
-		long wordCount = ModelManager.getWordCount();
-		long modelCount = ModelManager.getModelCount();
-		
 		MessageEmbed loadingEmbed = new EmbedBuilder()
 				.setColor(Color.RED)
 				.setTitle("Calculating...")
 				.build();
 		context.replyAndThen(loadingEmbed, response -> {
+			long guildCount = context.getJDA().getGuildCache().size();
+			long memberCount = context.getJDA().getGuildCache().stream().mapToInt(Guild::getMemberCount).sum();
+			long wordCount = ModelManager.getWordCount();
+			long modelCount = ModelManager.getModelCount();
 			MessageEmbed informationEmbed = new EmbedBuilder()
 					.setColor(Color.ORANGE)
 					.setTitle("ALISON - Automatic Learning Intelligent Sentence Organising Network", GlobalConstants.REPO_URL)
