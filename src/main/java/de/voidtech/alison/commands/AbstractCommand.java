@@ -3,7 +3,6 @@ package main.java.de.voidtech.alison.commands;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
-import main.java.de.voidtech.alison.entities.CommandContext;
 import main.java.de.voidtech.alison.utils.ThreadManager;
 import net.dv8tion.jda.api.entities.ChannelType;
 

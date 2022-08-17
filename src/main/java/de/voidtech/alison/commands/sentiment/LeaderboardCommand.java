@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import main.java.de.voidtech.alison.commands.AbstractCommand;
 import main.java.de.voidtech.alison.commands.CommandCategory;
-import main.java.de.voidtech.alison.entities.CommandContext;
+import main.java.de.voidtech.alison.commands.CommandContext;
 import main.java.de.voidtech.alison.entities.Sentiment;
 import main.java.de.voidtech.alison.utils.TextAnalytics;
 import net.dv8tion.jda.api.EmbedBuilder;

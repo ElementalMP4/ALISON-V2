@@ -7,7 +7,7 @@ import java.util.Random;
 import main.java.de.voidtech.alison.Alison;
 import main.java.de.voidtech.alison.commands.AbstractCommand;
 import main.java.de.voidtech.alison.commands.CommandCategory;
-import main.java.de.voidtech.alison.entities.CommandContext;
+import main.java.de.voidtech.alison.commands.CommandContext;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
@@ -17,14 +17,13 @@ public class HowHotCommand extends AbstractCommand {
 
 	@Override
 	public void execute(CommandContext context, List<String> args) {
-		int seed = 0;
 		String ID;
 		if (args.isEmpty()) ID = context.getAuthor().getId();
 		else ID = args.get(0).replaceAll("([^0-9a-zA-Z])", "");
 		Result<User> userResult = context.getJDA().retrieveUserById(ID).mapToResult().complete();
 		if (userResult.isSuccess()) {
-			seed = userResult.get().getAvatarId().hashCode();
-			int rating = userResult.get().getId().equals(Alison.getConfig().getMasterId()) ? 10 :  new Random(seed).nextInt(10);
+			int rating = userResult.get().getId().equals(Alison.getConfig().getMasterId()) ? 10 :
+				new Random(userResult.get().getAvatarId().hashCode()).nextInt(10);
 			MessageEmbed hotnessEmbed = new EmbedBuilder()
 					.setColor(getColor(rating))
 					.setTitle("I rate you a " + rating + " out of 10. " + getPhrase(rating))

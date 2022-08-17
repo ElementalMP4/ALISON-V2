@@ -1,6 +1,6 @@
-package main.java.de.voidtech.alison.entities;
+package main.java.de.voidtech.alison.commands;
 
-import java.util.Arrays;
+import java.util.function.Consumer;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.ChannelType;
@@ -33,8 +33,16 @@ public class CommandContext {
 		this.message.replyEmbeds(embed).mentionRepliedUser(false).queue();
 	}
 	
-    public void replyWithFile(byte[] attachment, String attachmentName, MessageEmbed... embeds) {
-    	this.message.replyEmbeds(Arrays.asList(embeds)).mentionRepliedUser(false).addFile(attachment, attachmentName).queue();
+	public void replyAndThen(String content, Consumer<Message> consumer) {
+		this.message.reply(content).mentionRepliedUser(false).queue(m -> consumer.accept(m));
+	}
+	
+	public void replyAndThen(MessageEmbed embed, Consumer<Message> consumer) {
+		this.message.replyEmbeds(embed).mentionRepliedUser(false).queue(m -> consumer.accept(m));
+	}
+	
+    public void replyWithFile(byte[] attachment, String attachmentName, MessageEmbed embed) {
+    	this.message.replyEmbeds(embed).mentionRepliedUser(false).addFile(attachment, attachmentName).queue();
     }
 	
 	public User getAuthor() {

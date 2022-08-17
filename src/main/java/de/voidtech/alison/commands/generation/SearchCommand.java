@@ -5,8 +5,8 @@ import java.util.List;
 
 import main.java.de.voidtech.alison.commands.AbstractCommand;
 import main.java.de.voidtech.alison.commands.CommandCategory;
+import main.java.de.voidtech.alison.commands.CommandContext;
 import main.java.de.voidtech.alison.entities.AlisonModel;
-import main.java.de.voidtech.alison.entities.CommandContext;
 import main.java.de.voidtech.alison.utils.BrowserUtils;
 import main.java.de.voidtech.alison.utils.ModelManager;
 import main.java.de.voidtech.alison.utils.PrivacyManager;

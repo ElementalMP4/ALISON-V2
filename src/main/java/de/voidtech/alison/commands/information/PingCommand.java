@@ -5,7 +5,7 @@ import java.util.List;
 
 import main.java.de.voidtech.alison.commands.AbstractCommand;
 import main.java.de.voidtech.alison.commands.CommandCategory;
-import main.java.de.voidtech.alison.entities.CommandContext;
+import main.java.de.voidtech.alison.commands.CommandContext;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 
@@ -20,7 +20,7 @@ public class PingCommand extends AbstractCommand{
 				.setColor(Color.RED)
 				.build();
 		
-		context.getMessage().getChannel().sendMessageEmbeds(beforePingHasBeenProcessedEmbed).queue(response -> {
+		context.replyAndThen(beforePingHasBeenProcessedEmbed, response -> {
 			MessageEmbed pingEmbed = new EmbedBuilder()//
 				.setAuthor("Pong!")
 				.setColor(Color.GREEN)
