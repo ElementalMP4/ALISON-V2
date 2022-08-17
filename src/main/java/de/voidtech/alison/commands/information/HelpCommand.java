@@ -27,12 +27,16 @@ public class HelpCommand extends AbstractCommand {
 		boolean inlineFieldState = true;
 		int fieldCounter = 1;
 		
-		EmbedBuilder categoryListEmbedBuilder = new EmbedBuilder();
-		categoryListEmbedBuilder.setColor(Color.ORANGE);
-		categoryListEmbedBuilder.setTitle("Alison's Lovely Commands");
-		categoryListEmbedBuilder.setThumbnail(command.getJDA().getSelfUser().getAvatarUrl());
-		categoryListEmbedBuilder.setFooter("Alison Version " + GlobalConstants.VERSION + "\nCommand Count: " + COMMANDS.size(),
-				command.getJDA().getSelfUser().getAvatarUrl());
+		EmbedBuilder categoryListEmbedBuilder = new EmbedBuilder()
+				.setColor(Color.ORANGE)
+				.setDescription("**Important Privacy Notice**\n"
+						+ "Data collected by ALISON is only available whilst you are opted in to the data collection program."
+						+ " To stop data collection, use the optout command."
+						+ " Once you are opted out, you can still use ALISON, but messages you send will not be processed or persisted.")
+				.setTitle("Alison's Lovely Commands")
+				.setThumbnail(command.getJDA().getSelfUser().getAvatarUrl())
+				.setFooter("Alison Version " + GlobalConstants.VERSION + "\nCommand Count: " + COMMANDS.size(),
+						command.getJDA().getSelfUser().getAvatarUrl());
 		
 		for (CommandCategory commandCategory : CommandCategory.values()) {
 			if (fieldCounter == 1) inlineFieldState = true;
