@@ -34,11 +34,11 @@ public class CommandContext {
 	}
 	
 	public void replyAndThen(String content, Consumer<Message> consumer) {
-		this.message.reply(content).mentionRepliedUser(false).queue(m -> consumer.accept(m));
+		this.message.reply(content).mentionRepliedUser(false).queue(consumer::accept);
 	}
 	
 	public void replyAndThen(MessageEmbed embed, Consumer<Message> consumer) {
-		this.message.replyEmbeds(embed).mentionRepliedUser(false).queue(m -> consumer.accept(m));
+		this.message.replyEmbeds(embed).mentionRepliedUser(false).queue(consumer::accept);
 	}
 	
     public void replyWithFile(byte[] attachment, String attachmentName, MessageEmbed embed) {
