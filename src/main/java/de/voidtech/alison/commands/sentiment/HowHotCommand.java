@@ -30,9 +30,9 @@ public class HowHotCommand extends AbstractCommand {
 					.setImage(userResult.get().getAvatarUrl() + "?size=2048")
 					.build();
 			context.reply(hotnessEmbed);
-		} else context.reply("I couldn't find that user :(");
+		} else context.reply("I couldn't find that user :(");	
 	}
-	
+
 	private Color getColor(int rating)
 	{
 		return rating > 6 
@@ -45,7 +45,7 @@ public class HowHotCommand extends AbstractCommand {
 	private String getPhrase(int rating)
 	{
 		return rating > 6
-				? "What's cookin' good lookin' 😎" 
+				? "What's cookin' good lookin' :smirk:" 
 				: rating > 3
 				? "Not too shabby..." 
 				: "I may need to bleach my eyes.";
