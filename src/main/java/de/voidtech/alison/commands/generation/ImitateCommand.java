@@ -35,7 +35,7 @@ public class ImitateCommand extends AbstractCommand {
 		AlisonModel model = ModelManager.getModel(ID);
 		String msg = model.createSentence();
 		if (msg == null) {
-			context.reply("I couldn't find any data for that user :(");
+			context.reply("I couldn't find any data to make an imitation: (");
 			return;
 		}
 

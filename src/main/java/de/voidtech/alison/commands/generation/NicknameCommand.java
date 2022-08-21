@@ -24,14 +24,14 @@ public class NicknameCommand extends AbstractCommand {
     		}
     		Result<Member> memberResult = context.getGuild().retrieveMemberById(args.get(0).replaceAll("([^0-9])", "")).mapToResult().complete();
     		if (!memberResult.isSuccess()) {
-    			context.reply("I couldn't find that user!");
+    			context.reply("I couldn't find that user :(");
 				return;
     		} else member = memberResult.get();
     	}
 		
 		AlisonModel model = ModelManager.getModel(member.getId());
 		String nickname = model.createNickname();
-		if (nickname == null) context.reply("I don't have enough information to make a nickname!");
+		if (nickname == null) context.reply("I don't have enough information to make a nickname :(");
 		else {
 	    	if (member.isOwner()) {
 	    		sendFailedMessage(context, nickname, "I can't change the owner's nickname!");
