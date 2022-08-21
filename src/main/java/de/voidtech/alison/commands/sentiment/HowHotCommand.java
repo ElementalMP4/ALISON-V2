@@ -13,6 +13,7 @@ import main.java.de.voidtech.alison.commands.AbstractCommand;
 import main.java.de.voidtech.alison.commands.CommandCategory;
 import main.java.de.voidtech.alison.commands.CommandContext;
 import main.java.de.voidtech.alison.utils.DatabaseInterface;
+import main.java.de.voidtech.alison.utils.ParsingUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
@@ -39,21 +40,25 @@ public class HowHotCommand extends AbstractCommand {
 	
 	@Override
 	public void execute(CommandContext context, List<String> args) {
-		if (args.isEmpty()) {
-			String ID;
-			if (args.isEmpty()) ID = context.getAuthor().getId();
-			else ID = args.get(0).replaceAll("([^0-9a-zA-Z])", "");
-			Result<User> userResult = context.getJDA().retrieveUserById(ID).mapToResult().complete();
-			if (userResult.isSuccess()) {
-				int rating = getRating(userResult.get());
-				MessageEmbed hotnessEmbed = new EmbedBuilder()
-						.setColor(getColor(rating))
-						.setTitle("I rate you a " + rating + " out of 10. " + getPhrase(rating))
-						.setImage(userResult.get().getAvatarUrl() + "?size=2048")
-						.build();
-				context.reply(hotnessEmbed);
-			} else context.reply("I couldn't find that user :(");	
-		} else if (context.getAuthor().getId().equals(Alison.getConfig().getMasterId())) handleRigging(context, args);
+		if (context.getAuthor().getId().equals(Alison.getConfig().getMasterId()) & !args.isEmpty()) {
+			if (!ParsingUtils.isInteger(args.get(0).replaceAll("([^0-9a-zA-Z])", ""))) {
+				handleRigging(context, args);
+				return;
+			}
+		}
+		String ID;
+		if (args.isEmpty()) ID = context.getAuthor().getId();
+		else ID = args.get(0).replaceAll("([^0-9a-zA-Z])", "");
+		Result<User> userResult = context.getJDA().retrieveUserById(ID).mapToResult().complete();
+		if (userResult.isSuccess()) {
+			int rating = getRating(userResult.get());
+			MessageEmbed hotnessEmbed = new EmbedBuilder()
+					.setColor(getColor(rating))
+					.setTitle("I rate you a " + rating + " out of 10. " + getPhrase(rating))
+					.setImage(userResult.get().getAvatarUrl() + "?size=2048")
+					.build();
+			context.reply(hotnessEmbed);
+		} else context.reply("I couldn't find that user :(");	
 	}
 	
 	private int getRating(User user) {
