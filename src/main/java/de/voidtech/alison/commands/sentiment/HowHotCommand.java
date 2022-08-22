@@ -21,7 +21,6 @@ import net.dv8tion.jda.api.utils.Result;
 
 public class HowHotCommand extends AbstractCommand {
 
-	//User SQL
 	private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS RiggedHotness (userID TEXT, hotness TEXT)";
 	private static final String UNRIG = "DELETE FROM RiggedHotness WHERE userID = '%s'";
 	private static final String RIG = "INSERT INTO RiggedHotness VALUES ('%s', '%s')";
@@ -107,16 +106,19 @@ public class HowHotCommand extends AbstractCommand {
 	}
 
 	private void unrigUser(CommandContext context, List<String> args) {
-		DatabaseInterface.executeUpdate(DatabaseConnection, String.format(UNRIG, args.get(1).replaceAll("([^0-9a-zA-Z])", "")));
+		String ID = args.get(1).replaceAll("([^0-9a-zA-Z])", "");
+		DatabaseInterface.executeUpdate(DatabaseConnection, String.format(UNRIG, ID));
 		context.reply("<@" + args.get(1).replaceAll("([^0-9a-zA-Z])", "") + "> has been unrigged.");
 	}
 
 	private void rigUser(CommandContext context, List<String> args) {
 		if (args.size() < 3) context.reply("You need to specify a hotness to rig at you buffoon");
 		else {
-			DatabaseInterface.executeUpdate(DatabaseConnection, String.format(UNRIG, args.get(1).replaceAll("([^0-9a-zA-Z])", "")));
-			DatabaseInterface.executeUpdate(DatabaseConnection, String.format(RIG, args.get(1).replaceAll("([^0-9a-zA-Z])", ""), args.get(2)));
-			context.reply("<@" + args.get(1).replaceAll("([^0-9a-zA-Z])", "") + "> has been rigged at a hotness of " + args.get(2) + "/10");			
+			String ID = args.get(1).replaceAll("([^0-9a-zA-Z])", "");
+			String value = args.get(2);
+			DatabaseInterface.executeUpdate(DatabaseConnection, String.format(UNRIG, ID));
+			DatabaseInterface.executeUpdate(DatabaseConnection, String.format(RIG, ID, value));
+			context.reply("<@" + ID + "> has been rigged at a hotness of " + value + "/10");			
 		}
 	}
 
