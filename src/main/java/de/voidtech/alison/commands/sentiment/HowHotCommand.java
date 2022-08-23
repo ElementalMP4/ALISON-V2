@@ -1,8 +1,6 @@
 package main.java.de.voidtech.alison.commands.sentiment;
 
 import java.awt.Color;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -12,7 +10,6 @@ import main.java.de.voidtech.alison.Alison;
 import main.java.de.voidtech.alison.commands.AbstractCommand;
 import main.java.de.voidtech.alison.commands.CommandCategory;
 import main.java.de.voidtech.alison.commands.CommandContext;
-import main.java.de.voidtech.alison.utils.DatabaseInterface;
 import main.java.de.voidtech.alison.utils.ParsingUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -26,15 +23,8 @@ public class HowHotCommand extends AbstractCommand {
 	private static final String RIG = "INSERT INTO RiggedHotness VALUES ('%s', '%s')";
 	private static final String GET_RIGGED = "SELECT * FROM RiggedHotness WHERE userID = '%s'";
 	
-	private static Connection DatabaseConnection = null;
-	
 	public HowHotCommand() {
-		try {
-			DatabaseConnection = DriverManager.getConnection("jdbc:sqlite:Alison.db");
-			DatabaseInterface.executeUpdate(DatabaseConnection, CREATE_TABLE);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		Alison.getDatabase().executeUpdate(CREATE_TABLE);
 	}
 	
 	@Override
@@ -68,8 +58,7 @@ public class HowHotCommand extends AbstractCommand {
 
 	private int getUserRigging(User user) {
 		try {
-			ResultSet result = DatabaseInterface.queryDatabase(DatabaseConnection,
-					String.format(GET_RIGGED, user.getId()));
+			ResultSet result = Alison.getDatabase().queryDatabase(String.format(GET_RIGGED, user.getId()));
 			return Integer.parseInt(result.getString("hotness"));
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -79,8 +68,7 @@ public class HowHotCommand extends AbstractCommand {
 
 	private boolean userIsRigged(User user) {
 		try {
-			ResultSet result = DatabaseInterface.queryDatabase(DatabaseConnection,
-					String.format(GET_RIGGED, user.getId()));
+			ResultSet result = Alison.getDatabase().queryDatabase(String.format(GET_RIGGED, user.getId()));
 			return !result.isClosed();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -107,7 +95,7 @@ public class HowHotCommand extends AbstractCommand {
 
 	private void unrigUser(CommandContext context, List<String> args) {
 		String ID = args.get(1).replaceAll("([^0-9a-zA-Z])", "");
-		DatabaseInterface.executeUpdate(DatabaseConnection, String.format(UNRIG, ID));
+		Alison.getDatabase().executeUpdate(String.format(UNRIG, ID));
 		context.reply("<@" + args.get(1).replaceAll("([^0-9a-zA-Z])", "") + "> has been unrigged.");
 	}
 
@@ -116,8 +104,8 @@ public class HowHotCommand extends AbstractCommand {
 		else {
 			String ID = args.get(1).replaceAll("([^0-9a-zA-Z])", "");
 			String value = args.get(2);
-			DatabaseInterface.executeUpdate(DatabaseConnection, String.format(UNRIG, ID));
-			DatabaseInterface.executeUpdate(DatabaseConnection, String.format(RIG, ID, value));
+			Alison.getDatabase().executeUpdate(String.format(UNRIG, ID));
+			Alison.getDatabase().executeUpdate(String.format(RIG, ID, value));
 			context.reply("<@" + ID + "> has been rigged at a hotness of " + value + "/10");			
 		}
 	}

@@ -46,4 +46,9 @@ public class Configuration {
 		String enabled = config.getProperty("ClassifierEnabled"); 
 		return enabled != null ? false : Boolean.valueOf(enabled);
 	}
+
+	public String getDatabaseUrl() {
+		String path = config.getProperty("DatabasePath"); 
+		return path != null ? "jdbc:sqlite:Alison.db" : path;
+	}
 }
