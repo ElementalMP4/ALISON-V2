@@ -44,11 +44,11 @@ public class Configuration {
 	
 	public boolean classifierEnabled() {
 		String enabled = config.getProperty("ClassifierEnabled"); 
-		return enabled != null ? false : Boolean.valueOf(enabled);
+		return enabled != null ? Boolean.valueOf(enabled) : false;
 	}
 
 	public String getDatabaseUrl() {
 		String path = config.getProperty("DatabasePath"); 
-		return path != null ? "jdbc:sqlite:Alison.db" : path;
+		return path != null ? path : "jdbc:sqlite:Alison.db";
 	}
 }

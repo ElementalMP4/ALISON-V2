@@ -1,11 +1,16 @@
 package main.java.de.voidtech.alison.commands.privacy;
 
+import java.awt.Color;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import main.java.de.voidtech.alison.commands.AbstractCommand;
 import main.java.de.voidtech.alison.commands.CommandCategory;
 import main.java.de.voidtech.alison.commands.CommandContext;
+import main.java.de.voidtech.alison.utils.PrivacyManager;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 
 public class IgnoredChannelsCommand extends AbstractCommand {
 
@@ -36,18 +41,44 @@ public class IgnoredChannelsCommand extends AbstractCommand {
 	}
 
 	private void removeFromBlacklist(CommandContext context) {
-		// TODO Auto-generated method stub
-		
+		if (context.getMessage().getMentionedChannels().isEmpty()) {
+			context.reply("You need to mention a channel to remove from the blacklist!");
+			return;
+		}
+		String channelID = context.getMessage().getMentionedChannels().get(0).getId();
+		if (PrivacyManager.channelIsIgnored(channelID, context.getGuild().getId())) {
+			PrivacyManager.unignoreChannel(channelID, context.getGuild().getId());
+			context.reply("Channel <#" + channelID + "> has been blacklisted!");
+		} else {
+			context.reply("Channel <#" + channelID + "> is not blacklisted!");
+		}
 	}
 
 	private void addToBlacklist(CommandContext context) {
-		// TODO Auto-generated method stub
-		
+		if (context.getMessage().getMentionedChannels().isEmpty()) {
+			context.reply("You need to mention a channel to add to the blacklist!");
+			return;
+		}
+		String channelID = context.getMessage().getMentionedChannels().get(0).getId();
+		if (PrivacyManager.channelIsIgnored(channelID, context.getGuild().getId())) {
+			context.reply("Channel <#" + channelID + "> is already blacklisted!");
+		} else {
+			PrivacyManager.ignoreChannel(channelID, context.getGuild().getId());
+			context.reply("Channel <#" + channelID + "> has been blacklisted!");
+		}
 	}
 
 	private void showIgnoredChannels(CommandContext context) {
-		// TODO Auto-generated method stub
-		
+		List<String> channels = PrivacyManager.getIgnoredChannelsForServer(context.getGuild().getId());
+		String channelList = channels.isEmpty() ? "No channels blacklisted!" :
+			channels.stream().map(c -> "<#" + c + ">").collect(Collectors.joining("\n"));
+		MessageEmbed blacklistEmbed = new EmbedBuilder()
+				.setColor(Color.ORANGE)
+				.setTitle("Blacklisted channels in " + context.getGuild().getName())
+				.setThumbnail(context.getGuild().getIconUrl())
+				.setDescription(channelList)
+				.build();
+		context.reply(blacklistEmbed);
 	}
 
 	@Override

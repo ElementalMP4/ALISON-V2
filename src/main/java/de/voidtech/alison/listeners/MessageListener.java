@@ -17,6 +17,7 @@ import main.java.de.voidtech.alison.utils.ModelManager;
 import main.java.de.voidtech.alison.utils.PrivacyManager;
 import main.java.de.voidtech.alison.utils.TextAnalytics;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -49,6 +50,8 @@ public class MessageListener implements EventListener {
 		if (!shouldHandleAsChatCommand(prefix, message)) {
 			if (message.getChannel().getType().equals(ChannelType.PRIVATE))
 				return;
+			if (PrivacyManager.channelIsIgnored(message.getChannel().getId(), message.getGuild().getId())) 
+				return;
 			if (message.getContentRaw().equals(""))
 				return;
 			if (PrivacyManager.userHasOptedOut(message.getAuthor().getId()))
@@ -58,6 +61,12 @@ public class MessageListener implements EventListener {
 			return;
 		};
 		
+		if (message.getChannel().getType().equals(ChannelType.PRIVATE)) doTheCommanding(message, prefix);
+		else if (!PrivacyManager.channelIsIgnored(message.getChannel().getId(), message.getGuild().getId())) doTheCommanding(message, prefix);
+		else if (message.getMember().getPermissions().contains(Permission.MANAGE_SERVER)) doTheCommanding(message, prefix);
+	}
+
+	private void doTheCommanding(Message message, String prefix) {
 		String messageContent = message.getContentRaw().substring(prefix.length());
 		List<String> messageArray = Arrays.asList(messageContent.trim().split("\\s+"));
 
