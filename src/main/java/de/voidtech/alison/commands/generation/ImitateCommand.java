@@ -33,7 +33,7 @@ public class ImitateCommand extends AbstractCommand {
 		}
 		
 		AlisonModel model = ModelManager.getModel(ID);
-		String msg = model.createSentence();
+		String msg = model.createImitate();
 		if (msg == null) {
 			context.reply("I couldn't find any data to make an imitation: (");
 			return;

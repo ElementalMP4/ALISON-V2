@@ -8,7 +8,7 @@ import java.util.List;
 import main.java.de.voidtech.alison.entities.AlisonModel;
 
 public class ModelManager {
-
+	
 	public static AlisonModel getModel(String model) {
 		return new AlisonModel(model);
 	}

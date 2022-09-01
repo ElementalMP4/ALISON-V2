@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
-import java.util.Stack;
 import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
@@ -27,6 +26,8 @@ public class AlisonModel {
 
 	private static final int NICKNAME_LENGTH = 32;
 	private static final int QUOTE_LENGTH = 100;
+	private static final int SEARCH_LENGTH = 50;
+	private static final int IMITATE_LENGTH = 2000;
 	
 	private List<AlisonWord> words = new ArrayList<AlisonWord>(); 
 	private AlisonMetadata meta = null;
@@ -79,39 +80,60 @@ public class AlisonModel {
 		}
 	}
 	
-	private String createStringUnderLength(int length) {
-		String text = createSentence();
-		if (text == null) return null;
-		if (text.length() > length) {
-			Stack<String> words = new Stack<String>();
-			Arrays.asList(text.split(" ")).stream().forEach(word -> words.push(word));
-			text = "";
-			while (text.trim().length() + words.peek().length() < length) {
-				text += words.pop() + " ";
-			}
+	private String createRandomStringUnderLength(int length) {
+		if (words.isEmpty()) return null;
+		StringBuilder result = new StringBuilder();
+		AlisonWord next = getRandomStartWord();
+		if (next == null) return null;
+		while (!next.isStopWord()) {
+			if (result.length() + (next.getWord() + " ").length() > length) break;
+			result.append(next.getWord() + " ");
+			List<AlisonWord> potentials = getWordList(next.getNext());
+			next = getRandomWord(potentials);
 		}
-		return text.trim();
+		if (result.length() + next.getWord().length() <= length) result.append(next.getWord());
+		return result.toString();
 	}
 	
 	public String createNickname() {
-		return createStringUnderLength(NICKNAME_LENGTH);
+		return createRandomStringUnderLength(NICKNAME_LENGTH);
 	}
 	
 	public String createQuote() {
-		return createStringUnderLength(QUOTE_LENGTH).replaceAll("\n", " ");
+		return createRandomStringUnderLength(QUOTE_LENGTH).replaceAll("\n", " ");
+	}
+	
+	public String createSearch() {
+		return createRandomStringUnderLength(SEARCH_LENGTH);
+	}
+	
+	public String createImitate() {
+		return createRandomStringUnderLength(IMITATE_LENGTH);
 	}
 
 	public void learn(String content) {
         List<String> tokens = Arrays.asList(content.split(" "));
+        List<AlisonWord> newWords = new ArrayList<AlisonWord>();
         for (int i = 0; i < tokens.size(); ++i) {
-            if (i == tokens.size() - 1) words.add(new AlisonWord(tokens.get(i), "StopWord"));
-            else words.add(new AlisonWord(tokens.get(i), tokens.get(i + 1)));
+            if (i == tokens.size() - 1) newWords.add(new AlisonWord(tokens.get(i), "StopWord"));
+            else newWords.add(new AlisonWord(tokens.get(i), tokens.get(i + 1)));
         }
+        for (AlisonWord word : newWords) {
+        	AlisonWord wordInModel = words.stream()
+        			.filter(w -> w.getWord().equals(word.getWord()) && w.getNext().equals(word.getNext()))
+        			.findFirst()
+        			.orElse(null);
+        	if (wordInModel == null) words.add(word);
+        	else wordInModel.incrementCount();
+        };
+        
         save();
 	}
 
-	private AlisonWord getRandomWord(final List<AlisonWord> words) {
-        return words.get(new Random().nextInt(words.size()));
+	private AlisonWord getRandomWord(List<AlisonWord> words) {
+		List<AlisonWord> correctedWordList = new ArrayList<AlisonWord>();
+		words.stream().forEach(w -> {for (int i = 0; i < w.getFrequency(); i++) {correctedWordList.add(w);}});
+        return correctedWordList.get(new Random().nextInt(correctedWordList.size()));
     }
 	
 	public Map<String, Long> getTopFiveWords() {
@@ -122,20 +144,6 @@ public class AlisonModel {
 				.limit(5)
 				.collect(Collectors.toMap(Entry::getKey, Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 		return topFiveWords;
-	}
-	
-	public String createSentence() {
-		if (words.isEmpty()) return null;
-		List<String> result = new ArrayList<String>();
-		AlisonWord next = getRandomStartWord();
-		if (next == null) return null;
-		while (!next.isStopWord()) {
-			result.add(next.getWord());
-			List<AlisonWord> potentials = getWordList(next.getNext());
-			next = getRandomWord(potentials);
-		}
-		result.add(next.getWord());
-		return String.join(" ", result);
 	}
 	
 	private AlisonWord getRandomStartWord() {
@@ -157,6 +165,7 @@ public class AlisonModel {
 	}
 	
 	public void overwriteModel(List<AlisonWord> words) {
+		this.words.clear();
 		this.words = words;
 		save();
 	}

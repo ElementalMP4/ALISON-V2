@@ -9,12 +9,29 @@ public class AlisonWord implements Serializable {
 	private String word;
 
 	private String next;
+	
+	private int frequency;
 
 	public AlisonWord(String word, String next) {
 		this.word = word;
 		this.next = next;
+		this.frequency = 1;
+	}
+	
+	public AlisonWord(String word, String next, int frequency) {
+		this.word = word;
+		this.next = next;
+		this.frequency = frequency;
 	}
 
+	public void incrementCount() {
+		this.frequency++;
+	}
+	
+	public int getFrequency() {
+		return this.frequency;
+	}
+	
 	public boolean isStopWord() {
 		return this.next.equals("StopWord");
 	}

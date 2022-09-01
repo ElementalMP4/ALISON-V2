@@ -43,7 +43,7 @@ public class SearchCommand extends AbstractCommand {
 		}
 		
 		AlisonModel model = ModelManager.getModel(ID);
-		String search = model.createSentence();
+		String search = model.createSearch();
 		if (search == null) {
 			context.reply("I couldn't find any data for that user :(");
 			return;
