@@ -95,6 +95,25 @@ public class AlisonModel {
 		return result.toString();
 	}
 	
+	private String createProbableSentenceUnderLength(int length) {
+		if (words.isEmpty()) return null;
+		StringBuilder result = new StringBuilder();
+		AlisonWord next = getRandomStartWord();
+		if (next == null) return null;
+		while (!next.isStopWord()) {
+			if (result.length() + (next.getWord() + " ").length() > length) break;
+			result.append(next.getWord() + " ");
+			List<AlisonWord> potentials = getWordList(next.getNext());
+			next = getMostLikely(potentials);
+		}
+		if (result.length() + next.getWord().length() <= length) result.append(next.getWord());
+		return result.toString();
+	}
+	
+	private AlisonWord getMostLikely(List<AlisonWord> potentials) {
+		return potentials.stream().sorted(Comparator.comparing(AlisonWord::getFrequency)).collect(Collectors.toList()).get(0);
+	}
+
 	public String createNickname() {
 		return createRandomStringUnderLength(NICKNAME_LENGTH);
 	}
@@ -108,7 +127,7 @@ public class AlisonModel {
 	}
 	
 	public String createImitate() {
-		return createRandomStringUnderLength(IMITATE_LENGTH);
+		return createProbableSentenceUnderLength(IMITATE_LENGTH);
 	}
 
 	public void learn(String content) {
