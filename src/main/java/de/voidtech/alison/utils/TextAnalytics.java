@@ -96,8 +96,9 @@ public class TextAnalytics {
 	
 	public static void respondToAlisonMention(Message message) {
 		if (!message.getContentRaw().toLowerCase().contains("alison")) return;
-		String intent = NodeUtils.getAlisonMentionIntent(message.getContentRaw().toLowerCase());
-		if (intent == "None") return;
-		message.addReaction(intent.equals("Positive") ? getRandomEmote(POSITIVE_EMOTES) : getRandomEmote(NEGATIVE_EMOTES)).queue();
+		Sentiment sentiment = TextAnalytics.analyseSentence(message.getContentRaw().toLowerCase());
+		System.out.println(sentiment.getAdjustedScore());
+		if (sentiment.getAdjustedScore() >= 2) message.addReaction(getRandomEmote(POSITIVE_EMOTES)).queue();
+		else if (sentiment.getAdjustedScore() <= 2) message.addReaction(getRandomEmote(NEGATIVE_EMOTES)).queue();
 	}
 }

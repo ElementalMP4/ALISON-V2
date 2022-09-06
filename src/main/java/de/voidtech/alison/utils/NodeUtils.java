@@ -1,13 +1,9 @@
 package main.java.de.voidtech.alison.utils;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.stream.Collectors;
 
 import javax.xml.bind.DatatypeConverter;
 
@@ -36,21 +32,4 @@ public class NodeUtils {
 		}
 		return null;
 	}
-	
-	public static String getAlisonMentionIntent(String message) {
-        try {
-            HttpURLConnection con = (HttpURLConnection) new URL(Alison.getConfig().getApiUrl() + "intent/?message="
-					+ URLEncoder.encode(message, StandardCharsets.UTF_8.toString())).openConnection();
-            con.setRequestMethod("GET");
-            if (con.getResponseCode() == 200) {
-                try (BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
-                    return in.lines().collect(Collectors.joining());
-                }
-            }
-            con.disconnect();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "Neutral";
-    }
 }
