@@ -15,6 +15,7 @@ public class ButtonConsumer {
 		this.message = message;
 		this.button = button;
 		this.button.deferEdit().queue();
+		this.message.editMessageComponents().queue();
 	}
 
 	public Message getMessage() {
