@@ -22,8 +22,8 @@ public class TextAnalytics {
 	private static List<String> NegativeWords = new ArrayList<String>();
 	private static List<String> PositiveWords = new ArrayList<String>();
 	
-	private static final List<String> POSITIVE_EMOTES = Arrays.asList(new String[] {"♥", "🥰", "😘"});
-	private static final List<String> NEGATIVE_EMOTES = Arrays.asList(new String[] {"💔", "😔", "😭"});
+	private static final List<String> POSITIVE_EMOTES = Arrays.asList(new String[] {"❤", "🥰", "😘", "😄"});
+	private static final List<String> NEGATIVE_EMOTES = Arrays.asList(new String[] {"💔", "😔", "😭", "😢"});
 
 	private static void populateLexicon() {
 		NegativeWords.clear();
@@ -45,9 +45,9 @@ public class TextAnalytics {
 	public static Sentiment analyseSentence(String sentence) {
 		if (NegativeWords.isEmpty() | PositiveWords.isEmpty()) populateLexicon();
 		
-		String tokenisedSentence = sentence.replaceAll("([^a-zA-Z\\d\\s:])", "").toLowerCase();
-		List<String> negativeTokens = findTokens(NegativeWords, tokenisedSentence);
-		List<String> positiveTokens = findTokens(PositiveWords, tokenisedSentence);
+		String tokenizedSentence = sentence.replaceAll("([^a-zA-Z\\d\\s:])", "").toLowerCase();
+		List<String> negativeTokens = findTokens(NegativeWords, tokenizedSentence);
+		List<String> positiveTokens = findTokens(PositiveWords, tokenizedSentence);
 		
 		return new Sentiment(positiveTokens, negativeTokens, sentence);
 	}
@@ -97,7 +97,6 @@ public class TextAnalytics {
 	public static void respondToAlisonMention(Message message) {
 		if (!message.getContentRaw().toLowerCase().contains("alison")) return;
 		Sentiment sentiment = TextAnalytics.analyseSentence(message.getContentRaw().toLowerCase());
-		System.out.println(sentiment.getAdjustedScore());
 		if (sentiment.getAdjustedScore() >= 2) message.addReaction(getRandomEmote(POSITIVE_EMOTES)).queue();
 		else if (sentiment.getAdjustedScore() <= 2) message.addReaction(getRandomEmote(NEGATIVE_EMOTES)).queue();
 	}
