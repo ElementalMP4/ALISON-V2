@@ -7,13 +7,14 @@ import main.java.de.voidtech.alison.utils.StatusLogger;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.hooks.EventListener;
+import org.jetbrains.annotations.NotNull;
 
 public class ReadyListener implements EventListener {
 
 	public static final Logger LOGGER = Logger.getLogger(ReadyListener.class.getSimpleName());
 
 	@Override
-	public void onEvent(GenericEvent event) {
+	public void onEvent(@NotNull GenericEvent event) {
 		if (event instanceof ReadyEvent) {
 			ReadyEvent readyEvent = (ReadyEvent) event;
 			LOGGER.log(Level.INFO, "Logged in as " + readyEvent.getJDA().getSelfUser().getAsTag());

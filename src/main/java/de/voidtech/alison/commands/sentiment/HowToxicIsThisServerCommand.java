@@ -16,11 +16,7 @@ public class HowToxicIsThisServerCommand extends AbstractCommand {
 	@Override
 	public void execute(CommandContext context, List<String> args) {
 		List<Sentiment> everyMemberJudgedIntensely = TextAnalytics.analyseServer(context.getGuild());
-		if (everyMemberJudgedIntensely == null) {
-			context.reply("I couldn't find any data to analyse!");
-			return;
-		}
-		Sentiment topMember = everyMemberJudgedIntensely.get(0);
+        Sentiment topMember = everyMemberJudgedIntensely.get(0);
 		Sentiment bottomMember = everyMemberJudgedIntensely.get(everyMemberJudgedIntensely.size() - 1);
 		Sentiment howToxic = TextAnalytics.averageSentiment(everyMemberJudgedIntensely);
 		MessageEmbed toxicityEmbed = new EmbedBuilder()

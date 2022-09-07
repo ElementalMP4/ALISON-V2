@@ -7,7 +7,7 @@ import java.util.concurrent.Executors;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 
 public class ThreadManager {
-	private static HashMap<String, ExecutorService> threadMap = new HashMap<String, ExecutorService>();
+	private static final HashMap<String, ExecutorService> threadMap = new HashMap<String, ExecutorService>();
 
 	private static ExecutorService findOrSpawnThread(String threadID) {
 		

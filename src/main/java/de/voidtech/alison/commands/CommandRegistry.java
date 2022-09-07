@@ -25,7 +25,7 @@ import main.java.de.voidtech.alison.commands.sentiment.LeaderboardCommand;
 
 public class CommandRegistry {
 	
-	private static List<AbstractCommand> Commands = new ArrayList<AbstractCommand>();
+	private static final List<AbstractCommand> Commands = new ArrayList<AbstractCommand>();
 	
 	private static void populateCommands() {
 		Commands.add(new ClearCommand());

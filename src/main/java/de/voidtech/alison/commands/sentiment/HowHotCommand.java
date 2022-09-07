@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 import main.java.de.voidtech.alison.Alison;
@@ -53,7 +54,7 @@ public class HowHotCommand extends AbstractCommand {
 	private int getRating(User user) {
 		if (userIsRigged(user)) return getUserRigging(user);
 		return user.getId().equals(Alison.getConfig().getMasterId()) ? 10 :
-			new Random(user.getAvatarId().hashCode()).nextInt(10);
+			new Random(Objects.requireNonNull(user.getAvatarId()).hashCode()).nextInt(10);
 	}
 
 	private int getUserRigging(User user) {

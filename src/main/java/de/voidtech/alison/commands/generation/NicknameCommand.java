@@ -35,9 +35,7 @@ public class NicknameCommand extends AbstractCommand {
 		String nickname = model.createNickname();
 		if (nickname == null) context.reply("I don't have enough information to make a nickname :(");
 		else {
-			new ButtonListener(context, "Change **" + member.getUser().getAsTag() + "'s** nickname to **" + nickname + "**?", result -> {
-				handleNicknameUpdateChoice(member, nickname, context, result);
-			});
+			new ButtonListener(context, "Change **" + member.getUser().getAsTag() + "'s** nickname to **" + nickname + "**?", result -> handleNicknameUpdateChoice(member, nickname, context, result));
 		}
 	}
 	

@@ -8,8 +8,8 @@ public class ButtonConsumer {
 	public static final String TRUE_EMOTE = "\u2705";
 	public static final String FALSE_EMOTE = "\u274C";
 
-	private Message message;
-	private ButtonClickEvent button;
+	private final Message message;
+	private final ButtonClickEvent button;
 
 	public ButtonConsumer(ButtonClickEvent button, Message message) {
 		this.message = message;

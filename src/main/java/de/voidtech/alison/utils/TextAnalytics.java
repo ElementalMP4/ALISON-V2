@@ -22,8 +22,8 @@ public class TextAnalytics {
 	private static List<String> NegativeWords = new ArrayList<String>();
 	private static List<String> PositiveWords = new ArrayList<String>();
 	
-	private static final List<String> POSITIVE_EMOTES = Arrays.asList(new String[] {"❤", "🥰", "😘", "😄"});
-	private static final List<String> NEGATIVE_EMOTES = Arrays.asList(new String[] {"💔", "😔", "😭", "😢"});
+	private static final List<String> POSITIVE_EMOTES = Arrays.asList("❤", "🥰", "😘", "😄");
+	private static final List<String> NEGATIVE_EMOTES = Arrays.asList("💔", "😔", "😭", "😢");
 
 	private static void populateLexicon() {
 		NegativeWords.clear();
@@ -54,7 +54,7 @@ public class TextAnalytics {
 
 	private static List<String> findTokens(List<String> wordList, String sentence) {
 		List<String> results = new ArrayList<String>();
-		 wordList.stream().forEach(token -> {
+		 wordList.forEach(token -> {
 			 for (int i = 0; i < StringUtils.countMatches(sentence, token); i++) {
 				 results.add(token);
 			 }
@@ -68,9 +68,7 @@ public class TextAnalytics {
 				.map(Member::getId)
 				.filter(memberID -> !PrivacyManager.userHasOptedOut(memberID))
 				.filter(ModelManager::modelExists)
-				.map(TextAnalytics::analysePack)
-				.collect(Collectors.toList());
-		sentiments.sort(Comparator.comparing(Sentiment::getAdjustedScore));
+				.map(TextAnalytics::analysePack).sorted(Comparator.comparing(Sentiment::getAdjustedScore)).collect(Collectors.toList());
 		Collections.reverse(sentiments);
 		return sentiments;
 	}

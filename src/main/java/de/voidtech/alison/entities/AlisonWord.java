@@ -6,9 +6,9 @@ public class AlisonWord implements Serializable {
 
 	private static final long serialVersionUID = -86154588887368562L;
 
-	private String word;
+	private final String word;
 
-	private String next;
+	private final String next;
 	
 	private int frequency;
 
@@ -33,7 +33,7 @@ public class AlisonWord implements Serializable {
 	}
 	
 	public boolean isStopWord() {
-		return this.next.equals("StopWord");
+		return !this.next.equals("StopWord");
 	}
 
 	public String getWord() {

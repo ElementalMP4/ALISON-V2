@@ -19,7 +19,6 @@ public class HowToxicIsThisCommand extends AbstractCommand {
 		if (args.isEmpty()) {
 			if (context.getMessage().getReferencedMessage() == null) {
 				context.reply("You need to give me a message to analyse! Either reply to someone else's message or provide me with some text!");
-				return;
 			} else {
 				if (PrivacyManager.userHasOptedOut(context.getMessage().getReferencedMessage().getAuthor().getId())) {
 					context.reply("This user has chosen not to be analysed!");

@@ -25,8 +25,7 @@ public class NodeUtils {
 			URL url = new URL(cardURL);
 			//Remove the data:image/png;base64 part
 			String response = Jsoup.connect(url.toString()).get().toString().split(",")[1];
-			byte[] imageBytes = DatatypeConverter.parseBase64Binary(response);
-			return imageBytes;
+            return DatatypeConverter.parseBase64Binary(response);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

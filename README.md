@@ -20,9 +20,9 @@ V1 was getting slow due to some poor design decisions. Instead of refactoring, I
 
 ## What ALISON *isn't*
 
-ALISON is not a chat bot. She will not have a conversation with you, and she never will. 
+ALISON is not a chatbot. She will not have a conversation with you, and she never will. 
 
-If you are looking for an awesome chat bot, please visit my good friend [Scot_Survivor](https://github.com/Scot-Survivor) over at the [Gavin Development](https://github.com/Gavin-Development) corner instead.
+If you are looking for an awesome chatbot, please visit my good friend [Scot_Survivor](https://github.com/Scot-Survivor) over at the [Gavin Development](https://github.com/Gavin-Development) corner instead.
 
 ## What ALISON *is*
 
@@ -111,7 +111,7 @@ Running ALISON is not a difficult task, however you will need some prerequisites
 
 ### Running
 
-ALISON is a smarty so she will automatically create her databases. You will however need to provide her with a configuration file.
+ALISON is a smarty, so she will automatically create her databases. You will however need to provide her with a configuration file.
 
 Your config file needs to be called `AlisonConfig.properties` and it needs to be placed at either the root of the project, or directly next to a compiled jar. It should contain these fields:
 

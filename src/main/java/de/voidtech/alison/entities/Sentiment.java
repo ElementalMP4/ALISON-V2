@@ -6,12 +6,12 @@ import java.util.stream.Stream;
 
 public class Sentiment {
 
-	private List<String> positives;
-	private List<String> negatives;
-	private String originalWords;
-	private List<String> tokens;
+	private final List<String> positives;
+	private final List<String> negatives;
+	private final String originalWords;
+	private final List<String> tokens;
 
-	private int score;
+	private final int score;
 	private String pack;
 
 	public Sentiment(List<String> positives, List<String> negatives, String originalWords) {
@@ -30,9 +30,9 @@ public class Sentiment {
 		if (this.positives.size() == 0 & this.negatives.size() == 0)
 			return 0;
 		if (this.positives.size() == 0)
-			return calculateAdjusted(this.negatives.size(), this.positives.size(), -1);
+			return calculateAdjusted(this.negatives.size(), 0, -1);
 		if (this.negatives.size() == 0)
-			return calculateAdjusted(this.positives.size(), this.negatives.size(), 1);
+			return calculateAdjusted(this.positives.size(), 0, 1);
 		if (this.positives.size() == this.negatives.size())
 			return this.score;
 		return this.positives.size() < this.negatives.size()

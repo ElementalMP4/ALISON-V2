@@ -3,6 +3,7 @@ package main.java.de.voidtech.alison.utils;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,12 +23,11 @@ public class WebhookManager {
 		
 		List<Webhook> webhooks = targetChannel.retrieveWebhooks().complete();
 		for (Webhook webhook : webhooks) {
-			if (webhook.getName().equals(webhookName) && webhook.getOwnerAsUser().getId().equals(selfID)) {
+			if (webhook.getName().equals(webhookName) && Objects.requireNonNull(webhook.getOwnerAsUser()).getId().equals(selfID)) {
 				return webhook;
 			}
 		}
-		Webhook newWebhook = targetChannel.createWebhook(webhookName).complete();
-		return newWebhook;		
+        return targetChannel.createWebhook(webhookName).complete();
 	}
 	
 	public static void sendWebhookMessage(Webhook webhook, String content, String username, String avatarUrl) {

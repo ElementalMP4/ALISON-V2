@@ -19,8 +19,8 @@ import net.dv8tion.jda.api.interactions.components.Component;
 
 public class OptOutCommand extends AbstractCommand {
 
-	private void getAwaitedButton(CommandContext context, String question, List<Component> actions, Consumer<ButtonConsumer> result) {
-        Message msg = context.getMessage().reply(question).setActionRow(actions).mentionRepliedUser(false).complete();
+	private void getAwaitedButton(CommandContext context, List<Component> actions, Consumer<ButtonConsumer> result) {
+        Message msg = context.getMessage().reply("Would you also like to delete any collected data?").setActionRow(actions).mentionRepliedUser(false).complete();
         Alison.getBot().getEventWaiter().waitForEvent(ButtonClickEvent.class,
                 e -> e.getUser().getId().equals(context.getAuthor().getId()),
 				e -> result.accept(new ButtonConsumer(e, msg)), 30, TimeUnit.SECONDS,
@@ -31,7 +31,7 @@ public class OptOutCommand extends AbstractCommand {
 	public void execute(CommandContext context, List<String> args) {
 		if (!PrivacyManager.userHasOptedOut(context.getAuthor().getId())) {
 			PrivacyManager.optOut(context.getAuthor().getId());	
-			getAwaitedButton(context, "Would you also like to delete any collected data?", createTrueFalseButtons(), result -> {
+			getAwaitedButton(context, createTrueFalseButtons(), result -> {
 				result.getButton().deferEdit().queue();
 				switch (result.getButton().getComponentId()) {
 				case "YES":

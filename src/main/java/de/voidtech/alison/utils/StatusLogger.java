@@ -8,11 +8,7 @@ public class StatusLogger {
 
 	public static void init() {
 		sendStartupMessage();
-		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-			public void run() {
-				sendShutdownMessage();
-			}
-		}, "Shutdown Alert"));
+		Runtime.getRuntime().addShutdownHook(new Thread(StatusLogger::sendShutdownMessage, "Shutdown Alert"));
 	}
 
 	private static void sendStartupMessage() {

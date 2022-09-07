@@ -28,7 +28,7 @@ public class LeaderboardCommand extends AbstractCommand {
 	}
 	
 	private String createLeaderboardString(List<Sentiment> allMembers) {
-		String leaderboard = "**Top 5 members**\n";
+		StringBuilder leaderboard = new StringBuilder("**Top 5 members**\n");
 		List<Sentiment> topFive = allMembers.stream().limit(5).collect(Collectors.toList());
 		Collections.reverse(allMembers);
 		List<Sentiment> bottomFive = allMembers.stream().limit(5).collect(Collectors.toList());
@@ -36,64 +36,61 @@ public class LeaderboardCommand extends AbstractCommand {
 		Collections.reverse(bottomFive);
 		
 		for (Sentiment sentiment : topFive) {
-			leaderboard += intToEmojiString(allMembers.indexOf(sentiment) + 1);
-			leaderboard += "<@" + sentiment.getPack() + "> - `";
-			leaderboard += sentiment.getAdjustedScore() + "`\n";
+			leaderboard.append(intToEmojiString(allMembers.indexOf(sentiment) + 1));
+			leaderboard.append("<@").append(sentiment.getPack()).append("> - `");
+			leaderboard.append(sentiment.getAdjustedScore()).append("`\n");
 		}
-		leaderboard += "**Bottom 5 Members**\n";
+		leaderboard.append("**Bottom 5 Members**\n");
 		for (Sentiment sentiment : bottomFive) {
-			leaderboard += intToEmojiString(allMembers.indexOf(sentiment) + 1);
-			leaderboard += "<@" + sentiment.getPack() + "> - `";
-			leaderboard += sentiment.getAdjustedScore() + "`\n";
+			leaderboard.append(intToEmojiString(allMembers.indexOf(sentiment) + 1));
+			leaderboard.append("<@").append(sentiment.getPack()).append("> - `");
+			leaderboard.append(sentiment.getAdjustedScore()).append("`\n");
 		}
 		
-		return leaderboard;
+		return leaderboard.toString();
 	}
 
 	public static String intToEmojiString(int position) {
 		String digits = String.valueOf(position);
-		String result = "";
+		StringBuilder result = new StringBuilder();
 		for (String digit : digits.split("")) {
 			switch (digit) {
-				case "0":
-					result += ":zero:";
-					break;
 				case "1":
-					result += ":one:";
+					result.append(":one:");
 					break;
 				case "2":
-					result += ":two:";
+					result.append(":two:");
 					break;
 				case "3":
-					result += ":three:";
+					result.append(":three:");
 					break;
 				case "4":
-					result += ":four:";
+					result.append(":four:");
 					break;
 				case "5":
-					result += ":five:";
+					result.append(":five:");
 					break;
 				case "6":
-					result += ":six:";
+					result.append(":six:");
 					break;
 				case "7":
-					result += ":seven:";
+					result.append(":seven:");
 					break;
 				case "8":
-					result += ":eight:";
+					result.append(":eight:");
 					break;
 				case "9":
-					result += ":nine:";
+					result.append(":nine:");
 					break;
 				case "10":
-					result += ":ten:";
+					result.append(":ten:");
 					break;
 				default:
-					result += ":zero:";
+					result.append(":zero:");
 					break;
 			}
 		}
-		return result;
+		return result.toString();
 	}
 
 	@Override

@@ -25,8 +25,7 @@ public class DatabaseInterface {
 	public ResultSet queryDatabase(String query) {
 		try {
 			Statement statement = connection.createStatement();
-			ResultSet result = statement.executeQuery(query);
-			return result;
+            return statement.executeQuery(query);
 		} catch (SQLException e) {
 			LOGGER.log(Level.SEVERE, "An SQL Exception has occurred: " + e.getMessage());
 			e.printStackTrace();

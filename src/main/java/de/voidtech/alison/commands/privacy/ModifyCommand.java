@@ -17,12 +17,8 @@ public class ModifyCommand extends AbstractCommand {
 	public void execute(CommandContext context, List<String> args) {
 		if (!context.getAuthor().getId().equals(Alison.getConfig().getMasterId())) return;
 		AlisonModel model = ModelManager.getModel(args.get(0));
-		if (model == null) {
-			context.reply("That ain't it chief (model not found)");
-			return;
-		}
-		
-		switch (args.get(1)) {
+
+        switch (args.get(1)) {
 			case "add":
 				addToModel(model, context, args);
 				break;

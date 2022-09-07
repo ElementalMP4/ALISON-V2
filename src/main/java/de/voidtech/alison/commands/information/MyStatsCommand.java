@@ -42,14 +42,14 @@ public class MyStatsCommand extends AbstractCommand {
 		AlisonModel pack = ModelManager.getModel(user.getId());
 		Map<String, Long> topFive = pack.getTopFiveWords();
         long wordCount = pack.getWordCount();
-        String topFiveFormatted = String.join("\n", topFive.entrySet().stream()
-        		.map(e -> e.getKey() + " - " + e.getValue()).collect(Collectors.toList()));
+        String topFiveFormatted = topFive.entrySet().stream()
+        		.map(e -> e.getKey() + " - " + e.getValue()).collect(Collectors.joining("\n"));
         EmbedBuilder statsEmbedBuilder = new EmbedBuilder()
         		.setColor(Color.ORANGE)
         		.setTitle("Stats for " + user.getAsTag())
         		.setThumbnail(user.getAvatarUrl())
         		.addField("Top 5 words", "```\n" + topFiveFormatted + "\n```", false)
-        		.addField("Total Words", "```\n" + String.valueOf(wordCount) + "\n```", false);
+        		.addField("Total Words", "```\n" + wordCount + "\n```", false);
 		return statsEmbedBuilder.build();
 	}
 

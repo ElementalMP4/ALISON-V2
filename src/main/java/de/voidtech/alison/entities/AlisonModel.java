@@ -8,14 +8,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
@@ -31,8 +25,9 @@ public class AlisonModel {
 	
 	private List<AlisonWord> words = new ArrayList<AlisonWord>(); 
 	private AlisonMetadata meta = null;
-	private String dataDir;
+	private final String dataDir;
 
+	@SuppressWarnings("ResultOfMethodCallIgnored")
 	public AlisonModel(String pack) {
 		dataDir = "models/" + pack;
 		File modelFile = new File(dataDir + "/words.alison");
@@ -85,9 +80,9 @@ public class AlisonModel {
 		StringBuilder result = new StringBuilder();
 		AlisonWord next = getRandomStartWord();
 		if (next == null) return null;
-		while (!next.isStopWord()) {
+		while (next.isStopWord()) {
 			if (result.length() + (next.getWord() + " ").length() > length) break;
-			result.append(next.getWord() + " ");
+			result.append(next.getWord()).append(" ");
 			List<AlisonWord> potentials = getWordList(next.getNext());
 			next = getRandomWord(potentials);
 		}
@@ -95,18 +90,18 @@ public class AlisonModel {
 		return result.toString();
 	}
 	
-	private String createProbableSentenceUnderLength(int length) {
+	private String createProbableSentenceUnderLength() {
 		if (words.isEmpty()) return null;
 		StringBuilder result = new StringBuilder();
 		AlisonWord next = getRandomStartWord();
 		if (next == null) return null;
-		while (!next.isStopWord()) {
-			if (result.length() + (next.getWord() + " ").length() > length) break;
-			result.append(next.getWord() + " ");
+		while (next.isStopWord()) {
+			if (result.length() + (next.getWord() + " ").length() > AlisonModel.IMITATE_LENGTH) break;
+			result.append(next.getWord()).append(" ");
 			List<AlisonWord> potentials = getWordList(next.getNext());
 			next = getMostLikely(potentials);
 		}
-		if (result.length() + next.getWord().length() <= length) result.append(next.getWord());
+		if (result.length() + next.getWord().length() <= AlisonModel.IMITATE_LENGTH) result.append(next.getWord());
 		return result.toString();
 	}
 	
@@ -119,7 +114,7 @@ public class AlisonModel {
 	}
 	
 	public String createQuote() {
-		return createRandomStringUnderLength(QUOTE_LENGTH).replaceAll("\n", " ");
+		return Objects.requireNonNull(createRandomStringUnderLength(QUOTE_LENGTH)).replaceAll("\n", " ");
 	}
 	
 	public String createSearch() {
@@ -127,7 +122,7 @@ public class AlisonModel {
 	}
 	
 	public String createImitate() {
-		return createProbableSentenceUnderLength(IMITATE_LENGTH);
+		return createProbableSentenceUnderLength();
 	}
 
 	public void learn(String content) {
@@ -144,25 +139,24 @@ public class AlisonModel {
         			.orElse(null);
         	if (wordInModel == null) words.add(word);
         	else wordInModel.incrementCount();
-        };
-        
-        save();
+        }
+
+		save();
 	}
 
 	private AlisonWord getRandomWord(List<AlisonWord> words) {
 		List<AlisonWord> correctedWordList = new ArrayList<AlisonWord>();
-		words.stream().forEach(w -> {for (int i = 0; i < w.getFrequency(); i++) {correctedWordList.add(w);}});
+		words.forEach(w -> {for (int i = 0; i < w.getFrequency(); i++) {correctedWordList.add(w);}});
         return correctedWordList.get(new Random().nextInt(correctedWordList.size()));
     }
 	
 	public Map<String, Long> getTopFiveWords() {
-		Map<String, Long> countedWords = (Map<String, Long>) words.stream()
-				.collect(Collectors.groupingBy(word -> word.getWord(), Collectors.counting()));	
-		Map<String, Long> topFiveWords = countedWords.entrySet().stream()
+		Map<String, Long> countedWords = words.stream()
+				.collect(Collectors.groupingBy(AlisonWord::getWord, Collectors.counting()));
+		return countedWords.entrySet().stream()
 				.sorted(Entry.comparingByValue(Comparator.reverseOrder()))
 				.limit(5)
 				.collect(Collectors.toMap(Entry::getKey, Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
-		return topFiveWords;
 	}
 	
 	private AlisonWord getRandomStartWord() {

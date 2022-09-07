@@ -1,9 +1,9 @@
 package main.java.de.voidtech.alison.listeners;
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -24,6 +24,7 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.EventListener;
+import org.jetbrains.annotations.NotNull;
 
 public class MessageListener implements EventListener {
 
@@ -31,7 +32,7 @@ public class MessageListener implements EventListener {
 	private static final int LEVENSHTEIN_THRESHOLD = 3;
 
 	@Override
-	public void onEvent(GenericEvent event) {
+	public void onEvent(@NotNull GenericEvent event) {
 		if (event instanceof MessageReceivedEvent) {
 			MessageReceivedEvent message = (MessageReceivedEvent) event;
 			if (message.isWebhookMessage())
@@ -59,11 +60,11 @@ public class MessageListener implements EventListener {
 			TextAnalytics.respondToAlisonMention(message);
 			ModelManager.getModel(message.getAuthor().getId()).learn(message.getContentRaw());
 			return;
-		};
-		
+		}
+
 		if (message.getChannel().getType().equals(ChannelType.PRIVATE)) doTheCommanding(message, prefix);
 		else if (!PrivacyManager.channelIsIgnored(message.getChannel().getId(), message.getGuild().getId())) doTheCommanding(message, prefix);
-		else if (message.getMember().getPermissions().contains(Permission.MANAGE_SERVER)) doTheCommanding(message, prefix);
+		else if (Objects.requireNonNull(message.getMember()).getPermissions().contains(Permission.MANAGE_SERVER)) doTheCommanding(message, prefix);
 	}
 
 	private void doTheCommanding(Message message, String prefix) {
@@ -74,7 +75,6 @@ public class MessageListener implements EventListener {
 		if (commandOpt == null) {
 			LOGGER.log(Level.INFO, "Command not found: " + messageArray.get(0));
 			tryLevenshteinOptions(message, messageArray.get(0));
-			return;
 		} else {
 			LOGGER.log(Level.INFO,
 					"Command executed: " + commandOpt.getName() + " by " + message.getAuthor().getAsTag());
@@ -89,7 +89,7 @@ public class MessageListener implements EventListener {
 	}
 
 	private void tryLevenshteinOptions(Message message, String commandName) {
-		List<String> possibleOptions = new ArrayList<>();
+		List<String> possibleOptions;
 		possibleOptions = CommandRegistry.getAllCommands().stream()
 				.map(AbstractCommand::getName)
 				.filter(name -> LevenshteinCalculator.calculate(commandName, name) <= LEVENSHTEIN_THRESHOLD)

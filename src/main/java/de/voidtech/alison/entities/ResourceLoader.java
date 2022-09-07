@@ -13,7 +13,8 @@ public class ResourceLoader {
 		List<String> lines = new ArrayList<String>();
 		try {
 			InputStream dataInStream = getClass().getClassLoader().getResourceAsStream(filename);
-			BufferedReader br = new BufferedReader(new InputStreamReader(dataInStream));
+            assert dataInStream != null;
+            BufferedReader br = new BufferedReader(new InputStreamReader(dataInStream));
 			String line;
 			while ((line = br.readLine()) != null) {
 				lines.add(line);

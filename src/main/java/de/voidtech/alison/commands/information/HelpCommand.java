@@ -23,8 +23,7 @@ public class HelpCommand extends AbstractCommand {
 	}
 	
 	private void showCategoryList(CommandContext command) {
-		
-		boolean inlineFieldState = true;
+
 		int fieldCounter = 1;
 		
 		EmbedBuilder categoryListEmbedBuilder = new EmbedBuilder()
@@ -39,13 +38,12 @@ public class HelpCommand extends AbstractCommand {
 						command.getJDA().getSelfUser().getAvatarUrl());
 		
 		for (CommandCategory commandCategory : CommandCategory.values()) {
-			if (fieldCounter == 1) inlineFieldState = true;
+			if (fieldCounter == 1) ;
 			String title = capitaliseFirstLetter(commandCategory.getCategory()) + " " + commandCategory.getIcon();
 			String description = "```\nhelp " + commandCategory.getCategory() + "\n```";
-			categoryListEmbedBuilder.addField(title, description, inlineFieldState);
+			categoryListEmbedBuilder.addField(title, description, true);
 			fieldCounter++;
 			if (fieldCounter == 3) {
-				inlineFieldState = false;
 				fieldCounter = 1;
 			}
 		}

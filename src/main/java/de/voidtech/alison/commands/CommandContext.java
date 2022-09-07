@@ -11,11 +11,11 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 
 public class CommandContext {
-	private User author;
-	private Member member;
-	private Guild guild;
-	private JDA jda;
-	private Message message;
+	private final User author;
+	private final Member member;
+	private final Guild guild;
+	private final JDA jda;
+	private final Message message;
 	
 	public CommandContext(Message message) {
 		this.message = message;
@@ -34,11 +34,11 @@ public class CommandContext {
 	}
 	
 	public void replyAndThen(String content, Consumer<Message> consumer) {
-		this.message.reply(content).mentionRepliedUser(false).queue(consumer::accept);
+		this.message.reply(content).mentionRepliedUser(false).queue(consumer);
 	}
 	
 	public void replyAndThen(MessageEmbed embed, Consumer<Message> consumer) {
-		this.message.replyEmbeds(embed).mentionRepliedUser(false).queue(consumer::accept);
+		this.message.replyEmbeds(embed).mentionRepliedUser(false).queue(consumer);
 	}
 	
     public void replyWithFile(byte[] attachment, String attachmentName, MessageEmbed embed) {

@@ -14,7 +14,7 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
 public class DiscordBot {
 	
-	private EventWaiter waiter = new EventWaiter();
+	private final EventWaiter waiter = new EventWaiter();
 	private JDA jda;
 	
 	public DiscordBot(String token) {

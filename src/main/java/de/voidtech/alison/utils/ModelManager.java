@@ -4,9 +4,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import main.java.de.voidtech.alison.entities.AlisonModel;
 
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public class ModelManager {
 	
 	public static AlisonModel getModel(String model) {
@@ -26,16 +28,17 @@ public class ModelManager {
 	public static List<AlisonModel> getAllModels() {
 		File[] modelFiles = new File("models/").listFiles();
 		List<AlisonModel> models = new ArrayList<AlisonModel>();
-		Arrays.asList(modelFiles).stream().forEach(model -> models.add(getModel(model.getName())));
+		assert modelFiles != null;
+		Arrays.asList(modelFiles).forEach(model -> models.add(getModel(model.getName())));
 		return models;
 	}
 
 	public static long getModelCount() {
-		return new File("models/").listFiles().length;
+		return Objects.requireNonNull(new File("models/").listFiles()).length;
 	}
 
 	public static long getWordCount() {
 		List<AlisonModel> models = getAllModels();
-		return models.stream().map(AlisonModel::getWordCount).reduce((long) 0, (a, b) -> a + b);
+		return models.stream().map(AlisonModel::getWordCount).reduce((long) 0, Long::sum);
 	}
 }
