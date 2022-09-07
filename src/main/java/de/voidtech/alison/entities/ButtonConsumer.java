@@ -14,6 +14,7 @@ public class ButtonConsumer {
 	public ButtonConsumer(ButtonClickEvent button, Message message) {
 		this.message = message;
 		this.button = button;
+		this.button.deferEdit().queue();
 	}
 
 	public Message getMessage() {
@@ -22,5 +23,9 @@ public class ButtonConsumer {
 
 	public ButtonClickEvent getButton() {
 		return this.button;
+	}
+	
+	public boolean userSaidYes() {
+		return this.button.getComponentId().equals("YES");
 	}
 }

@@ -6,6 +6,8 @@ import main.java.de.voidtech.alison.commands.AbstractCommand;
 import main.java.de.voidtech.alison.commands.CommandCategory;
 import main.java.de.voidtech.alison.commands.CommandContext;
 import main.java.de.voidtech.alison.entities.AlisonModel;
+import main.java.de.voidtech.alison.entities.ButtonConsumer;
+import main.java.de.voidtech.alison.entities.ButtonListener;
 import main.java.de.voidtech.alison.utils.ModelManager;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
@@ -33,26 +35,32 @@ public class NicknameCommand extends AbstractCommand {
 		String nickname = model.createNickname();
 		if (nickname == null) context.reply("I don't have enough information to make a nickname :(");
 		else {
-	    	if (member.isOwner()) {
-	    		sendFailedMessage(context, nickname, "I can't change the owner's nickname!");
-	    		return;
-	    	}
-			if (!context.getGuild().getSelfMember().hasPermission(Permission.NICKNAME_MANAGE)) {
-				sendFailedMessage(context, nickname,"I don't have permission to change nicknames! Please make sure I have the `Manage Nicknames` permission!");
-				return;
-			}
-			if (!context.getGuild().getSelfMember().canInteract(member)) {
-				sendFailedMessage(context, nickname,"I don't have permission to change **" + member.getUser().getAsTag() +
-						"'s**  nickname! I need my role to be above **" + member.getUser().getAsTag() + "'s** highest role!");
-				return;
-			}
-			member.modifyNickname(nickname).complete();
-			context.reply("**" + member.getUser().getAsTag() + "'s** Nickname changed to **" + nickname + "**");
+			new ButtonListener(context, "Change **" + member.getUser().getAsTag() + "'s** nickname to **" + nickname + "**?", result -> {
+				handleNicknameUpdateChoice(member, nickname, context, result);
+			});
 		}
 	}
 	
-	private void sendFailedMessage(CommandContext context, String nickname, String message) {
-		context.reply(message + " (The nickname I came up with is **" + nickname + "**)");
+	private void handleNicknameUpdateChoice(Member member, String nickname, CommandContext context, ButtonConsumer result ) {
+		if (result.userSaidYes()) {
+			if (member.isOwner()) {
+	    		result.getMessage().editMessage("I can't change the owner's nickname!").queue();
+	    		return;
+	    	}
+			if (!context.getGuild().getSelfMember().hasPermission(Permission.NICKNAME_MANAGE)) {
+				result.getMessage().editMessage("I don't have permission to change nicknames! Please make sure I have the `Manage Nicknames` permission!").queue();
+				return;
+			}
+			if (!context.getGuild().getSelfMember().canInteract(member)) {
+				result.getMessage().editMessage("I don't have permission to change **" + member.getUser().getAsTag() +
+						"'s**  nickname! I need my role to be above **" + member.getUser().getAsTag() + "'s** highest role!").queue();
+				return;
+			}
+			member.modifyNickname(nickname).complete();
+			result.getMessage().editMessage("**" + member.getUser().getAsTag() + "'s** Nickname changed to **" + nickname + "**").queue();	
+		} else {
+			result.getMessage().editMessage("**" + member.getUser().getAsTag() + "'s** Nickname has not been changed").queue();
+		}
 	}
 
 	@Override
