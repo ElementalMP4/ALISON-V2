@@ -1,9 +1,5 @@
 package main.java.de.voidtech.alison.commands.privacy;
 
-import java.awt.Color;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import main.java.de.voidtech.alison.commands.AbstractCommand;
 import main.java.de.voidtech.alison.commands.CommandCategory;
 import main.java.de.voidtech.alison.commands.CommandContext;
@@ -11,6 +7,10 @@ import main.java.de.voidtech.alison.utils.PrivacyManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+
+import java.awt.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class IgnoredChannelsCommand extends AbstractCommand {
 
@@ -48,7 +48,7 @@ public class IgnoredChannelsCommand extends AbstractCommand {
 		String channelID = context.getMessage().getMentionedChannels().get(0).getId();
 		if (PrivacyManager.channelIsIgnored(channelID, context.getGuild().getId())) {
 			PrivacyManager.unignoreChannel(channelID, context.getGuild().getId());
-			context.reply("Channel <#" + channelID + "> has been blacklisted!");
+			context.reply("Channel <#" + channelID + "> has been whitelisted!");
 		} else {
 			context.reply("Channel <#" + channelID + "> is not blacklisted!");
 		}
@@ -88,9 +88,9 @@ public class IgnoredChannelsCommand extends AbstractCommand {
 
 	@Override
 	public String getUsage() {
-		return "ignoredchannels add [channel mention]"
-				+ "ignoredchannels remove [channel mention]"
-				+ "ignoredchannels remove all"
+		return "ignoredchannels add [channel mention]\n"
+				+ "ignoredchannels remove [channel mention]\n"
+				+ "ignoredchannels remove all\n"
 				+ "ignoredchannels list";
 	}
 
