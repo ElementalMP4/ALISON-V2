@@ -1,17 +1,17 @@
 package main.java.de.voidtech.alison.utils;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.Browser.NewContextOptions;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
 import com.microsoft.playwright.options.Geolocation;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class BrowserUtils {
 
@@ -28,7 +28,7 @@ public class BrowserUtils {
 				.setLocale("en-GB");
 	}
 	
-	public static void initialisePlaywright() {
+	static {
 		ExecutorService playwrightExecutor = ThreadManager.getThreadByName("Playwright");
 		playwrightExecutor.execute(() -> {
             LOGGER.log(Level.INFO, "Playwright is being initialised");
@@ -54,7 +54,7 @@ public class BrowserUtils {
 	}
 
 	private static Map<String, String> getHttpHeaders() {
-		Map<String, String> headers = new HashMap<String, String>();
+		Map<String, String> headers = new HashMap<>();
 		headers.put("Accept-Language", "en");
 		return headers;
 	}

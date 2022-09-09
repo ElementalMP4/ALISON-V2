@@ -1,12 +1,12 @@
 package main.java.de.voidtech.alison.utils;
 
-import java.time.Instant;
-
 import main.java.de.voidtech.alison.Alison;
+
+import java.time.Instant;
 
 public class StatusLogger {
 
-	public static void init() {
+	static {
 		sendStartupMessage();
 		Runtime.getRuntime().addShutdownHook(new Thread(StatusLogger::sendShutdownMessage, "Shutdown Alert"));
 	}

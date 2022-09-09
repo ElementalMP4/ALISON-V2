@@ -1,11 +1,11 @@
 package main.java.de.voidtech.alison.utils;
 
+import main.java.de.voidtech.alison.Alison;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import main.java.de.voidtech.alison.Alison;
 
 public class PrivacyManager {
 
@@ -22,7 +22,7 @@ public class PrivacyManager {
 	private static final String CHANNEL_IS_IGNORED = "SELECT * FROM IgnoredChannels WHERE channelID = '%s' AND guildID = '%s'";
 	private static final String GET_ALL_CHANNELS = "SELECT * FROM IgnoredChannels WHERE guildID = '%s'";
 
-	public static void connect() {
+	static {
 		Alison.getDatabase().executeUpdate(CREATE_USER_TABLE);
 		Alison.getDatabase().executeUpdate(CREATE_CHANNEL_TABLE);
 	}
@@ -64,7 +64,7 @@ public class PrivacyManager {
 	}
 	
 	public static List<String> getIgnoredChannelsForServer(String guildID) {
-		List<String> channels = new ArrayList<String>();
+		List<String> channels = new ArrayList<>();
 		try {
 			ResultSet result = Alison.getDatabase().queryDatabase(String.format(GET_ALL_CHANNELS, guildID));
 			while (result.next()) {
