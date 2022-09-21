@@ -6,13 +6,9 @@ import java.time.Instant;
 
 public class StatusLogger {
 
-	static {
-		sendStartupMessage();
-		Runtime.getRuntime().addShutdownHook(new Thread(StatusLogger::sendShutdownMessage, "Shutdown Alert"));
-	}
-
-	private static void sendStartupMessage() {
+	public static void sendStartupMessage() {
 		sendMessage("ALISON has logged in at <t:" + Instant.now().getEpochSecond() + ">");
+		Runtime.getRuntime().addShutdownHook(new Thread(StatusLogger::sendShutdownMessage, "Shutdown Alert"));
 	}
 
 	private static void sendShutdownMessage() {
