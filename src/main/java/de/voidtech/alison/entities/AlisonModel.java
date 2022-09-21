@@ -122,7 +122,7 @@ public class AlisonModel {
 	}
 	
 	public String createImitate() {
-		return createProbableSentenceUnderLength();
+		return createRandomStringUnderLength(IMITATE_LENGTH);
 	}
 
 	public void learn(String content) {
