@@ -1,21 +1,10 @@
 package main.java.de.voidtech.alison.listeners;
 
-import java.awt.Color;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-
 import main.java.de.voidtech.alison.Alison;
 import main.java.de.voidtech.alison.commands.AbstractCommand;
 import main.java.de.voidtech.alison.commands.CommandContext;
 import main.java.de.voidtech.alison.commands.CommandRegistry;
-import main.java.de.voidtech.alison.utils.LevenshteinCalculator;
-import main.java.de.voidtech.alison.utils.ModelManager;
-import main.java.de.voidtech.alison.utils.PrivacyManager;
-import main.java.de.voidtech.alison.utils.TextAnalytics;
+import main.java.de.voidtech.alison.utils.*;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.ChannelType;
@@ -25,6 +14,14 @@ import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.EventListener;
 import org.jetbrains.annotations.NotNull;
+
+import java.awt.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class MessageListener implements EventListener {
 
@@ -59,6 +56,7 @@ public class MessageListener implements EventListener {
 				return;
 			TextAnalytics.respondToAlisonMention(message);
 			ModelManager.getModel(message.getAuthor().getId()).learn(message.getContentRaw());
+			MessagePairHarvester.addMessages(message);
 			return;
 		}
 

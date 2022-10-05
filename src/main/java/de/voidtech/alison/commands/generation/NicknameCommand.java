@@ -1,7 +1,5 @@
 package main.java.de.voidtech.alison.commands.generation;
 
-import java.util.List;
-
 import main.java.de.voidtech.alison.commands.AbstractCommand;
 import main.java.de.voidtech.alison.commands.CommandCategory;
 import main.java.de.voidtech.alison.commands.CommandContext;
@@ -12,6 +10,8 @@ import main.java.de.voidtech.alison.utils.ModelManager;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.utils.Result;
+
+import java.util.List;
 
 public class NicknameCommand extends AbstractCommand {
 
@@ -57,7 +57,7 @@ public class NicknameCommand extends AbstractCommand {
 			member.modifyNickname(nickname).complete();
 			result.getMessage().editMessage("**" + member.getUser().getAsTag() + "'s** Nickname changed to **" + nickname + "**").queue();	
 		} else {
-			result.getMessage().editMessage("**" + member.getUser().getAsTag() + "'s** Nickname has not been changed").queue();
+			result.getMessage().editMessage("**" + member.getUser().getAsTag() + "'s** Nickname has not been changed to **" + nickname + "**").queue();
 		}
 	}
 
