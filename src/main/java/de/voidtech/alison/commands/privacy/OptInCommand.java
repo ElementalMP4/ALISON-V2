@@ -1,11 +1,11 @@
 package main.java.de.voidtech.alison.commands.privacy;
 
-import java.util.List;
-
 import main.java.de.voidtech.alison.commands.AbstractCommand;
 import main.java.de.voidtech.alison.commands.CommandCategory;
 import main.java.de.voidtech.alison.commands.CommandContext;
 import main.java.de.voidtech.alison.utils.PrivacyManager;
+
+import java.util.List;
 
 public class OptInCommand extends AbstractCommand {
 
@@ -52,5 +52,10 @@ public class OptInCommand extends AbstractCommand {
 	@Override
 	public CommandCategory getCommandCategory() {
 		return CommandCategory.PRIVACY;
-	}	
+	}
+
+	@Override
+	public boolean isLongCommand() {
+		return false;
+	}
 }

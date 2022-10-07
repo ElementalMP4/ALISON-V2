@@ -1,12 +1,12 @@
 package main.java.de.voidtech.alison.commands.privacy;
 
-import java.util.List;
-
 import main.java.de.voidtech.alison.commands.AbstractCommand;
 import main.java.de.voidtech.alison.commands.CommandCategory;
 import main.java.de.voidtech.alison.commands.CommandContext;
 import main.java.de.voidtech.alison.entities.ButtonListener;
 import main.java.de.voidtech.alison.utils.ModelManager;
+
+import java.util.List;
 
 public class ClearCommand extends AbstractCommand {
 	
@@ -55,6 +55,11 @@ public class ClearCommand extends AbstractCommand {
 	@Override
 	public CommandCategory getCommandCategory() {
 		return CommandCategory.PRIVACY;
+	}
+
+	@Override
+	public boolean isLongCommand() {
+		return false;
 	}
 
 }

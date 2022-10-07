@@ -1,8 +1,5 @@
 package main.java.de.voidtech.alison.commands.information;
 
-import java.awt.Color;
-import java.util.List;
-
 import main.java.de.voidtech.alison.GlobalConstants;
 import main.java.de.voidtech.alison.commands.AbstractCommand;
 import main.java.de.voidtech.alison.commands.CommandCategory;
@@ -10,6 +7,9 @@ import main.java.de.voidtech.alison.commands.CommandContext;
 import main.java.de.voidtech.alison.commands.CommandRegistry;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+
+import java.awt.*;
+import java.util.List;
 
 public class HelpCommand extends AbstractCommand {
 
@@ -171,6 +171,11 @@ public class HelpCommand extends AbstractCommand {
 	@Override
 	public CommandCategory getCommandCategory() {
 		return CommandCategory.INFORMATION;
+	}
+
+	@Override
+	public boolean isLongCommand() {
+		return false;
 	}
 
 }

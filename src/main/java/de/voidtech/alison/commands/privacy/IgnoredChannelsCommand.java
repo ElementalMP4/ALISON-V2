@@ -120,4 +120,9 @@ public class IgnoredChannelsCommand extends AbstractCommand {
 		return false;
 	}
 
+	@Override
+	public boolean isLongCommand() {
+		return false;
+	}
+
 }

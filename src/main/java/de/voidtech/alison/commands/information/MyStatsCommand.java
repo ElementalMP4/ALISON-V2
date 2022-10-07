@@ -1,10 +1,5 @@
 package main.java.de.voidtech.alison.commands.information;
 
-import java.awt.Color;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import main.java.de.voidtech.alison.commands.AbstractCommand;
 import main.java.de.voidtech.alison.commands.CommandCategory;
 import main.java.de.voidtech.alison.commands.CommandContext;
@@ -15,6 +10,11 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.utils.Result;
+
+import java.awt.*;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class MyStatsCommand extends AbstractCommand {
 
@@ -87,6 +87,11 @@ public class MyStatsCommand extends AbstractCommand {
 	@Override
 	public CommandCategory getCommandCategory() {
 		return CommandCategory.INFORMATION;
+	}
+
+	@Override
+	public boolean isLongCommand() {
+		return false;
 	}
 
 }

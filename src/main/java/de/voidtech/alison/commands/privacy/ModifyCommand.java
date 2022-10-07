@@ -1,8 +1,5 @@
 package main.java.de.voidtech.alison.commands.privacy;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import main.java.de.voidtech.alison.Alison;
 import main.java.de.voidtech.alison.commands.AbstractCommand;
 import main.java.de.voidtech.alison.commands.CommandCategory;
@@ -10,6 +7,9 @@ import main.java.de.voidtech.alison.commands.CommandContext;
 import main.java.de.voidtech.alison.entities.AlisonModel;
 import main.java.de.voidtech.alison.entities.AlisonWord;
 import main.java.de.voidtech.alison.utils.ModelManager;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ModifyCommand extends AbstractCommand {
 
@@ -112,5 +112,10 @@ public class ModifyCommand extends AbstractCommand {
 	@Override
 	public boolean requiresArguments() {
 		return true;
+	}
+
+	@Override
+	public boolean isLongCommand() {
+		return false;
 	}
 }

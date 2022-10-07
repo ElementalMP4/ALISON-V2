@@ -1,8 +1,5 @@
 package main.java.de.voidtech.alison.commands.generation;
 
-import java.awt.Color;
-import java.util.List;
-
 import main.java.de.voidtech.alison.commands.AbstractCommand;
 import main.java.de.voidtech.alison.commands.CommandCategory;
 import main.java.de.voidtech.alison.commands.CommandContext;
@@ -15,6 +12,9 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.utils.Result;
+
+import java.awt.*;
+import java.util.List;
 
 public class QuoteCommand extends AbstractCommand {
 
@@ -43,7 +43,6 @@ public class QuoteCommand extends AbstractCommand {
 		
 		Result<Member> userResult = context.getGuild().retrieveMemberById(ID).mapToResult().complete();
 		if (userResult.isSuccess()) {
-			context.getMessage().getChannel().sendTyping().complete();
 			User user = userResult.get().getUser();
 			byte[] image = NodeUtils.getQuoteImage(user, quote);
 			MessageEmbed quoteEmbed = new EmbedBuilder()
@@ -88,6 +87,11 @@ public class QuoteCommand extends AbstractCommand {
 	@Override
 	public CommandCategory getCommandCategory() {
 		return CommandCategory.TEXT_GENERATION;
+	}
+
+	@Override
+	public boolean isLongCommand() {
+		return true;
 	}
 
 }

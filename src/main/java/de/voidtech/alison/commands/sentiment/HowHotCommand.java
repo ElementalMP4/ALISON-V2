@@ -1,12 +1,5 @@
 package main.java.de.voidtech.alison.commands.sentiment;
 
-import java.awt.Color;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
-
 import main.java.de.voidtech.alison.Alison;
 import main.java.de.voidtech.alison.commands.AbstractCommand;
 import main.java.de.voidtech.alison.commands.CommandCategory;
@@ -16,6 +9,13 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.utils.Result;
+
+import java.awt.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Random;
 
 public class HowHotCommand extends AbstractCommand {
 
@@ -162,6 +162,11 @@ public class HowHotCommand extends AbstractCommand {
 
 	@Override
 	public boolean requiresArguments() {
+		return false;
+	}
+
+	@Override
+	public boolean isLongCommand() {
 		return false;
 	}
 

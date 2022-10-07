@@ -1,8 +1,5 @@
 package main.java.de.voidtech.alison.commands.generation;
 
-import java.awt.Color;
-import java.util.List;
-
 import main.java.de.voidtech.alison.commands.AbstractCommand;
 import main.java.de.voidtech.alison.commands.CommandCategory;
 import main.java.de.voidtech.alison.commands.CommandContext;
@@ -11,13 +8,11 @@ import main.java.de.voidtech.alison.utils.BrowserUtils;
 import main.java.de.voidtech.alison.utils.ModelManager;
 import main.java.de.voidtech.alison.utils.PrivacyManager;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.ChannelType;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.utils.Result;
+
+import java.awt.*;
+import java.util.List;
 
 public class SearchCommand extends AbstractCommand {
 
@@ -51,7 +46,6 @@ public class SearchCommand extends AbstractCommand {
 		
 		Result<Member> userResult = context.getGuild().retrieveMemberById(ID).mapToResult().complete();
 		if (userResult.isSuccess()) {
-			context.getMessage().getChannel().sendTyping().complete();
 			User user = userResult.get().getUser();
 			String url = SEARCH_URL + search
 					+ (canSendNsfw(context.getMessage().getChannel()) ? SAFE_MODE_DISABLED : SAFE_MODE_ENABLED) 
@@ -104,5 +98,11 @@ public class SearchCommand extends AbstractCommand {
 	public boolean requiresArguments() {
 		return false;
 	}
+
+	@Override
+	public boolean isLongCommand() {
+		return true;
+	}
+
 
 }

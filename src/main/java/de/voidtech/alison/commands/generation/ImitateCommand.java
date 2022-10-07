@@ -1,7 +1,5 @@
 package main.java.de.voidtech.alison.commands.generation;
 
-import java.util.List;
-
 import main.java.de.voidtech.alison.commands.AbstractCommand;
 import main.java.de.voidtech.alison.commands.CommandCategory;
 import main.java.de.voidtech.alison.commands.CommandContext;
@@ -13,6 +11,8 @@ import main.java.de.voidtech.alison.utils.WebhookManager;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.Webhook;
 import net.dv8tion.jda.api.utils.Result;
+
+import java.util.List;
 
 public class ImitateCommand extends AbstractCommand {
 
@@ -83,6 +83,11 @@ public class ImitateCommand extends AbstractCommand {
 
 	@Override
 	public boolean requiresArguments() {
+		return false;
+	}
+
+	@Override
+	public boolean isLongCommand() {
 		return false;
 	}
 

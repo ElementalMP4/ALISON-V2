@@ -96,4 +96,9 @@ public class NicknameCommand extends AbstractCommand {
 		return CommandCategory.TEXT_GENERATION;
 	}
 
+	@Override
+	public boolean isLongCommand() {
+		return false;
+	}
+
 }

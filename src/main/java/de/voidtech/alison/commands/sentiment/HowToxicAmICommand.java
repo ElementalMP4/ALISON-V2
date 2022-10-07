@@ -1,8 +1,5 @@
 package main.java.de.voidtech.alison.commands.sentiment;
 
-import java.awt.Color;
-import java.util.List;
-
 import main.java.de.voidtech.alison.commands.AbstractCommand;
 import main.java.de.voidtech.alison.commands.CommandCategory;
 import main.java.de.voidtech.alison.commands.CommandContext;
@@ -13,6 +10,9 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.utils.Result;
+
+import java.awt.*;
+import java.util.List;
 
 public class HowToxicAmICommand extends AbstractCommand {
 
@@ -102,5 +102,10 @@ public class HowToxicAmICommand extends AbstractCommand {
 	@Override
 	public CommandCategory getCommandCategory() {
 		return CommandCategory.SENTIMENT_ANALYSIS;
+	}
+
+	@Override
+	public boolean isLongCommand() {
+		return true;
 	}
 }

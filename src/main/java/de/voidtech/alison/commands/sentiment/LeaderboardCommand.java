@@ -1,10 +1,5 @@
 package main.java.de.voidtech.alison.commands.sentiment;
 
-import java.awt.Color;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import main.java.de.voidtech.alison.commands.AbstractCommand;
 import main.java.de.voidtech.alison.commands.CommandCategory;
 import main.java.de.voidtech.alison.commands.CommandContext;
@@ -12,6 +7,11 @@ import main.java.de.voidtech.alison.entities.Sentiment;
 import main.java.de.voidtech.alison.utils.TextAnalytics;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+
+import java.awt.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class LeaderboardCommand extends AbstractCommand {
 
@@ -126,6 +126,11 @@ public class LeaderboardCommand extends AbstractCommand {
 	@Override
 	public boolean requiresArguments() {
 		return false;
+	}
+
+	@Override
+	public boolean isLongCommand() {
+		return true;
 	}
 
 }
