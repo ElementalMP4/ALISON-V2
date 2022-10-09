@@ -25,8 +25,8 @@ public class ReplyManager {
     public static void addMessages(Message message) {
         if (messageIsValid(message)) {
             Alison.getDatabase().executeUpdate(String.format(ADD_MESSAGES,
-                    message.getReferencedMessage().getContentRaw().replaceAll("<[^>]*>", ""),
-                    message.getContentRaw().replaceAll("<[^>]*>", "")));
+                    message.getReferencedMessage().getContentRaw().replaceAll("<[^>]*>", "").trim(),
+                    message.getContentRaw().replaceAll("<[^>]*>", "").trim()));
         }
     }
 
