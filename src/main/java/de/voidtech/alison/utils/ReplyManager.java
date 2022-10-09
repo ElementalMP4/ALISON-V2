@@ -24,11 +24,17 @@ public class ReplyManager {
     public static void addMessages(Message message) {
         if (message.getReferencedMessage() != null) {
             Alison.getDatabase().executeUpdate(String.format(ADD_MESSAGES,
-                    message.getReferencedMessage().getContentRaw(), message.getContentRaw()));
+                    message.getReferencedMessage().getContentRaw().replaceAll("<[^>]*>", ""),
+                    message.getContentRaw().replaceAll("<[^>]*>", "")));
         }
     }
 
-    public static String replyToMessage(String message) {
+    public static void replyToMessage(Message message) {
+        if (message.getMentionedUsers().contains(message.getJDA().getSelfUser()))
+            message.reply(createReply(message.getContentDisplay())).mentionRepliedUser(false).queue();
+    }
+
+    private static String createReply(String message) {
         List<String> existingResponseSentences = getExistingResponseSentences(message);
         if (existingResponseSentences.isEmpty()) return "Huh";
         List<AlisonWord> tokenizedWords = new ArrayList<>();

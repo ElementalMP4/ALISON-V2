@@ -95,7 +95,7 @@ public class AlisonModel {
 			next = getRandomWord(potentials);
 		}
 		if (result.length() + next.getWord().length() <= length) result.append(next.getWord());
-		return result.toString();
+		return result.toString().replaceAll("<[^>]*>", "").replaceAll("@", "``@``");
 	}
 
 	public static List<AlisonWord> stringToAlisonWords(String content) {
