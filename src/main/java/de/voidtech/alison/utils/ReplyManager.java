@@ -3,6 +3,7 @@ package main.java.de.voidtech.alison.utils;
 import main.java.de.voidtech.alison.Alison;
 import main.java.de.voidtech.alison.entities.AlisonModel;
 import main.java.de.voidtech.alison.entities.AlisonWord;
+import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Message;
 
 import java.sql.ResultSet;
@@ -22,16 +23,24 @@ public class ReplyManager {
     }
 
     public static void addMessages(Message message) {
-        if (message.getReferencedMessage() != null) {
+        if (messageIsValid(message)) {
             Alison.getDatabase().executeUpdate(String.format(ADD_MESSAGES,
                     message.getReferencedMessage().getContentRaw().replaceAll("<[^>]*>", ""),
                     message.getContentRaw().replaceAll("<[^>]*>", "")));
         }
     }
 
+    private static boolean messageIsValid(Message message) {
+        return message.getReferencedMessage() != null
+                && !message.getContentRaw().equals("")
+                && !message.getReferencedMessage().getContentRaw().equals("");
+    }
+
     public static void replyToMessage(Message message) {
-        if (message.getMentionedUsers().contains(message.getJDA().getSelfUser()))
+        if (message.getMentionedUsers().contains(message.getJDA().getSelfUser())
+                | message.getChannel().getType().equals(ChannelType.PRIVATE)) {
             message.getChannel().sendMessage(createReply(message.getContentDisplay())).queue();
+        }
     }
 
     private static String createReply(String message) {
@@ -50,7 +59,8 @@ public class ReplyManager {
             if (wordInModel == null) finalWordList.add(word);
             else wordInModel.incrementCount();
         }
-        return AlisonModel.createRandomStringUnderLength(finalWordList, AlisonModel.MAX_MESSAGE_LENGTH);
+        String reply = AlisonModel.createRandomStringUnderLength(finalWordList, AlisonModel.MAX_MESSAGE_LENGTH);
+        return reply == null ? "Huh" : reply;
     }
 
     private static List<String> getExistingResponseSentences(String message) {

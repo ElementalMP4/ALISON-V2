@@ -18,7 +18,6 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -44,10 +43,13 @@ public class MessageListener implements EventListener {
 	}
 
 	private void handleMessage(Message message) {
+		if (message.getAuthor().getId().equals(message.getJDA().getSelfUser().getId())) return;
 		String prefix = Alison.getConfig().getPrefix();
 		if (!shouldHandleAsChatCommand(prefix, message)) {
-			if (message.getChannel().getType().equals(ChannelType.PRIVATE))
+			if (message.getChannel().getType().equals(ChannelType.PRIVATE)) {
+				ReplyManager.replyToMessage(message);
 				return;
+			}
 			if (PrivacyManager.channelIsIgnored(message.getChannel().getId(), message.getGuild().getId())) 
 				return;
 			if (message.getContentRaw().equals(""))
@@ -63,7 +65,7 @@ public class MessageListener implements EventListener {
 
 		if (message.getChannel().getType().equals(ChannelType.PRIVATE)) doTheCommanding(message, prefix);
 		else if (!PrivacyManager.channelIsIgnored(message.getChannel().getId(), message.getGuild().getId())) doTheCommanding(message, prefix);
-		else if (Objects.requireNonNull(message.getMember()).getPermissions().contains(Permission.MANAGE_SERVER)) doTheCommanding(message, prefix);
+		else if (message.getMember().getPermissions().contains(Permission.MANAGE_SERVER)) doTheCommanding(message, prefix);
 	}
 
 	private void doTheCommanding(Message message, String prefix) {
