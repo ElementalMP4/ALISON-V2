@@ -20,7 +20,7 @@ V1 was getting slow due to some poor design decisions. Instead of refactoring, I
 
 ## What ALISON *isn't*
 
-~~ALISON is not a chatbot. She will not have a conversation with you, and she never will. ~~
+~~ALISON is not a chatbot~~
 
 That was a lie. I added this functionality (although it's remarkably scuffed). I would still recommend you visit my good friend [Scot_Survivor](https://github.com/Scot-Survivor) and check out his work on [Gavin Development](https://github.com/Gavin-Development).
 
