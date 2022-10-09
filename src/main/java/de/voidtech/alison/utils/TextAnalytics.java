@@ -1,33 +1,25 @@
 package main.java.de.voidtech.alison.utils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
-import java.util.stream.Collectors;
-
-import org.apache.commons.lang3.StringUtils;
-
 import main.java.de.voidtech.alison.entities.AlisonModel;
 import main.java.de.voidtech.alison.entities.ResourceLoader;
 import main.java.de.voidtech.alison.entities.Sentiment;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class TextAnalytics {
 	
-	private static List<String> NegativeWords = new ArrayList<String>();
-	private static List<String> PositiveWords = new ArrayList<String>();
+	private static List<String> NegativeWords = new ArrayList<>();
+	private static List<String> PositiveWords = new ArrayList<>();
 	
 	private static final List<String> POSITIVE_EMOTES = Arrays.asList("❤", "🥰", "😘", "😄");
 	private static final List<String> NEGATIVE_EMOTES = Arrays.asList("💔", "😔", "😭", "😢");
 
-	private static void populateLexicon() {
-		NegativeWords.clear();
-		PositiveWords.clear();
+	static {
 		ResourceLoader loader = new ResourceLoader();
 		NegativeWords = loader.getResource("negative-words.txt");
 		PositiveWords = loader.getResource("positive-words.txt");
@@ -43,8 +35,6 @@ public class TextAnalytics {
 	}
 
 	public static Sentiment analyseSentence(String sentence) {
-		if (NegativeWords.isEmpty() | PositiveWords.isEmpty()) populateLexicon();
-		
 		String tokenizedSentence = sentence.replaceAll("([^a-zA-Z\\d\\s:])", "").toLowerCase();
 		List<String> negativeTokens = findTokens(NegativeWords, tokenizedSentence);
 		List<String> positiveTokens = findTokens(PositiveWords, tokenizedSentence);
@@ -53,7 +43,7 @@ public class TextAnalytics {
 	}
 
 	private static List<String> findTokens(List<String> wordList, String sentence) {
-		List<String> results = new ArrayList<String>();
+		List<String> results = new ArrayList<>();
 		 wordList.forEach(token -> {
 			 for (int i = 0; i < StringUtils.countMatches(sentence, token); i++) {
 				 results.add(token);
@@ -68,7 +58,9 @@ public class TextAnalytics {
 				.map(Member::getId)
 				.filter(memberID -> !PrivacyManager.userHasOptedOut(memberID))
 				.filter(ModelManager::modelExists)
-				.map(TextAnalytics::analysePack).sorted(Comparator.comparing(Sentiment::getAdjustedScore)).collect(Collectors.toList());
+				.map(TextAnalytics::analysePack)
+				.sorted(Comparator.comparing(Sentiment::getAdjustedScore))
+				.collect(Collectors.toList());
 		Collections.reverse(sentiments);
 		return sentiments;
 	}

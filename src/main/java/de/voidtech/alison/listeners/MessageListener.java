@@ -56,7 +56,9 @@ public class MessageListener implements EventListener {
 				return;
 			TextAnalytics.respondToAlisonMention(message);
 			ModelManager.getModel(message.getAuthor().getId()).learn(message.getContentRaw());
-			MessagePairHarvester.addMessages(message);
+			ReplyManager.addMessages(message);
+			if (message.getMentionedUsers().contains(message.getJDA().getSelfUser()))
+				message.reply(ReplyManager.replyToMessage(message.getContentDisplay())).mentionRepliedUser(false).queue();
 			return;
 		}
 
