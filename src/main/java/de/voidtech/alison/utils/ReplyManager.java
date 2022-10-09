@@ -31,7 +31,7 @@ public class ReplyManager {
 
     public static void replyToMessage(Message message) {
         if (message.getMentionedUsers().contains(message.getJDA().getSelfUser()))
-            message.reply(createReply(message.getContentDisplay())).mentionRepliedUser(false).queue();
+            message.getChannel().sendMessage(createReply(message.getContentDisplay())).queue();
     }
 
     private static String createReply(String message) {
