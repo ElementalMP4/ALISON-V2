@@ -101,7 +101,7 @@ public class AlisonModel {
 	public static String createProbableSentenceUnderLength(List<AlisonWord> words, int length) {
 		if (words.isEmpty()) return null;
 		StringBuilder result = new StringBuilder();
-		AlisonWord next = getMostLikely(words);
+		AlisonWord next = getRandomStartWord(words);
 		if (next == null) return null;
 		while (next.isStopWord()) {
 			if (result.length() + (next.getWord() + " ").length() > MAX_MESSAGE_LENGTH) break;
