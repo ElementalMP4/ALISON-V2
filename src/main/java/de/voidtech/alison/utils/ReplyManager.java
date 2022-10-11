@@ -59,7 +59,8 @@ public class ReplyManager {
         List<AlisonWord> tokenizedWords = new ArrayList<>();
         List<AlisonWord> finalWordList = new ArrayList<>();
         for (String response : existingResponseSentences) {
-            tokenizedWords = Stream.concat(tokenizedWords.stream(), AlisonModel.stringToAlisonWords(response).stream()).collect(Collectors.toList());
+            tokenizedWords = Stream.concat(tokenizedWords.stream(), AlisonModel.stringToAlisonWords(response)
+                    .stream()).collect(Collectors.toList());
         }
         for (AlisonWord word : tokenizedWords) {
             AlisonWord wordInModel = finalWordList.stream()
@@ -69,7 +70,7 @@ public class ReplyManager {
             if (wordInModel == null) finalWordList.add(word);
             else wordInModel.incrementCount();
         }
-        String reply = AlisonModel.createRandomStringUnderLength(finalWordList, AlisonModel.MAX_MESSAGE_LENGTH);
+        String reply = AlisonModel.createProbableSentenceUnderLength(finalWordList, AlisonModel.MAX_MESSAGE_LENGTH);
         return reply == null ? "Huh" : reply;
     }
 

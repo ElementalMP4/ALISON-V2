@@ -98,6 +98,27 @@ public class AlisonModel {
 		return result.toString().replaceAll("<[^>]*>", "").replaceAll("@", "``@``");
 	}
 
+	public static String createProbableSentenceUnderLength(List<AlisonWord> words, int length) {
+		if (words.isEmpty()) return null;
+		StringBuilder result = new StringBuilder();
+		AlisonWord next = getMostLikely(words);
+		if (next == null) return null;
+		while (next.isStopWord()) {
+			if (result.length() + (next.getWord() + " ").length() > MAX_MESSAGE_LENGTH) break;
+			result.append(next.getWord()).append(" ");
+			List<AlisonWord> potentials = getWordList(words, next.getNext());
+			next = getMostLikely(potentials);
+		}
+		if (result.length() + next.getWord().length() <= MAX_MESSAGE_LENGTH) result.append(next.getWord());
+		return result.toString();
+	}
+
+	private static AlisonWord getMostLikely(List<AlisonWord> potentials) {
+		return potentials.stream()
+				.sorted(Comparator.comparing(AlisonWord::getFrequency))
+				.collect(Collectors.toList()).get(0);
+	}
+
 	public static List<AlisonWord> stringToAlisonWords(String content) {
 		List<String> tokens = Arrays.asList(content.split(" "));
 		List<AlisonWord> words = new ArrayList<>();
