@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 public class ReplyManager {
     private static final String CREATE_MESSAGE_TABLE = "CREATE TABLE IF NOT EXISTS MessagePairs (message TEXT, reply TEXT)";
     private static final String ADD_MESSAGES = "INSERT INTO MessagePairs VALUES ('%s', '%s')";
-    private static final String GET_MESSAGE_POOL = "SELECT * FROM MessagePairs WHERE message LIKE '% word %'";
+    private static final String GET_MESSAGE_POOL = "SELECT * FROM MessagePairs WHERE UPPER(message) LIKE UPPER('% word %')";
     private static final String GET_CONVERSATION_COUNT = "SELECT COUNT(*) FROM MessagePairs";
 
     static {
@@ -33,14 +33,14 @@ public class ReplyManager {
     }
 
     public static void addMessages(Message message) {
-        if (messageIsValid(message)) {
+        if (messageCanBeAdded(message)) {
             Alison.getDatabase().executeUpdate(String.format(ADD_MESSAGES,
                     message.getReferencedMessage().getContentRaw().replaceAll("<[^>]*>", "").trim(),
                     message.getContentRaw().replaceAll("<[^>]*>", "").trim()));
         }
     }
 
-    private static boolean messageIsValid(Message message) {
+    private static boolean messageCanBeAdded(Message message) {
         return message.getReferencedMessage() != null
                 && !message.getContentRaw().equals("")
                 && !message.getReferencedMessage().getContentRaw().equals("");
