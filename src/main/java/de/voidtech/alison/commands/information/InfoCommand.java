@@ -5,6 +5,7 @@ import main.java.de.voidtech.alison.commands.AbstractCommand;
 import main.java.de.voidtech.alison.commands.CommandCategory;
 import main.java.de.voidtech.alison.commands.CommandContext;
 import main.java.de.voidtech.alison.utils.ModelManager;
+import main.java.de.voidtech.alison.utils.ReplyManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -20,6 +21,7 @@ public class InfoCommand extends AbstractCommand {
 		long memberCount = context.getJDA().getGuildCache().stream().mapToInt(Guild::getMemberCount).sum();
 		long wordCount = ModelManager.getWordCount();
 		long modelCount = ModelManager.getModelCount();
+		long convoCount = ReplyManager.getConversationCount();
 		MessageEmbed informationEmbed = new EmbedBuilder()
 			.setColor(Color.ORANGE)
 			.setTitle("ALISON - Automatic Learning Intelligent Sentence Organising Network", GlobalConstants.REPO_URL)
@@ -27,6 +29,7 @@ public class InfoCommand extends AbstractCommand {
 			.addField("Member Count", "```" + memberCount + "```", true)
 			.addField("Active Threads", "```" + Thread.activeCount() + "```", true)
 			.addField("Total Word Count", "```" + wordCount + "```", true)
+				.addField("Learned Conversations", "```" + convoCount + "```", true)
 			.addField("Model Count", "```" + modelCount + "```", true)
 			.setDescription("**Important Privacy Notice**\n"
 				+ "Data collected by ALISON is only available whilst you are opted in to the data collection program."

@@ -16,10 +16,20 @@ import java.util.stream.Stream;
 public class ReplyManager {
     private static final String CREATE_MESSAGE_TABLE = "CREATE TABLE IF NOT EXISTS MessagePairs (message TEXT, reply TEXT)";
     private static final String ADD_MESSAGES = "INSERT INTO MessagePairs VALUES ('%s', '%s')";
-    private static final String GET_MESSAGE_POOL = "SELECT * FROM MessagePairs WHERE message LIKE '%word%'";
+    private static final String GET_MESSAGE_POOL = "SELECT * FROM MessagePairs WHERE message LIKE '% word %'";
+    private static final String GET_CONVERSATION_COUNT = "SELECT COUNT(*) FROM MessagePairs";
 
     static {
         Alison.getDatabase().executeUpdate(CREATE_MESSAGE_TABLE);
+    }
+
+    public static int getConversationCount() {
+        try {
+            ResultSet result = Alison.getDatabase().queryDatabase(GET_CONVERSATION_COUNT);
+            return result.getInt(1);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void addMessages(Message message) {
