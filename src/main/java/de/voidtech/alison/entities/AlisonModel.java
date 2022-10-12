@@ -18,7 +18,8 @@ public class AlisonModel {
 	public static final int QUOTE_LENGTH = 100;
 	public static final int SEARCH_LENGTH = 50;
 	public static final int MAX_MESSAGE_LENGTH = 2000;
-	
+	public static final int PROMPT_LENGTH = 35;
+
 	private List<AlisonWord> words = new ArrayList<>();
 	private AlisonMetadata meta = null;
 	private final String dataDir;
