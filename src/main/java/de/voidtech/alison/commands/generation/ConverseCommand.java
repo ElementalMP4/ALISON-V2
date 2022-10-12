@@ -41,12 +41,12 @@ public class ConverseCommand extends AbstractCommand {
 
         for (int i = 0; i < 10; i++) {
             promptForAlison = getGavinResponse(promptForGavin);
-            convoBuilder.append("Gavin: " + promptForAlison + "\n");
+            convoBuilder.append("Gavin: ").append(promptForAlison).append("\n");
             promptForGavin = ReplyManager.createReply(promptForAlison);
-            convoBuilder.append("Alison: " + promptForGavin + "\n");
+            convoBuilder.append("Alison: ").append(promptForGavin).append("\n");
         }
 
-        convoEmbedBuilder.setDescription(convoBuilder.toString());
+        convoEmbedBuilder.setDescription("```\n" + convoBuilder + "\n```");
         return convoEmbedBuilder.build();
     }
 
@@ -69,7 +69,7 @@ public class ConverseCommand extends AbstractCommand {
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String output = in.lines().collect(Collectors.joining());
             con.disconnect();
-            return output;
+            return new JSONObject(output).getString("message");
         } catch (Exception e1) {
             e1.printStackTrace();
         }
