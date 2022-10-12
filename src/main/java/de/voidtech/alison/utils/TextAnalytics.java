@@ -88,6 +88,6 @@ public class TextAnalytics {
 		if (!message.getContentRaw().toLowerCase().contains("alison")) return;
 		Sentiment sentiment = TextAnalytics.analyseSentence(message.getContentRaw().toLowerCase());
 		if (sentiment.getAdjustedScore() >= 2) message.addReaction(getRandomEmote(POSITIVE_EMOTES)).queue();
-		else if (sentiment.getAdjustedScore() <= 2) message.addReaction(getRandomEmote(NEGATIVE_EMOTES)).queue();
+		else if (sentiment.getAdjustedScore() <= -2) message.addReaction(getRandomEmote(NEGATIVE_EMOTES)).queue();
 	}
 }
