@@ -61,6 +61,10 @@ public class ReplyManager {
     }
 
     public static String createReply(String message) {
+        return createReply(message, AlisonModel.MAX_MESSAGE_LENGTH);
+    }
+
+    public static String createReply(String message, int length) {
         List<String> existingResponseSentences = getExistingResponseSentences(message);
         if (existingResponseSentences.isEmpty()) return "Huh";
         List<AlisonWord> tokenizedWords = new ArrayList<>();
@@ -77,7 +81,7 @@ public class ReplyManager {
             if (wordInModel == null) finalWordList.add(word);
             else wordInModel.incrementCount();
         }
-        String reply = AlisonModel.createProbableSentenceUnderLength(finalWordList, AlisonModel.MAX_MESSAGE_LENGTH);
+        String reply = AlisonModel.createProbableSentenceUnderLength(finalWordList, length);
         return reply == null ? "Huh" : reply.replaceAll("/@/", "'");
     }
 
