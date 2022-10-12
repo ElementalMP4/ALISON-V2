@@ -38,7 +38,6 @@ public class HelpCommand extends AbstractCommand {
 						command.getJDA().getSelfUser().getAvatarUrl());
 		
 		for (CommandCategory commandCategory : CommandCategory.values()) {
-			if (fieldCounter == 1) ;
 			String title = capitaliseFirstLetter(commandCategory.getCategory()) + " " + commandCategory.getIcon();
 			String description = "```\nhelp " + commandCategory.getCategory() + "\n```";
 			categoryListEmbedBuilder.addField(title, description, true);

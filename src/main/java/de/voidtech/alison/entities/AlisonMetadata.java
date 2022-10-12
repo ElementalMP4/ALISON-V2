@@ -2,6 +2,7 @@ package main.java.de.voidtech.alison.entities;
 
 import main.java.de.voidtech.alison.Alison;
 
+@SuppressWarnings("unused")
 public class AlisonMetadata {
 
 	@Deprecated

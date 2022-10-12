@@ -10,7 +10,7 @@ import java.util.List;
 
 public class CommandRegistry {
 	
-	private static final List<AbstractCommand> Commands = new ArrayList<AbstractCommand>();
+	private static final List<AbstractCommand> Commands = new ArrayList<>();
 	
 	private static void populateCommands() {
 		Commands.add(new ClearCommand());

@@ -13,8 +13,8 @@ import java.util.stream.Collectors;
 
 public class TextAnalytics {
 	
-	private static List<String> NegativeWords = new ArrayList<>();
-	private static List<String> PositiveWords = new ArrayList<>();
+	private static final List<String> NegativeWords;
+	private static final List<String> PositiveWords;
 	
 	private static final List<String> POSITIVE_EMOTES = Arrays.asList("❤", "🥰", "😘", "😄");
 	private static final List<String> NEGATIVE_EMOTES = Arrays.asList("💔", "😔", "😭", "😢");
@@ -59,7 +59,7 @@ public class TextAnalytics {
 				.filter(memberID -> !PrivacyManager.userHasOptedOut(memberID))
 				.filter(ModelManager::modelExists)
 				.map(TextAnalytics::analysePack)
-				.sorted(Comparator.comparing(Sentiment::getAdjustedScore))
+				.sorted(Comparator.comparing(sentiment -> sentiment != null ? sentiment.getAdjustedScore() : 0))
 				.collect(Collectors.toList());
 		Collections.reverse(sentiments);
 		return sentiments;

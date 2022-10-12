@@ -10,7 +10,7 @@ import java.util.List;
 public class ResourceLoader {
 
 	public List<String> getResource(String filename) {
-		List<String> lines = new ArrayList<String>();
+		List<String> lines = new ArrayList<>();
 		try {
 			InputStream dataInStream = getClass().getClassLoader().getResourceAsStream(filename);
             assert dataInStream != null;

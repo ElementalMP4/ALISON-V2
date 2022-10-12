@@ -27,7 +27,7 @@ public class ModelManager {
 
 	public static List<AlisonModel> getAllModels() {
 		File[] modelFiles = new File("models/").listFiles();
-		List<AlisonModel> models = new ArrayList<AlisonModel>();
+		List<AlisonModel> models = new ArrayList<>();
 		assert modelFiles != null;
 		Arrays.asList(modelFiles).forEach(model -> models.add(getModel(model.getName())));
 		return models;

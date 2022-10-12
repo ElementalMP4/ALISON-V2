@@ -11,6 +11,7 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public class AlisonModel {
 
 	public static final int NICKNAME_LENGTH = 32;
@@ -152,7 +153,7 @@ public class AlisonModel {
 	}
 	
 	public String createQuote() {
-		return createRandomStringUnderLength(words, QUOTE_LENGTH).replaceAll("\n", " ");
+		return createRandomStringUnderLength(words, QUOTE_LENGTH);
 	}
 	
 	public String createSearch() {
