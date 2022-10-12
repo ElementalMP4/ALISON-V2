@@ -78,7 +78,7 @@ public class ReplyManager {
             else wordInModel.incrementCount();
         }
         String reply = AlisonModel.createProbableSentenceUnderLength(finalWordList, AlisonModel.MAX_MESSAGE_LENGTH);
-        return reply == null ? "Huh" : reply;
+        return reply == null ? "Huh" : reply.replaceAll("/@/", "'");
     }
 
     private static List<String> getExistingResponseSentences(String message) {

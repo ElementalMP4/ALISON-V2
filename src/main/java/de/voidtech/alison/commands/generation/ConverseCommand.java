@@ -21,6 +21,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ConverseCommand extends AbstractCommand {
+
+    private static final String ERROR_STRING = "I'm not sure how to respond to that.";
+
     @Override
     public void execute(CommandContext commandContext, List<String> args) {
         String startSentence = "";
@@ -33,7 +36,7 @@ public class ConverseCommand extends AbstractCommand {
 
     private MessageEmbed generateConversation(String startSentence) {
         String promptForGavin = startSentence;
-        String promptForAlison = "";
+        String promptForAlison;
         StringBuilder convoBuilder = new StringBuilder();
         EmbedBuilder convoEmbedBuilder = new EmbedBuilder()
                 .setColor(Color.ORANGE)
@@ -49,8 +52,6 @@ public class ConverseCommand extends AbstractCommand {
         convoEmbedBuilder.setDescription("```\n" + convoBuilder + "\n```");
         return convoEmbedBuilder.build();
     }
-
-    private static final String ERROR_STRING = "I'm not sure how to respond to that.";
 
     private String getGavinResponse(String message) {
         try {
@@ -69,7 +70,7 @@ public class ConverseCommand extends AbstractCommand {
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String output = in.lines().collect(Collectors.joining());
             con.disconnect();
-            return new JSONObject(output).getString("message");
+            return new JSONObject(output).getString("message").replaceAll("\n", " ");
         } catch (Exception e1) {
             e1.printStackTrace();
         }
