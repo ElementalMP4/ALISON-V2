@@ -1,6 +1,7 @@
 package main.java.de.voidtech.alison.utils;
 
 import main.java.de.voidtech.alison.Alison;
+import main.java.de.voidtech.alison.entities.SqlParameterBuilder;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,16 +12,16 @@ public class PrivacyManager {
 
 	//User SQL
 	private static final String CREATE_USER_TABLE = "CREATE TABLE IF NOT EXISTS IgnoredUsers (userID TEXT)";
-	private static final String OPT_IN = "DELETE FROM IgnoredUsers WHERE userID = '%s'";
-	private static final String OPT_OUT = "INSERT INTO IgnoredUsers VALUES ('%s')";
-	private static final String USER_IS_OPTED_OUT = "SELECT * FROM IgnoredUsers WHERE userID = '%s'";
+	private static final String OPT_IN = "DELETE FROM IgnoredUsers WHERE userID = :userid";
+	private static final String OPT_OUT = "INSERT INTO IgnoredUsers VALUES (:userid)";
+	private static final String USER_IS_OPTED_OUT = "SELECT * FROM IgnoredUsers WHERE userID = :userid";
 	
 	//Channel SQL
 	private static final String CREATE_CHANNEL_TABLE = "CREATE TABLE IF NOT EXISTS IgnoredChannels (channelID TEXT, guildID TEXT)";
-	private static final String UNIGNORE_CHANNEL = "DELETE FROM IgnoredChannels WHERE channelID = '%s' AND guildID = '%s'";
-	private static final String IGNORE_CHANNEL = "INSERT INTO IgnoredChannels VALUES ('%s', '%s')";
-	private static final String CHANNEL_IS_IGNORED = "SELECT * FROM IgnoredChannels WHERE channelID = '%s' AND guildID = '%s'";
-	private static final String GET_ALL_CHANNELS = "SELECT * FROM IgnoredChannels WHERE guildID = '%s'";
+	private static final String UNIGNORE_CHANNEL = "DELETE FROM IgnoredChannels WHERE channelID = :channelid AND guildID = :guildid";
+	private static final String IGNORE_CHANNEL = "INSERT INTO IgnoredChannels VALUES (:channelid, :guildid)";
+	private static final String CHANNEL_IS_IGNORED = "SELECT * FROM IgnoredChannels WHERE channelID = :channelid AND guildID = :guildid";
+	private static final String GET_ALL_CHANNELS = "SELECT * FROM IgnoredChannels WHERE guildID = :guildid";
 
 	static {
 		Alison.getDatabase().executeUpdate(CREATE_USER_TABLE);
@@ -29,7 +30,8 @@ public class PrivacyManager {
 
 	public static boolean userHasOptedOut(String userID) {
 		try {
-			ResultSet result = Alison.getDatabase().queryDatabase(String.format(USER_IS_OPTED_OUT, userID));
+			String query = new SqlParameterBuilder(USER_IS_OPTED_OUT).setParameter("userid", userID).build();
+			ResultSet result = Alison.getDatabase().queryDatabase(query);
 			return !result.isClosed();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -38,16 +40,26 @@ public class PrivacyManager {
 	}
 
 	public static void optOut(String userID) {
-		Alison.getDatabase().executeUpdate(String.format(OPT_OUT, userID));
+		String query = new SqlParameterBuilder(OPT_OUT)
+				.setParameter("userid", userID)
+				.build();
+		Alison.getDatabase().executeUpdate(query);
 	}
 
 	public static void optIn(String userID) {
-		Alison.getDatabase().executeUpdate(String.format(OPT_IN, userID));
+		String query = new SqlParameterBuilder(OPT_IN)
+				.setParameter("userid", userID)
+				.build();
+		Alison.getDatabase().executeUpdate(query);
 	}
 	
 	public static boolean channelIsIgnored(String channelID, String guildID) {
 		try {
-			ResultSet result = Alison.getDatabase().queryDatabase(String.format(CHANNEL_IS_IGNORED, channelID, guildID));
+			String query = new SqlParameterBuilder(CHANNEL_IS_IGNORED)
+					.setParameter("channelid", channelID)
+					.setParameter("guildid", guildID)
+					.build();
+			ResultSet result = Alison.getDatabase().queryDatabase(query);
 			return !result.isClosed();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -56,17 +68,28 @@ public class PrivacyManager {
 	}
 	
 	public static void ignoreChannel(String channelID, String guildID) {
-		Alison.getDatabase().executeUpdate(String.format(IGNORE_CHANNEL, channelID, guildID));
+		String query = new SqlParameterBuilder(IGNORE_CHANNEL)
+				.setParameter("channelid", channelID)
+				.setParameter("guildid", guildID)
+				.build();
+		Alison.getDatabase().executeUpdate(query);
 	}
 	
 	public static void unignoreChannel(String channelID, String guildID) {
-		Alison.getDatabase().executeUpdate(String.format(UNIGNORE_CHANNEL, channelID, guildID));
+		String query = new SqlParameterBuilder(UNIGNORE_CHANNEL)
+				.setParameter("channelid", channelID)
+				.setParameter("guildid", guildID)
+				.build();
+		Alison.getDatabase().executeUpdate(query);
 	}
 	
 	public static List<String> getIgnoredChannelsForServer(String guildID) {
 		List<String> channels = new ArrayList<>();
 		try {
-			ResultSet result = Alison.getDatabase().queryDatabase(String.format(GET_ALL_CHANNELS, guildID));
+			String query = new SqlParameterBuilder(GET_ALL_CHANNELS)
+					.setParameter("guildid", guildID)
+					.build();
+			ResultSet result = Alison.getDatabase().queryDatabase(query);
 			while (result.next()) {
 				channels.add(result.getString("channelID"));
 			}
