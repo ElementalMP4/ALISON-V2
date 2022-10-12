@@ -3,7 +3,7 @@ package main.java.de.voidtech.alison.utils;
 import main.java.de.voidtech.alison.Alison;
 import main.java.de.voidtech.alison.entities.AlisonModel;
 import main.java.de.voidtech.alison.entities.AlisonWord;
-import main.java.de.voidtech.alison.entities.SqlParameterBuilder;
+import main.java.de.voidtech.alison.entities.QueryBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Message;
 
@@ -39,7 +39,7 @@ public class ReplyManager {
 
     public static void addMessages(Message message) {
         if (messageCanBeAdded(message)) {
-            String query = new SqlParameterBuilder(ADD_MESSAGES)
+            String query = new QueryBuilder(ADD_MESSAGES)
                     .setParameter("message", formatMessage(message.getReferencedMessage()))
                     .setParameter("reply", formatMessage(message))
                     .build();
@@ -89,7 +89,7 @@ public class ReplyManager {
         String[] tokens = message.split(" ");
         List<String> sentences = new ArrayList<>();
         for (String token : tokens) {
-            String query = new SqlParameterBuilder(GET_MESSAGE_POOL)
+            String query = new QueryBuilder(GET_MESSAGE_POOL)
                     .setParameter("word", "% " + token + " %")
                     .build();
             ResultSet results = Alison.getDatabase().queryDatabase(query);

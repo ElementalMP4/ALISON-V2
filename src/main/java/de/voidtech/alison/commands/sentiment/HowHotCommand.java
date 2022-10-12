@@ -4,7 +4,7 @@ import main.java.de.voidtech.alison.Alison;
 import main.java.de.voidtech.alison.commands.AbstractCommand;
 import main.java.de.voidtech.alison.commands.CommandCategory;
 import main.java.de.voidtech.alison.commands.CommandContext;
-import main.java.de.voidtech.alison.entities.SqlParameterBuilder;
+import main.java.de.voidtech.alison.entities.QueryBuilder;
 import main.java.de.voidtech.alison.utils.ParsingUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -59,7 +59,7 @@ public class HowHotCommand extends AbstractCommand {
 
 	private int getUserRigging(User user) {
 		try {
-			String query = new SqlParameterBuilder(GET_RIGGED)
+			String query = new QueryBuilder(GET_RIGGED)
 					.setParameter("userid", user.getId())
 					.build();
 			ResultSet result = Alison.getDatabase().queryDatabase(query);
@@ -72,7 +72,7 @@ public class HowHotCommand extends AbstractCommand {
 
 	private boolean userIsRigged(User user) {
 		try {
-			String query = new SqlParameterBuilder(GET_RIGGED)
+			String query = new QueryBuilder(GET_RIGGED)
 					.setParameter("userid", user.getId())
 					.build();
 			ResultSet result = Alison.getDatabase().queryDatabase(query);
@@ -102,7 +102,7 @@ public class HowHotCommand extends AbstractCommand {
 
 	private void unrigUser(CommandContext context, List<String> args) {
 		String ID = args.get(1).replaceAll("([^0-9a-zA-Z])", "");
-		String query = new SqlParameterBuilder(UNRIG)
+		String query = new QueryBuilder(UNRIG)
 				.setParameter("userid", ID)
 				.build();
 		Alison.getDatabase().executeUpdate(query);
@@ -114,11 +114,11 @@ public class HowHotCommand extends AbstractCommand {
 		else {
 			String ID = args.get(1).replaceAll("([^0-9a-zA-Z])", "");
 			String value = args.get(2);
-			String unrigQuery = new SqlParameterBuilder(UNRIG)
+			String unrigQuery = new QueryBuilder(UNRIG)
 					.setParameter("userid", ID)
 					.build();
 			Alison.getDatabase().executeUpdate(unrigQuery);
-			String rigQuery = new SqlParameterBuilder(RIG)
+			String rigQuery = new QueryBuilder(RIG)
 					.setParameter("userid", ID)
 					.setParameter("hotness", value)
 					.build();

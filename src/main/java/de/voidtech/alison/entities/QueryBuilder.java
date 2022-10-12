@@ -1,10 +1,10 @@
 package main.java.de.voidtech.alison.entities;
 
-public class SqlParameterBuilder {
+public class QueryBuilder {
 
     private String query;
 
-    public SqlParameterBuilder(String query) {
+    public QueryBuilder(String query) {
         this.query = query;
     }
 
@@ -12,7 +12,7 @@ public class SqlParameterBuilder {
         return this.query;
     }
 
-    public SqlParameterBuilder setParameter(String parameter, String value) {
+    public QueryBuilder setParameter(String parameter, String value) {
         String parameterWithLocator = ":" + parameter;
         if (!query.contains(parameterWithLocator)) throw new RuntimeException("Parameter " + parameter + " was not found");
         this.query = query.replace(parameterWithLocator, "'" + value.replaceAll("'", "/@/") + "'");
