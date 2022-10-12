@@ -31,7 +31,7 @@ public class ConverseCommand extends AbstractCommand {
             return;
         }
 
-        String startSentence = "";
+        String startSentence;
         if (args.isEmpty()) {
             AlisonModel model = new AlisonModel(Alison.getConfig().getMasterId());
             startSentence = model.createQuote();
@@ -47,7 +47,7 @@ public class ConverseCommand extends AbstractCommand {
                 .setColor(Color.ORANGE)
                 .setTitle("A conversation between ALISON and Gavin with the prompt '" + startSentence + "'");
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             promptForAlison = getGavinResponse(promptForGavin);
             convoBuilder.append("Gavin: ").append(promptForAlison).append("\n\n");
             promptForGavin = ReplyManager.createReply(promptForAlison, AlisonModel.QUOTE_LENGTH);
