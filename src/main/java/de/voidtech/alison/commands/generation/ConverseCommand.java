@@ -26,6 +26,11 @@ public class ConverseCommand extends AbstractCommand {
 
     @Override
     public void execute(CommandContext commandContext, List<String> args) {
+        if (!commandContext.getAuthor().getId().equals(Alison.getConfig().getMasterId())) {
+            commandContext.reply("This is an owner-only command.");
+            return;
+        }
+
         String startSentence = "";
         if (args.isEmpty()) {
             AlisonModel model = new AlisonModel(Alison.getConfig().getMasterId());
