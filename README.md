@@ -132,4 +132,4 @@ Alison does not come with any tech support. She has no support server, no forum 
 
 If you want to use an already-existing corpus to create a model, you will need [ALISON-Trainer](https://github.com/Elementalmp4/ALISON-Trainer)
 
-Follow the steps in the trainer repository to create a custom model.
+Follow the steps in the trainer repository to create a custom model. 
