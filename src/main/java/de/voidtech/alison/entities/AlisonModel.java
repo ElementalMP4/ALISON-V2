@@ -104,12 +104,12 @@ public class AlisonModel {
 		AlisonWord next = getRandomStartWord(words);
 		if (next == null) return null;
 		while (next.isStopWord()) {
-			if (result.length() + (next.getWord() + " ").length() > MAX_MESSAGE_LENGTH) break;
+			if (result.length() + (next.getWord() + " ").length() > length) break;
 			result.append(next.getWord()).append(" ");
 			List<AlisonWord> potentials = getWordList(words, next.getNext());
 			next = getMostLikely(potentials);
 		}
-		if (result.length() + next.getWord().length() <= MAX_MESSAGE_LENGTH) result.append(next.getWord());
+		if (result.length() + next.getWord().length() <= length) result.append(next.getWord());
 		return result.toString();
 	}
 
