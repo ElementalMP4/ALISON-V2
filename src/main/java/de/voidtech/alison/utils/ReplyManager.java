@@ -60,7 +60,7 @@ public class ReplyManager {
         }
     }
 
-    private static String createReply(String message) {
+    public static String createReply(String message) {
         List<String> existingResponseSentences = getExistingResponseSentences(message);
         if (existingResponseSentences.isEmpty()) return "Huh";
         List<AlisonWord> tokenizedWords = new ArrayList<>();

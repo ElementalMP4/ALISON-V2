@@ -42,6 +42,11 @@ public class Configuration {
 		return url != null ? url : "http://localhost:3000/api/";
 	}
 
+	public String getGavinUrl() {
+		String url = config.getProperty("Gavin");
+		return url != null ? url : "http://localhost:6970/chat_bot/";
+	}
+
 	public String getDatabaseUrl() {
 		String path = config.getProperty("DatabasePath"); 
 		return path != null ? path : "jdbc:sqlite:Alison.db";

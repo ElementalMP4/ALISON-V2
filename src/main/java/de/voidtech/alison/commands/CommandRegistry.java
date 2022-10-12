@@ -1,27 +1,12 @@
 package main.java.de.voidtech.alison.commands;
 
+import main.java.de.voidtech.alison.commands.generation.*;
+import main.java.de.voidtech.alison.commands.information.*;
+import main.java.de.voidtech.alison.commands.privacy.*;
+import main.java.de.voidtech.alison.commands.sentiment.*;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import main.java.de.voidtech.alison.commands.generation.ImitateCommand;
-import main.java.de.voidtech.alison.commands.generation.NicknameCommand;
-import main.java.de.voidtech.alison.commands.generation.QuoteCommand;
-import main.java.de.voidtech.alison.commands.generation.SearchCommand;
-import main.java.de.voidtech.alison.commands.information.CountCommand;
-import main.java.de.voidtech.alison.commands.information.HelpCommand;
-import main.java.de.voidtech.alison.commands.information.InfoCommand;
-import main.java.de.voidtech.alison.commands.information.MyStatsCommand;
-import main.java.de.voidtech.alison.commands.information.PingCommand;
-import main.java.de.voidtech.alison.commands.privacy.ClearCommand;
-import main.java.de.voidtech.alison.commands.privacy.IgnoredChannelsCommand;
-import main.java.de.voidtech.alison.commands.privacy.ModifyCommand;
-import main.java.de.voidtech.alison.commands.privacy.OptInCommand;
-import main.java.de.voidtech.alison.commands.privacy.OptOutCommand;
-import main.java.de.voidtech.alison.commands.sentiment.HowHotCommand;
-import main.java.de.voidtech.alison.commands.sentiment.HowToxicAmICommand;
-import main.java.de.voidtech.alison.commands.sentiment.HowToxicIsThisCommand;
-import main.java.de.voidtech.alison.commands.sentiment.HowToxicIsThisServerCommand;
-import main.java.de.voidtech.alison.commands.sentiment.LeaderboardCommand;
 
 public class CommandRegistry {
 	
@@ -29,6 +14,7 @@ public class CommandRegistry {
 	
 	private static void populateCommands() {
 		Commands.add(new ClearCommand());
+		Commands.add(new ConverseCommand());
 		Commands.add(new CountCommand());
 		Commands.add(new HelpCommand());
 		Commands.add(new HowHotCommand());

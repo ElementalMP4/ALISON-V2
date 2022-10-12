@@ -9,7 +9,6 @@ public class SqlParameterBuilder {
     }
 
     public String build() {
-        System.out.println(this.query);
         return this.query;
     }
 
