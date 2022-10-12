@@ -5,6 +5,7 @@ import main.java.de.voidtech.alison.commands.AbstractCommand;
 import main.java.de.voidtech.alison.commands.CommandCategory;
 import main.java.de.voidtech.alison.commands.CommandContext;
 import main.java.de.voidtech.alison.entities.AlisonModel;
+import main.java.de.voidtech.alison.utils.PrivacyManager;
 import main.java.de.voidtech.alison.utils.ReplyManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -28,8 +29,18 @@ public class ConverseCommand extends AbstractCommand {
     public void execute(CommandContext commandContext, List<String> args) {
         String startSentence;
         if (args.isEmpty()) {
-            AlisonModel model = new AlisonModel(Alison.getConfig().getMasterId());
+            if (PrivacyManager.userHasOptedOut(commandContext.getAuthor().getId())) {
+                commandContext.reply("To use this command you must either use the `optin`" +
+                        " command to allow access to your data, or supply your own prompt.");
+                return;
+            }
+            AlisonModel model = new AlisonModel(commandContext.getAuthor().getId());
             startSentence = model.createQuote();
+            if (startSentence == null) {
+                commandContext.reply("I don't have enough data from you to create a prompt!" +
+                        " Send some messages first, or provide your own prompt.");
+                return;
+            }
         } else startSentence = String.join(" ", args);
         commandContext.reply(generateConversation(startSentence));
     }
