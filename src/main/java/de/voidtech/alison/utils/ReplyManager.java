@@ -3,6 +3,7 @@ package main.java.de.voidtech.alison.utils;
 import main.java.de.voidtech.alison.Alison;
 import main.java.de.voidtech.alison.entities.AlisonModel;
 import main.java.de.voidtech.alison.entities.AlisonWord;
+import main.java.de.voidtech.alison.entities.SqlParameterBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Message;
 
@@ -15,8 +16,8 @@ import java.util.stream.Stream;
 
 public class ReplyManager {
     private static final String CREATE_MESSAGE_TABLE = "CREATE TABLE IF NOT EXISTS MessagePairs (message TEXT, reply TEXT)";
-    private static final String ADD_MESSAGES = "INSERT INTO MessagePairs VALUES ('%s', '%s')";
-    private static final String GET_MESSAGE_POOL = "SELECT * FROM MessagePairs WHERE UPPER(message) LIKE UPPER('% word %')";
+    private static final String ADD_MESSAGES = "INSERT INTO MessagePairs VALUES (:message, :reply)";
+    private static final String GET_MESSAGE_POOL = "SELECT * FROM MessagePairs WHERE UPPER(message) LIKE UPPER(:word)";
     private static final String GET_CONVERSATION_COUNT = "SELECT COUNT(*) FROM MessagePairs";
 
     static {
@@ -32,11 +33,17 @@ public class ReplyManager {
         }
     }
 
+    private static String formatMessage(Message message) {
+        return message.getContentRaw().replaceAll("<[^>]*>", "").replaceAll("'", "/@/").trim();
+    }
+
     public static void addMessages(Message message) {
         if (messageCanBeAdded(message)) {
-            Alison.getDatabase().executeUpdate(String.format(ADD_MESSAGES,
-                    message.getReferencedMessage().getContentRaw().replaceAll("<[^>]*>", "").trim(),
-                    message.getContentRaw().replaceAll("<[^>]*>", "").trim()));
+            String query = new SqlParameterBuilder(ADD_MESSAGES)
+                    .setParameter("message", formatMessage(message.getReferencedMessage()))
+                    .setParameter("reply", formatMessage(message))
+                    .build();
+            Alison.getDatabase().executeUpdate(query);
         }
     }
 
@@ -78,7 +85,10 @@ public class ReplyManager {
         String[] tokens = message.split(" ");
         List<String> sentences = new ArrayList<>();
         for (String token : tokens) {
-            ResultSet results = Alison.getDatabase().queryDatabase(GET_MESSAGE_POOL.replace("word", token));
+            String query = new SqlParameterBuilder(GET_MESSAGE_POOL)
+                    .setParameter("word", "% " + token + " %")
+                    .build();
+            ResultSet results = Alison.getDatabase().queryDatabase(query);
             sentences = Stream.concat(sentences.stream(), resultsToList(results).stream()).collect(Collectors.toList());
         }
         return sentences;
