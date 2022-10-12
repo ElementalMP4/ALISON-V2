@@ -44,9 +44,9 @@ public class ConverseCommand extends AbstractCommand {
 
         for (int i = 0; i < 10; i++) {
             promptForAlison = getGavinResponse(promptForGavin);
-            convoBuilder.append("Gavin: ").append(promptForAlison).append("\n");
+            convoBuilder.append("Gavin: ").append(promptForAlison).append("\n\n");
             promptForGavin = ReplyManager.createReply(promptForAlison, AlisonModel.QUOTE_LENGTH);
-            convoBuilder.append("Alison: ").append(promptForGavin).append("\n");
+            convoBuilder.append("Alison: ").append(promptForGavin).append("\n\n");
         }
 
         convoEmbedBuilder.setDescription("```\n" + convoBuilder + "\n```");
