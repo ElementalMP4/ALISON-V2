@@ -1,8 +1,8 @@
 package main.java.de.voidtech.alison;
 
 import main.java.de.voidtech.alison.entities.DatabaseInterface;
-import main.java.de.voidtech.alison.utils.Configuration;
-import main.java.de.voidtech.alison.utils.DiscordBot;
+import main.java.de.voidtech.alison.service.Configuration;
+import main.java.de.voidtech.alison.service.DiscordBot;
 
 public class Alison {
 

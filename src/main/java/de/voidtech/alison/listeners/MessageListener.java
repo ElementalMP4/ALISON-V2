@@ -4,7 +4,7 @@ import main.java.de.voidtech.alison.Alison;
 import main.java.de.voidtech.alison.commands.AbstractCommand;
 import main.java.de.voidtech.alison.commands.CommandContext;
 import main.java.de.voidtech.alison.commands.CommandRegistry;
-import main.java.de.voidtech.alison.utils.*;
+import main.java.de.voidtech.alison.service.*;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.ChannelType;

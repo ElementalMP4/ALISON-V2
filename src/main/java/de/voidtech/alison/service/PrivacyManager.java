@@ -1,4 +1,4 @@
-package main.java.de.voidtech.alison.utils;
+package main.java.de.voidtech.alison.service;
 
 import main.java.de.voidtech.alison.Alison;
 import main.java.de.voidtech.alison.entities.QueryBuilder;

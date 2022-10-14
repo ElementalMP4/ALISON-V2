@@ -4,7 +4,7 @@ import main.java.de.voidtech.alison.commands.AbstractCommand;
 import main.java.de.voidtech.alison.commands.CommandCategory;
 import main.java.de.voidtech.alison.commands.CommandContext;
 import main.java.de.voidtech.alison.entities.AlisonModel;
-import main.java.de.voidtech.alison.utils.ModelManager;
+import main.java.de.voidtech.alison.service.ModelManager;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.utils.Result;
 

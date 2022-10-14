@@ -1,4 +1,4 @@
-package main.java.de.voidtech.alison.utils;
+package main.java.de.voidtech.alison.service;
 
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.Browser.NewContextOptions;

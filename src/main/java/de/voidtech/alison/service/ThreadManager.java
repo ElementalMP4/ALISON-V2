@@ -1,4 +1,4 @@
-package main.java.de.voidtech.alison.utils;
+package main.java.de.voidtech.alison.service;
 
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 

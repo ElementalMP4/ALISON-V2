@@ -1,6 +1,6 @@
 package main.java.de.voidtech.alison.commands;
 
-import main.java.de.voidtech.alison.utils.ThreadManager;
+import main.java.de.voidtech.alison.service.ThreadManager;
 import net.dv8tion.jda.api.entities.ChannelType;
 
 import java.util.List;

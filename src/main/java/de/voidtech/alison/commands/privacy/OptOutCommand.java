@@ -4,8 +4,8 @@ import main.java.de.voidtech.alison.commands.AbstractCommand;
 import main.java.de.voidtech.alison.commands.CommandCategory;
 import main.java.de.voidtech.alison.commands.CommandContext;
 import main.java.de.voidtech.alison.entities.ButtonListener;
-import main.java.de.voidtech.alison.utils.ModelManager;
-import main.java.de.voidtech.alison.utils.PrivacyManager;
+import main.java.de.voidtech.alison.service.ModelManager;
+import main.java.de.voidtech.alison.service.PrivacyManager;
 
 import java.util.List;
 

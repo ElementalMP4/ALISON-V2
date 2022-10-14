@@ -5,7 +5,7 @@ import main.java.de.voidtech.alison.commands.AbstractCommand;
 import main.java.de.voidtech.alison.commands.CommandCategory;
 import main.java.de.voidtech.alison.commands.CommandContext;
 import main.java.de.voidtech.alison.entities.QueryBuilder;
-import main.java.de.voidtech.alison.utils.ParsingUtils;
+import main.java.de.voidtech.alison.service.ParsingUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;

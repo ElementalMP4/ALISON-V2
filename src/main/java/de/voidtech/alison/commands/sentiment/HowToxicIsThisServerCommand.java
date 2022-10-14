@@ -4,7 +4,7 @@ import main.java.de.voidtech.alison.commands.AbstractCommand;
 import main.java.de.voidtech.alison.commands.CommandCategory;
 import main.java.de.voidtech.alison.commands.CommandContext;
 import main.java.de.voidtech.alison.entities.Sentiment;
-import main.java.de.voidtech.alison.utils.TextAnalytics;
+import main.java.de.voidtech.alison.service.TextAnalytics;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 

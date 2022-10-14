@@ -1,6 +1,6 @@
 package main.java.de.voidtech.alison.listeners;
 
-import main.java.de.voidtech.alison.utils.StatusLogger;
+import main.java.de.voidtech.alison.service.StatusLogger;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.hooks.EventListener;

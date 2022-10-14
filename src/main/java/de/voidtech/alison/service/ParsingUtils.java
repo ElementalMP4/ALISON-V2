@@ -1,4 +1,4 @@
-package main.java.de.voidtech.alison.utils;
+package main.java.de.voidtech.alison.service;
 
 public class ParsingUtils {
 	public static boolean isInteger(String str) {
