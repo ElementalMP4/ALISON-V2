@@ -14,8 +14,10 @@ public class ButtonConsumer {
 	public ButtonConsumer(ButtonClickEvent button, Message message) {
 		this.message = message;
 		this.button = button;
-		this.button.deferEdit().queue();
-		this.message.editMessageComponents().queue();
+		if (!this.button.isAcknowledged())  {
+			this.button.deferEdit().queue();
+			this.message.editMessageComponents().queue();
+		}
 	}
 
 	public Message getMessage() {
