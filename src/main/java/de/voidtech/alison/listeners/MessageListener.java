@@ -80,11 +80,7 @@ public class MessageListener implements EventListener {
 		if (commandOpt == null) {
 			LOGGER.log(Level.INFO, "Command not found: " + messageArray.get(0));
 			tryLevenshteinOptions(message, messageArray.get(0));
-		} else {
-			LOGGER.log(Level.INFO,
-					"Command executed: " + commandOpt.getName() + " by " + message.getAuthor().getAsTag());
-			commandOpt.run(new CommandContext(message), messageArray.subList(1, messageArray.size()));
-		}
+		} else commandOpt.run(new CommandContext(message), messageArray.subList(1, messageArray.size()));
 	}
 
 	private MessageEmbed createLevenshteinEmbed(List<String> possibleOptions) {

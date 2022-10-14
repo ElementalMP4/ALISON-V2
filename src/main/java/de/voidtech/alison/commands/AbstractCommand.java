@@ -1,12 +1,18 @@
 package main.java.de.voidtech.alison.commands;
 
+import main.java.de.voidtech.alison.entities.Stopwatch;
+import main.java.de.voidtech.alison.listeners.MessageListener;
 import main.java.de.voidtech.alison.service.ThreadManager;
 import net.dv8tion.jda.api.entities.ChannelType;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public abstract class AbstractCommand {
+
+	public static final Logger LOGGER = Logger.getLogger(MessageListener.class.getSimpleName());
 
 	public void run(CommandContext context, List<String> args) {
 		if (!this.isDmCapable() && context.getMessage().getChannel().getType().equals(ChannelType.PRIVATE)) {
@@ -18,8 +24,14 @@ public abstract class AbstractCommand {
 			return;
 		}
 		ExecutorService commandExecutor = ThreadManager.getThreadByName("T-Command");
-		Runnable commandThread = () -> execute(context, args);
-		if (this.isLongCommand()) context.getMessage().getChannel().sendTyping().complete();
+		Runnable commandThread = () -> {
+			Stopwatch stopwatch = new Stopwatch().start();
+			LOGGER.log(Level.INFO, "Running command: " + this.getName() + " by " + context.getAuthor().getAsTag());
+			if (this.isLongCommand()) context.getMessage().getChannel().sendTyping().complete();
+			execute(context, args);
+			LOGGER.log(Level.INFO, "Command " + this.getName() + " by " + context.getAuthor().getAsTag()
+					+ " Took " + stopwatch.stop().getTime() + "ms");
+		};
 		commandExecutor.execute(commandThread);
 	}
 
