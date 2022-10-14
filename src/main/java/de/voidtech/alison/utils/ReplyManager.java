@@ -82,7 +82,7 @@ public class ReplyManager {
             else wordInModel.incrementCount();
         }
         String reply = AlisonModel.createProbableSentenceUnderLength(finalWordList, length);
-        return reply == null ? "Huh" : reply.replaceAll("/@/", "'");
+        return reply == null ? "Huh" : QueryBuilder.unescapeString(reply);
     }
 
     private static List<String> getExistingResponseSentences(String message) {
