@@ -46,26 +46,30 @@ public class MessageListener implements EventListener {
 		if (message.getAuthor().getId().equals(message.getJDA().getSelfUser().getId())) return;
 		String prefix = Alison.getConfig().getPrefix();
 		if (!shouldHandleAsChatCommand(prefix, message)) {
-			if (message.getChannel().getType().equals(ChannelType.PRIVATE)) {
-				ReplyManager.replyToMessage(message);
-				return;
-			}
-			if (PrivacyManager.channelIsIgnored(message.getChannel().getId(), message.getGuild().getId())) 
-				return;
-			if (message.getContentRaw().equals(""))
-				return;
-			if (PrivacyManager.userHasOptedOut(message.getAuthor().getId()))
-				return;
-			TextAnalytics.respondToAlisonMention(message);
-			ModelManager.getModel(message.getAuthor().getId()).learn(message.getContentRaw());
-			ReplyManager.addMessages(message);
-			ReplyManager.replyToMessage(message);
+			performNonCommandMessageActions(message);
 			return;
 		}
 
 		if (message.getChannel().getType().equals(ChannelType.PRIVATE)) doTheCommanding(message, prefix);
 		else if (!PrivacyManager.channelIsIgnored(message.getChannel().getId(), message.getGuild().getId())) doTheCommanding(message, prefix);
 		else if (message.getMember().getPermissions().contains(Permission.MANAGE_SERVER)) doTheCommanding(message, prefix);
+	}
+
+	private void performNonCommandMessageActions(Message message) {
+		if (message.getChannel().getType().equals(ChannelType.PRIVATE)) {
+			ReplyManager.replyToMessage(message);
+			return;
+		}
+		if (PrivacyManager.channelIsIgnored(message.getChannel().getId(), message.getGuild().getId()))
+			return;
+		if (message.getContentRaw().equals(""))
+			return;
+		if (PrivacyManager.userHasOptedOut(message.getAuthor().getId()))
+			return;
+		TextAnalytics.respondToAlisonMention(message);
+		ModelManager.getModel(message.getAuthor().getId()).learn(message.getContentRaw());
+		ReplyManager.addMessages(message);
+		ReplyManager.replyToMessage(message);
 	}
 
 	private void doTheCommanding(Message message, String prefix) {
