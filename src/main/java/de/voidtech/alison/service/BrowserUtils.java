@@ -28,7 +28,7 @@ public class BrowserUtils {
 				.setLocale("en-GB");
 	}
 	
-	static {
+	public static void initialise() {
 		ExecutorService playwrightExecutor = ThreadManager.getThreadByName("Playwright");
 		playwrightExecutor.execute(() -> {
             LOGGER.log(Level.INFO, "Playwright is being initialised");

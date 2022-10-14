@@ -1,5 +1,6 @@
 package main.java.de.voidtech.alison.listeners;
 
+import main.java.de.voidtech.alison.service.BrowserUtils;
 import main.java.de.voidtech.alison.service.StatusLogger;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.ReadyEvent;
@@ -19,6 +20,7 @@ public class ReadyListener implements EventListener {
 			ReadyEvent readyEvent = (ReadyEvent) event;
 			LOGGER.log(Level.INFO, "Logged in as " + readyEvent.getJDA().getSelfUser().getAsTag());
 			StatusLogger.sendStartupMessage();
+			BrowserUtils.initialise();
 		}
 	}
 }
