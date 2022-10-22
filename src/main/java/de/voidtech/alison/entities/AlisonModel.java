@@ -167,6 +167,7 @@ public class AlisonModel {
 	
 	public Map<String, Long> getTopFiveWords() {
 		Map<String, Long> countedWords = words.stream()
+				.filter(aw -> !Sentiment.COMMON_WORDS.contains(aw.getWord().toLowerCase().replaceAll("[^a-zA-Z]", "")))
 				.collect(Collectors.groupingBy(AlisonWord::getWord, Collectors.counting()));
 		return countedWords.entrySet().stream()
 				.sorted(Entry.comparingByValue(Comparator.reverseOrder()))
@@ -199,4 +200,5 @@ public class AlisonModel {
 	public AlisonMetadata getMeta() {
 		return this.meta;
 	}
+
 }

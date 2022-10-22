@@ -1,16 +1,16 @@
 package main.java.de.voidtech.alison.entities;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
-
 import main.java.de.voidtech.alison.Alison;
 import main.java.de.voidtech.alison.commands.CommandContext;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
 import net.dv8tion.jda.api.interactions.components.Button;
 import net.dv8tion.jda.api.interactions.components.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 public class ButtonListener {
 
@@ -24,7 +24,7 @@ public class ButtonListener {
 	public ButtonListener(CommandContext context, String question, Consumer<ButtonConsumer> result) {
         Message msg = context.getMessage().reply(question).setActionRow(createTrueFalseButtons()).mentionRepliedUser(false).complete();
         Alison.getBot().getEventWaiter().waitForEvent(ButtonClickEvent.class,
-                e -> e.getUser().getId().equals(context.getAuthor().getId()),
+                e -> e.getUser().getId().equals(context.getAuthor().getId()) && e.getMessage().getId().equals(msg.getId()),
 				e -> result.accept(new ButtonConsumer(e, msg)), 30, TimeUnit.SECONDS,
                 () -> context.getMessage().getChannel().sendMessage("Timed out waiting for a response.").queue());
     }	

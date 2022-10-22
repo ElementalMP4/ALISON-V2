@@ -32,7 +32,7 @@ public class MyStatsCommand extends AbstractCommand {
             		context.reply("This user has chosen not to have their data analysed.");
             		return;
             	}
-                MessageEmbed statsEmbed = createStatsEmbed(userResult.get()); 
+                MessageEmbed statsEmbed = createStatsEmbed(userResult.get());
                 context.reply(statsEmbed);
             } else context.reply("User " + ID + " could not be found");	
         }
