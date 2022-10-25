@@ -138,11 +138,8 @@ public class AlisonModel {
 	}
 
 	private static AlisonWord getRandomStartWord(List<AlisonWord> words) {
-		List<AlisonWord> wordsWithFollows = words.stream()
-				.filter(word -> !word.getNext().equals("StopWord"))
-				.collect(Collectors.toList());
-		if (wordsWithFollows.size() < 2) return null;
-		else return wordsWithFollows.get(new Random().nextInt(wordsWithFollows.size() - 1));
+		if (words.size() < 2) return null;
+		else return words.get(new Random().nextInt(words.size() - 1));
 	}
 
 	private static List<AlisonWord> getWordList(List<AlisonWord> words, String wordToFind) {
