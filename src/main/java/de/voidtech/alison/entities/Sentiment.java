@@ -6,8 +6,6 @@ import java.util.stream.Stream;
 
 public class Sentiment {
 
-	public static final List<String> COMMON_WORDS;
-
 	private final List<String> positives;
 	private final List<String> negatives;
 	private final String originalWords;
@@ -16,13 +14,9 @@ public class Sentiment {
 	private final int score;
 	private String pack;
 
-	static {
-		COMMON_WORDS = new ResourceLoader().getResource("common-words.txt");
-	}
-
 	public Sentiment(List<String> positives, List<String> negatives, String originalWords) {
-		this.positives = positives.stream().filter(COMMON_WORDS::contains).collect(Collectors.toList());
-		this.negatives = negatives.stream().filter(COMMON_WORDS::contains).collect(Collectors.toList());
+		this.positives = positives;
+		this.negatives = negatives;
 		this.score = this.positives.size() - this.negatives.size();
 		this.originalWords = originalWords;
 		this.tokens = Stream.concat(this.positives.stream(), this.negatives.stream()).collect(Collectors.toList());

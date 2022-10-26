@@ -20,9 +20,15 @@ public class AlisonModel {
 	public static final int MAX_MESSAGE_LENGTH = 2000;
 	public static final int PROMPT_LENGTH = 35;
 
+	private static List<String> COMMON_WORDS;
+
 	private List<AlisonWord> words = new ArrayList<>();
 	private AlisonMetadata meta = null;
 	private final String dataDir;
+
+	static {
+		COMMON_WORDS = new ResourceLoader().getResource("common-words.txt");
+	}
 
 	public AlisonModel(String pack) {
 		dataDir = "models/" + pack;
@@ -164,7 +170,7 @@ public class AlisonModel {
 	
 	public Map<String, Long> getTopFiveWords() {
 		Map<String, Long> countedWords = words.stream()
-				.filter(aw -> !Sentiment.COMMON_WORDS.contains(aw.getWord().toLowerCase().replaceAll("[^a-zA-Z]", "")))
+				.filter(aw -> !COMMON_WORDS.contains(aw.getWord().toLowerCase().replaceAll("[^a-zA-Z]", "")))
 				.collect(Collectors.groupingBy(AlisonWord::getWord, Collectors.counting()));
 		return countedWords.entrySet().stream()
 				.sorted(Entry.comparingByValue(Comparator.reverseOrder()))
