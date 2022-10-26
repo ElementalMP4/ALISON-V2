@@ -91,8 +91,27 @@ This piece of NLP goodness serves only one purpose. Help people if they misspell
 
 ### A "Chatbot"
 
-Yeahhhh...
+Alison now contains a chatbot. Sort of. It uses another funky homemade algorithm called CLAIRE (Continuous Learning Artificial Intelligence Response Engine) which works very similarly to the WRTT algorithm, only with a few minor changes.
 
+CLAIRE is split into two seperate entities, bonded together by a resource pool (in this case, an SQLite database). 
+
+#### Continuous Learning
+
+Since Alison is a Discord bot, she has access to Discord messages. As such, messages with relevant replies can be easily gathered to use as a dataset. This process is very simple.
+
+1) A user sends a message
+2) Another user replies to this message
+3) Alison notices the reply and copies the content of both the original message and the reply into a resource pool (anonymously)
+
+#### Artificial Intelligence Response Engine
+
+When someone provides Alison with a prompt, she uses the provided message to find contextual responses to the original prompt, which she then tokenises and blends together to make a response. This is very similar to WRTT, but for the sake of coherent responses, this particular algorithm uses WPTT (Weighted Predictable Tree Traversal) instead.
+
+1) A user gives Alison a prompt
+2) The prompt is divided into inividual words
+3) The resource pool is searched for these words, and a message pool is created
+4) The messages in the message pool are full sentences, so they need to be tokenised into a list of `AlisonWord` first
+5) Once a tokenised list is generated, it can be fed into a WPTT sentence generator. WPTT is identical to WRTT (explained above) but instead of randomly choosing the next word from a pool, the next word is determined by the frequency of the `AlisonWord` in the tokenised pool.
 ### Conclusion
 
 Thus concludes this epic tale, A Research Paper Called ALISON. I am not a data scientist, nor am I in any way an AI/ML or NLP expert. I am fully aware that ALISON is not very smart, but I personally think this makes her more entertaining. ALISON is not meant to be accurate, she's meant to be amusing.

@@ -26,6 +26,6 @@ public class ButtonListener {
         Alison.getBot().getEventWaiter().waitForEvent(ButtonClickEvent.class,
                 e -> e.getUser().getId().equals(context.getAuthor().getId()) && e.getMessage().getId().equals(msg.getId()),
 				e -> result.accept(new ButtonConsumer(e, msg)), 30, TimeUnit.SECONDS,
-                () -> context.getMessage().getChannel().sendMessage("Timed out waiting for a response.").queue());
+                () -> msg.editMessageComponents().queue());
     }	
 }
