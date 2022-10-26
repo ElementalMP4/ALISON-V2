@@ -51,4 +51,9 @@ public class Configuration {
 		String path = config.getProperty("DatabasePath"); 
 		return path != null ? path : "jdbc:sqlite:Alison.db";
 	}
+
+	public boolean continuousLearningEnabled() {
+		String enabled = config.getProperty("LearningEnabled");
+		return enabled == null || Boolean.parseBoolean(enabled);
+	}
 }

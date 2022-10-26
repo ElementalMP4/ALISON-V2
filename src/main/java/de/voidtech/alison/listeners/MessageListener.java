@@ -66,9 +66,9 @@ public class MessageListener implements EventListener {
 			return;
 		if (PrivacyManager.userHasOptedOut(message.getAuthor().getId()))
 			return;
+		if (Alison.getConfig().continuousLearningEnabled()) ReplyManager.addMessages(message);
 		TextAnalytics.respondToAlisonMention(message);
 		ModelManager.getModel(message.getAuthor().getId()).learn(message.getContentRaw());
-		ReplyManager.addMessages(message);
 		ReplyManager.replyToMessage(message);
 	}
 
