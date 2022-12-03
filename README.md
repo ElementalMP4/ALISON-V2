@@ -10,7 +10,8 @@ ALISON uses:
 - Java because it's easy
 - A custom model format using serialized Java collections (this was an awful mistake, but it kinda worked)
 - JDA to talk to Discord
-- WRTT Sentence Generation
+- WRTT Imitation Sentence Generation
+- CLAIRE Resposne Sentence Generation
 - OAT Sentiment determination
 - Hopes and dreams
 
