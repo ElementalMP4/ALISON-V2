@@ -9,12 +9,17 @@ import java.util.List;
 
 public class ResourceLoader {
 
-	public List<String> getResource(String filename) {
+	private final InputStream resourceStream;
+
+	public ResourceLoader(String filename) {
+		resourceStream = getClass().getClassLoader().getResourceAsStream(filename);
+	}
+
+	public List<String> getResource() {
 		List<String> lines = new ArrayList<>();
 		try {
-			InputStream dataInStream = getClass().getClassLoader().getResourceAsStream(filename);
-            assert dataInStream != null;
-            BufferedReader br = new BufferedReader(new InputStreamReader(dataInStream));
+            assert resourceStream != null;
+            BufferedReader br = new BufferedReader(new InputStreamReader(resourceStream));
 			String line;
 			while ((line = br.readLine()) != null) {
 				lines.add(line);
@@ -24,5 +29,9 @@ public class ResourceLoader {
 			e.printStackTrace();
 		}
 		return lines;
+	}
+
+	public InputStream getStream() {
+		return this.resourceStream;
 	}
 }

@@ -27,7 +27,7 @@ public class AlisonModel {
 	private final String dataDir;
 
 	static {
-		COMMON_WORDS = new ResourceLoader().getResource("common-words.txt");
+		COMMON_WORDS = new ResourceLoader("common-words.txt").getResource();
 	}
 
 	public AlisonModel(String pack) {
