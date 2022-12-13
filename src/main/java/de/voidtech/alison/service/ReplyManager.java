@@ -56,7 +56,7 @@ public class ReplyManager {
     public static void replyToMessage(Message message) {
         if (message.getMentionedUsers().contains(message.getJDA().getSelfUser())
                 | message.getChannel().getType().equals(ChannelType.PRIVATE)) {
-            message.getChannel().sendMessage(createReply(message.getContentDisplay())).queue();
+            message.reply(createReply(message.getContentDisplay())).mentionRepliedUser(false).queue();
         }
     }
 
