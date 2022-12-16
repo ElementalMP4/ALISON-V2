@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 import main.java.de.voidtech.alison.entities.AlisonModel;
 
@@ -28,17 +27,19 @@ public class ModelManager {
 	public static List<AlisonModel> getAllModels() {
 		File[] modelFiles = new File("models/").listFiles();
 		List<AlisonModel> models = new ArrayList<>();
-		assert modelFiles != null;
+		if (modelFiles == null) return models;
 		Arrays.asList(modelFiles).forEach(model -> models.add(getModel(model.getName())));
 		return models;
 	}
 
 	public static long getModelCount() {
-		return Objects.requireNonNull(new File("models/").listFiles()).length;
+		File[] files = new File("models/").listFiles();
+		return files == null ? 0 : files.length;
 	}
 
 	public static long getWordCount() {
 		List<AlisonModel> models = getAllModels();
+		if (models.isEmpty()) return 0;
 		return models.stream().map(AlisonModel::getWordCount).reduce((long) 0, Long::sum);
 	}
 }
