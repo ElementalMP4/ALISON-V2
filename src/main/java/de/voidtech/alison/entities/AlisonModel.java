@@ -157,7 +157,7 @@ public class AlisonModel {
 	}
 	
 	public String createQuote() {
-		return createRandomStringUnderLength(words, QUOTE_LENGTH);
+		return createProbableSentenceUnderLength(words, QUOTE_LENGTH);
 	}
 	
 	public String createSearch() {
